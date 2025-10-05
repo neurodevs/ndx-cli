@@ -59,5 +59,8 @@
     "moduleNameMapper": {
       "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
     }
+  },
+  "dependencies": {
+    "@neurodevs/meta-node": "^0.0.1"
   }
 }

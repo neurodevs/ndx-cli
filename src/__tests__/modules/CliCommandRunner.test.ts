@@ -1,5 +1,5 @@
 import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
-import CliCommandRunner, { CommandRunner } from '../modules/CliCommandRunner'
+import CliCommandRunner, { CommandRunner } from '../../modules/CliCommandRunner'
 
 export default class CliCommandRunnerTest extends AbstractSpruceTest {
     private static instance: CommandRunner
@@ -14,6 +14,9 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     protected static async createsInstance() {
         assert.isTruthy(this.instance, 'Failed to create instance!')
     }
+
+    @test()
+    protected static async createsAutopackage() {}
 
     private static CliCommandRunner() {
         return CliCommandRunner.Create()
