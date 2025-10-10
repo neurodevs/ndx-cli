@@ -708,10 +708,10 @@
     "@emnapi/runtime" "^1.4.3"
     "@tybys/wasm-util" "^0.10.0"
 
-"@neurodevs/meta-node@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.0.1.tgz#c381abdf815720de56df231efaf6d4633c355125"
-  integrity sha512-Dnby5P7Kn0Pr7gwkEUVn8BpfaQAaO1Q40rA8ZCrZrCyqh6C+PMtjJEHvsm94nuLhbjTBg0VmJQMFUl7ol43rZw==
+"@neurodevs/meta-node@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.1.0.tgz#368bbe162ed7945cba29dc248dd41e1e78c8d6bc"
+  integrity sha512-DD9lotoTOJypq5Orab5dOIHTW9q7Typf9FYLfJhvMICe+RcOua5Qo/2JSaoL1KTFR2QznUJZO5iFFPqsNa/DCg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"

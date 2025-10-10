@@ -1,4 +1,9 @@
-import AbstractSpruceTest, { test, assert } from '@sprucelabs/test-utils'
+import AbstractSpruceTest, {
+    test,
+    assert,
+    generateId,
+} from '@sprucelabs/test-utils'
+import { FakeAutomodule, NodeAutomodule } from '@neurodevs/meta-node'
 import CliCommandRunner, { CommandRunner } from '../../modules/CliCommandRunner'
 
 export default class CliCommandRunnerTest extends AbstractSpruceTest {
@@ -6,6 +11,8 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
 
     protected static async beforeEach() {
         await super.beforeEach()
+
+        NodeAutomodule.Class = FakeAutomodule
 
         this.instance = this.CliCommandRunner()
     }
@@ -16,9 +23,23 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async createsAutopackage() {}
+    protected static async throwsIfCommandIsNotSupported() {
+        const invalidArg = generateId()
 
-    private static CliCommandRunner() {
-        return CliCommandRunner.Create()
+        const instance = this.CliCommandRunner([invalidArg])
+
+        const err = await assert.doesThrowAsync(
+            async () => await instance.run()
+        )
+
+        assert.isEqual(
+            err.message,
+            `The command "${invalidArg}" is not supported!`,
+            'Did not receive the expected error!'
+        )
+    }
+
+    private static CliCommandRunner(args?: string[]) {
+        return CliCommandRunner.Create(args ?? ['create.module'])
     }
 }
