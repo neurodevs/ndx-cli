@@ -57,11 +57,11 @@ export default class NeurodevsAutocloner implements PresetUrlsAutocloner {
         'personomic',
     ]
 
+    private repoUrls = this.repoNames.map(this.generateUrl)
+
     private generateUrl(repoName: string) {
         return `https://github.com/neurodevs/${repoName}.git`
     }
-
-    private repoUrls = this.repoNames.map(this.generateUrl)
 
     private static GitAutocloner() {
         return GitAutocloner.Create()
