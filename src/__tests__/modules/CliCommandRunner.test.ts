@@ -5,6 +5,11 @@ import AbstractSpruceTest, {
 } from '@sprucelabs/test-utils'
 import { FakeAutomodule, NodeAutomodule } from '@neurodevs/meta-node'
 import CliCommandRunner, { CommandRunner } from '../../modules/CliCommandRunner'
+import {
+    callsToFakePrompts,
+    fakePrompts,
+    resetCallsToFakePrompts,
+} from '../../testDoubles/prompts/fakePrompts'
 
 export default class CliCommandRunnerTest extends AbstractSpruceTest {
     private static instance: CommandRunner
@@ -12,7 +17,8 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     protected static async beforeEach() {
         await super.beforeEach()
 
-        NodeAutomodule.Class = FakeAutomodule
+        this.setFakeAutomodule()
+        this.setFakePrompts()
 
         this.instance = this.CliCommandRunner()
     }
@@ -38,6 +44,44 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
             'Did not receive the expected error!'
         )
     }
+
+    @test()
+    protected static async promptsUserForInput() {
+        await this.run()
+
+        assert.isEqualDeep(callsToFakePrompts[0], [
+            {
+                type: 'text',
+                name: 'interfaceName',
+                message: this.interfaceNameMessage,
+            },
+            {
+                type: 'text',
+                name: 'implName',
+                message: this.implNameMessage,
+            },
+        ])
+    }
+
+    private static run() {
+        return this.instance.run()
+    }
+
+    private static setFakeAutomodule() {
+        NodeAutomodule.Class = FakeAutomodule
+        FakeAutomodule.resetTestDouble()
+    }
+
+    private static setFakePrompts() {
+        CliCommandRunner.prompts = fakePrompts as any
+        resetCallsToFakePrompts()
+    }
+
+    private static readonly interfaceNameMessage =
+        'What should the interface be called? Example: YourClass'
+
+    private static readonly implNameMessage =
+        'What should the implementation class be called? Example: YourClassImpl'
 
     private static CliCommandRunner(args?: string[]) {
         return CliCommandRunner.Create(args ?? ['create.module'])

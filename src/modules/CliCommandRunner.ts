@@ -1,5 +1,8 @@
+import prompts from 'prompts'
+
 export default class CliCommandRunner implements CommandRunner {
     public static Class?: CommandRunnerConstructor
+    public static prompts = prompts
 
     private args: string[]
 
@@ -13,6 +16,8 @@ export default class CliCommandRunner implements CommandRunner {
 
     public async run() {
         this.throwIfCommandIsNotSupported()
+
+        await this.promptUserInput()
     }
 
     private throwIfCommandIsNotSupported() {
@@ -23,6 +28,31 @@ export default class CliCommandRunner implements CommandRunner {
 
     private get command() {
         return this.args[0]
+    }
+
+    private async promptUserInput() {
+        await this.prompts([
+            {
+                type: 'text',
+                name: 'interfaceName',
+                message: this.interfaceNameMessage,
+            },
+            {
+                type: 'text',
+                name: 'implName',
+                message: this.implNameMessage,
+            },
+        ])
+    }
+
+    private readonly interfaceNameMessage =
+        'What should the interface be called? Example: YourClass'
+
+    private readonly implNameMessage =
+        'What should the implementation class be called? Example: YourClassImpl'
+
+    private get prompts() {
+        return CliCommandRunner.prompts
     }
 }
 
