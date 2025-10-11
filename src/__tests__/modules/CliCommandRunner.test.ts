@@ -189,7 +189,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
             {
                 name: this.packageName,
                 description: this.description,
-                keywords: this.keywords,
+                keywords: this.keywordsWithDefaults(),
                 gitNamespace: 'neurodevs',
                 npmNamespace: 'neurodevs',
                 installDir: this.expandHomeDir('~/dev'),
@@ -198,6 +198,10 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
             },
             'Did not create NpmAutopackage with expected options!'
         )
+    }
+
+    private static keywordsWithDefaults() {
+        return ['nodejs', 'typescript', 'tdd', ...this.keywords]
     }
 
     @test()

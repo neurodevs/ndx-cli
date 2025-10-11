@@ -177,7 +177,7 @@ export default class CliCommandRunner implements CommandRunner {
         return NpmAutopackage.Create({
             name: this.packageName,
             description: this.description,
-            keywords: this.keywords,
+            keywords: ['nodejs', 'typescript', 'tdd', ...this.keywords],
             gitNamespace: 'neurodevs',
             npmNamespace: 'neurodevs',
             installDir: this.expandHomeDir('~/dev'),
