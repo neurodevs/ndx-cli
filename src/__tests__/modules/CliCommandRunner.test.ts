@@ -11,16 +11,18 @@ import {
     NodeAutomodule,
     NpmAutopackage,
 } from '@neurodevs/meta-node'
-import CliCommandRunner, { CommandRunner } from '../../modules/CliCommandRunner'
+import prompts from 'prompts'
+import CliCommandRunner from '../../modules/CliCommandRunner'
 import {
     callsToFakePrompts,
     fakePrompts,
     resetCallsToFakePrompts,
-    setFakePromptsResponses,
+    setFakeResponses,
 } from '../../testDoubles/prompts/fakePrompts'
 
 export default class CliCommandRunnerTest extends AbstractSpruceTest {
-    private static instance: CommandRunner
+    private static readonly createModuleCommand = 'create.module'
+    private static readonly createPackageCommand = 'create.package'
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -30,19 +32,11 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         this.setFakePrompts()
 
         process.env.GITHUB_TOKEN = this.githubToken
-
-        this.instance = this.CliCommandRunner()
-    }
-
-    @test()
-    protected static async createsInstance() {
-        assert.isTruthy(this.instance, 'Failed to create instance!')
     }
 
     @test()
     protected static async throwsIfCommandIsNotSupported() {
         const invalidArg = generateId()
-
         const instance = this.CliCommandRunner([invalidArg])
 
         const err = await assert.doesThrowAsync(
@@ -57,8 +51,54 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async createsNodeAutomodule() {
-        await this.runAutomodule()
+    protected static async createModuleCreatesInstance() {
+        const instance = await this.runCreateModule()
+
+        assert.isTruthy(
+            instance,
+            `Failed to create instance for ${this.createModuleCommand}!`
+        )
+    }
+
+    @test()
+    protected static async createModulePromptsUserForInput() {
+        await this.runCreateModule()
+
+        assert.isEqualDeep(
+            callsToFakePrompts[0],
+            [
+                {
+                    type: 'text',
+                    name: 'interfaceName',
+                    message: this.interfaceNameMessage,
+                },
+                {
+                    type: 'text',
+                    name: 'implName',
+                    message: this.implNameMessage,
+                },
+            ],
+            'Did not prompt user for expected input!'
+        )
+    }
+
+    @test()
+    protected static async createModuleDoesNotContinueIfPromptsIsInterrupted() {
+        await this.runCreateModule({
+            interfaceName: '',
+            implName: '',
+        })
+
+        assert.isEqual(
+            FakeAutomodule.numCallsToRun,
+            0,
+            'Should not have called run on NodeAutomodule!'
+        )
+    }
+
+    @test()
+    protected static async createModuleCreatesNodeAutomodule() {
+        await this.runCreateModule()
 
         assert.isEqualDeep(
             FakeAutomodule.callsToConstructor[0],
@@ -73,59 +113,73 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async callsRunOnNodeAutomodule() {
-        await this.runAutomodule()
+    protected static async createModuleRunsNodeAutomodule() {
+        await this.runCreateModule()
 
         assert.isEqual(
             FakeAutomodule.numCallsToRun,
             1,
-            'Did not call run on Automodule!'
+            'Did not call run on NodeAutomodule!'
         )
     }
 
     @test()
-    protected static async automodulePromptsUserForInput() {
-        await this.runAutomodule()
+    protected static async createPackageCreatesInstance() {
+        const instance = await this.runCreatePackage()
 
-        assert.isEqualDeep(callsToFakePrompts[0], [
-            {
-                type: 'text',
-                name: 'interfaceName',
-                message: this.interfaceNameMessage,
-            },
-            {
-                type: 'text',
-                name: 'implName',
-                message: this.implNameMessage,
-            },
-        ])
+        assert.isTruthy(
+            instance,
+            `Failed to create instance for ${this.createPackageCommand}!`
+        )
     }
 
     @test()
-    protected static async automoduleDoesNotContinueIfPromptsIsInterrupted() {
-        setFakePromptsResponses({
-            interfaceName: '',
-            implName: '',
+    protected static async createPackagePromptsUserForInput() {
+        await this.runCreatePackage()
+
+        assert.isEqualDeep(
+            callsToFakePrompts[0],
+            [
+                {
+                    type: 'text',
+                    name: 'packageName',
+                    message: this.packageNameMessage,
+                },
+                {
+                    type: 'text',
+                    name: 'description',
+                    message: this.packageDescriptionMessage,
+                },
+            ],
+            'Did not prompt user for expected input!'
+        )
+    }
+
+    @test()
+    protected static async createPackageDoesNotContinueIfPromptsIsInterrupted() {
+        await this.runCreatePackage({
+            packageName: '',
+            description: '',
         })
 
-        await this.runAutomodule()
-
         assert.isEqual(
-            FakeAutomodule.numCallsToRun,
+            FakeAutopackage.numCallsToRun,
             0,
-            'Should not have called run on Automodule!'
+            'Should not have called run on Autopackage!'
         )
     }
 
     @test()
-    protected static async createsNpmAutopackage() {
-        await this.runAutopackage()
+    protected static async createPackageCreatesNpmAutopackage() {
+        this.setFakePromptResponsesForCreatePackage()
+
+        await this.runCreatePackage()
 
         assert.isEqualDeep(
             FakeAutopackage.callsToConstructor[0],
             {
-                name: '',
-                description: '',
+                name: this.packageName,
+                description: this.description,
                 gitNamespace: 'neurodevs',
                 npmNamespace: 'neurodevs',
                 installDir: this.expandHomeDir('~/dev'),
@@ -137,21 +191,14 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async autopackagePromptsUserForInput() {
-        await this.runAutopackage()
+    protected static async createPackageRunsNpmAutopackage() {
+        await this.runCreatePackage()
 
-        assert.isEqualDeep(callsToFakePrompts[0], [
-            {
-                type: 'text',
-                name: 'packageName',
-                message: this.packageNameMessage,
-            },
-            {
-                type: 'text',
-                name: 'description',
-                message: this.packageDescriptionMessage,
-            },
-        ])
+        assert.isEqual(
+            FakeAutopackage.numCallsToRun,
+            1,
+            'Did not call run on Autopackage!'
+        )
     }
 
     private static expandHomeDir(inputPath: string): string {
@@ -160,13 +207,22 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
             : inputPath
     }
 
-    private static async runAutopackage() {
-        const instance = this.CliCommandRunner(['create.package'])
+    private static async runCreateModule(responses?: Record<string, string>) {
+        this.setFakeResponsesForCreateModule(responses)
+
+        const instance = this.CliCommandRunner([this.createModuleCommand])
         await instance.run()
+
+        return instance
     }
 
-    private static runAutomodule() {
-        return this.instance.run()
+    private static async runCreatePackage(responses?: Record<string, string>) {
+        this.setFakePromptResponsesForCreatePackage(responses)
+
+        const instance = this.CliCommandRunner([this.createPackageCommand])
+        await instance.run()
+
+        return instance
     }
 
     private static setFakeAutomodule() {
@@ -180,17 +236,34 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     private static setFakePrompts() {
-        CliCommandRunner.prompts = fakePrompts as any
+        CliCommandRunner.prompts = fakePrompts as unknown as typeof prompts
         resetCallsToFakePrompts()
+    }
 
-        setFakePromptsResponses({
+    private static setFakeResponsesForCreateModule(
+        responses?: Record<string, string>
+    ) {
+        setFakeResponses({
             interfaceName: this.interfaceName,
             implName: this.implName,
+            ...responses,
+        })
+    }
+
+    private static setFakePromptResponsesForCreatePackage(
+        responses?: Record<string, string>
+    ) {
+        setFakeResponses({
+            packageName: this.packageName,
+            description: this.description,
+            ...responses,
         })
     }
 
     private static readonly interfaceName = generateId()
     private static readonly implName = generateId()
+    private static readonly packageName = generateId()
+    private static readonly description = generateId()
     private static readonly githubToken = generateId()
 
     private static readonly interfaceNameMessage =

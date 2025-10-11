@@ -708,10 +708,10 @@
     "@emnapi/runtime" "^1.4.3"
     "@tybys/wasm-util" "^0.10.0"
 
-"@neurodevs/meta-node@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.3.0.tgz#b1239ef52a2085caf6cd590d8fc80485144050c9"
-  integrity sha512-aK4MnsBq90s4baE4aXd2kfxDuois9pS/F2xUQKhBGvjvOn5teiCCYOCHrz89gdtF8oHIhYMVBDc9L5p+sTtGAw==
+"@neurodevs/meta-node@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.4.1.tgz#e4cd0f900c610c5df45c617246866717922b4364"
+  integrity sha512-YKoYghfgayhTdpBsnvxphDSNBCS96p3E/0M95z1OcSJy+9yoJAzXEWTPYdFNLb6wZfo8cTj0oJidUOPF1JcvTQ==
   dependencies:
     node-fetch "^3.3.2"
 

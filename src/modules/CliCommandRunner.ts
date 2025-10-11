@@ -9,8 +9,10 @@ export default class CliCommandRunner implements CommandRunner {
 
     private args: string[]
 
-    private currentInterfaceName!: string
-    private currentImplName!: string
+    private interfaceName!: string
+    private implName!: string
+    private packageName!: string
+    private description!: string
 
     private readonly createModuleCommand = 'create.module'
     private readonly createPackageCommand = 'create.package'
@@ -58,10 +60,10 @@ export default class CliCommandRunner implements CommandRunner {
     private async createModule() {
         const { interfaceName, implName } = await this.promptForAutomodule()
 
-        this.currentInterfaceName = interfaceName
-        this.currentImplName = implName
+        this.interfaceName = interfaceName
+        this.implName = implName
 
-        if (!this.userInputExists) {
+        if (!this.userInputExistsForCreateModule) {
             return
         }
 
@@ -90,14 +92,21 @@ export default class CliCommandRunner implements CommandRunner {
     private readonly implNameMessage =
         'What should the implementation class be called? Example: YourInterfaceImpl'
 
-    private get userInputExists() {
-        return this.currentInterfaceName && this.currentImplName
+    private get userInputExistsForCreateModule() {
+        return this.interfaceName && this.implName
     }
 
     private async createPackage() {
-        await this.promptForAutopackage()
+        const { packageName, description } = await this.promptForAutopackage()
 
-        const autopackage = await this.NpmAutopackage()
+        this.packageName = packageName
+        this.description = description
+
+        if (!this.userInputExistsForCreatePackage) {
+            return
+        }
+
+        const autopackage = this.NpmAutopackage()
         await autopackage.run()
     }
 
@@ -122,6 +131,10 @@ export default class CliCommandRunner implements CommandRunner {
     private readonly packageDescriptionMessage =
         'What should the package description be? Example: A useful package.'
 
+    private get userInputExistsForCreatePackage() {
+        return this.packageName && this.description
+    }
+
     private expandHomeDir(inputPath: string): string {
         return inputPath.startsWith('~')
             ? path.join(os.homedir(), inputPath.slice(1))
@@ -136,15 +149,15 @@ export default class CliCommandRunner implements CommandRunner {
         return NodeAutomodule.Create({
             testSaveDir: 'src/__tests__/modules',
             moduleSaveDir: 'src/modules',
-            interfaceName: this.currentInterfaceName,
-            implName: this.currentImplName,
+            interfaceName: this.interfaceName,
+            implName: this.implName,
         })
     }
 
     private NpmAutopackage() {
         return NpmAutopackage.Create({
-            name: '',
-            description: '',
+            name: this.packageName,
+            description: this.description,
             gitNamespace: 'neurodevs',
             npmNamespace: 'neurodevs',
             installDir: this.expandHomeDir('~/dev'),

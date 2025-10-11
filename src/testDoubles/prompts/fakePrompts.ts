@@ -6,7 +6,7 @@ export function resetCallsToFakePrompts() {
 
 export let fakeResponses: Record<string, string> = {}
 
-export function setFakePromptsResponses(responses: Record<string, string>) {
+export function setFakeResponses(responses: Record<string, string>) {
     fakeResponses = responses
 }
 
