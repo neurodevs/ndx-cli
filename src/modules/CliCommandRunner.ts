@@ -11,8 +11,10 @@ export default class CliCommandRunner implements CommandRunner {
 
     private interfaceName!: string
     private implName!: string
+
     private packageName!: string
     private description!: string
+    private keywords!: string[]
 
     private readonly createModuleCommand = 'create.module'
     private readonly createPackageCommand = 'create.package'
@@ -97,10 +99,12 @@ export default class CliCommandRunner implements CommandRunner {
     }
 
     private async createPackage() {
-        const { packageName, description } = await this.promptForAutopackage()
+        const { packageName, description, keywords } =
+            await this.promptForAutopackage()
 
         this.packageName = packageName
         this.description = description
+        this.keywords = keywords
 
         if (!this.userInputExistsForCreatePackage) {
             return
@@ -173,6 +177,7 @@ export default class CliCommandRunner implements CommandRunner {
         return NpmAutopackage.Create({
             name: this.packageName,
             description: this.description,
+            keywords: this.keywords,
             gitNamespace: 'neurodevs',
             npmNamespace: 'neurodevs',
             installDir: this.expandHomeDir('~/dev'),

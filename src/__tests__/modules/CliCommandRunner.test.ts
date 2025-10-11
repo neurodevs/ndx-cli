@@ -189,6 +189,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
             {
                 name: this.packageName,
                 description: this.description,
+                keywords: this.keywords,
                 gitNamespace: 'neurodevs',
                 npmNamespace: 'neurodevs',
                 installDir: this.expandHomeDir('~/dev'),
@@ -272,6 +273,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         setFakeResponses({
             packageName: this.packageName,
             description: this.description,
+            keywords: this.keywords,
             ...responses,
         })
     }
@@ -280,6 +282,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     private static readonly implName = generateId()
     private static readonly packageName = generateId()
     private static readonly description = generateId()
+    private static readonly keywords = [generateId(), generateId()]
     private static readonly githubToken = generateId()
 
     private static readonly interfaceNameMessage =
