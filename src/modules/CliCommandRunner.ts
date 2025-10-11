@@ -26,8 +26,7 @@ export default class CliCommandRunner implements CommandRunner {
         this.currentInterfaceName = interfaceName
         this.currentImplName = implName
 
-        const automodule = this.NodeAutomodule()
-        await automodule.run()
+        await this.createModule()
     }
 
     private throwIfCommandIsNotSupported() {
@@ -63,6 +62,11 @@ export default class CliCommandRunner implements CommandRunner {
 
     private get prompts() {
         return CliCommandRunner.prompts
+    }
+
+    private async createModule() {
+        const automodule = this.NodeAutomodule()
+        await automodule.run()
     }
 
     private NodeAutomodule() {
