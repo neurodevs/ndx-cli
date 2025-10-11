@@ -1,6 +1,7 @@
 {
   "name": "@neurodevs/ndx-cli",
   "version": "0.1.2",
+  "description": "CLI tools for the Neurodevs ecosystem.",
   "keywords": [],
   "license": "MIT",
   "author": "Eric Yates <hello@ericthecurious.com>",
@@ -13,6 +14,9 @@
     "url": "https://github.com/neurodevs/ndx-cli/issues"
   },
   "main": "build/index.js",
+  "bin": {
+    "ndx": "build/cli.js"
+  },
   "scripts": {
     "build.ci": "yarn run build.tsc && yarn run build.resolve-paths && yarn run lint",
     "build.dev": "yarn run build.tsc --sourceMap ; yarn run resolve-paths.lint",
@@ -73,8 +77,5 @@
     "moduleNameMapper": {
       "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
     }
-  },
-  "bin": {
-    "ndx": "build/cli.js"
   }
 }
