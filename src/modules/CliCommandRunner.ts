@@ -26,6 +26,10 @@ export default class CliCommandRunner implements CommandRunner {
         this.currentInterfaceName = interfaceName
         this.currentImplName = implName
 
+        if (!this.userInputExists) {
+            return
+        }
+
         await this.createModule()
     }
 
@@ -62,6 +66,10 @@ export default class CliCommandRunner implements CommandRunner {
 
     private get prompts() {
         return CliCommandRunner.prompts
+    }
+
+    private get userInputExists() {
+        return this.currentInterfaceName && this.currentImplName
     }
 
     private async createModule() {

@@ -87,6 +87,22 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         )
     }
 
+    @test()
+    protected static async doesNotContinueIfPromptsIsInterrupted() {
+        setFakePromptsResponses({
+            interfaceName: '',
+            implName: '',
+        })
+
+        await this.run()
+
+        assert.isEqual(
+            FakeAutomodule.numCallsToRun,
+            0,
+            'Should not have called run on Automodule!'
+        )
+    }
+
     private static run() {
         return this.instance.run()
     }
