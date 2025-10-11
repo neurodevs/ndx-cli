@@ -129,7 +129,8 @@ export default class CliCommandRunner implements CommandRunner {
             {
                 type: 'text',
                 name: 'keywords',
-                message: 'Enter keywords (comma or space separated, optional):',
+                message:
+                    'Enter keywords (comma or space separated, lowercase, optional):',
                 initial: '',
                 format: (value) =>
                     value ? this.splitOnCommaOrWhitespace(value) : [],

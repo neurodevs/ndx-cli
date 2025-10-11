@@ -154,7 +154,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
                     type: 'text',
                     name: 'keywords',
                     message:
-                        'Enter keywords (comma or space separated, optional):',
+                        'Enter keywords (comma or space separated, lowercase, optional):',
                     initial: '',
                     format: (value: string) =>
                         value ? this.splitOnCommaOrWhitespace(value) : [],
