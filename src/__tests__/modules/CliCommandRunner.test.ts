@@ -138,8 +138,8 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         await this.runCreatePackage()
 
         assert.isEqualDeep(
-            callsToFakePrompts[0],
-            [
+            JSON.stringify(callsToFakePrompts[0]),
+            JSON.stringify([
                 {
                     type: 'text',
                     name: 'packageName',
@@ -150,7 +150,16 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
                     name: 'description',
                     message: this.packageDescriptionMessage,
                 },
-            ],
+                {
+                    type: 'text',
+                    name: 'keywords',
+                    message:
+                        'Enter keywords (comma or space separated, optional):',
+                    initial: '',
+                    format: (value: string) =>
+                        value ? this.splitOnCommaOrWhitespace(value) : [],
+                },
+            ]),
             'Did not prompt user for expected input!'
         )
     }
@@ -201,12 +210,6 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         )
     }
 
-    private static expandHomeDir(inputPath: string): string {
-        return inputPath.startsWith('~')
-            ? path.join(os.homedir(), inputPath.slice(1))
-            : inputPath
-    }
-
     private static async runCreateModule(responses?: Record<string, string>) {
         this.setFakeResponsesForCreateModule(responses)
 
@@ -223,6 +226,19 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         await instance.run()
 
         return instance
+    }
+
+    private static expandHomeDir(inputPath: string): string {
+        return inputPath.startsWith('~')
+            ? path.join(os.homedir(), inputPath.slice(1))
+            : inputPath
+    }
+
+    private static splitOnCommaOrWhitespace(value: string) {
+        return value
+            .split(/[\s,]+/)
+            .map((v: string) => v.trim())
+            .filter(Boolean)
     }
 
     private static setFakeAutomodule() {
