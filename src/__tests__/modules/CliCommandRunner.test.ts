@@ -76,6 +76,17 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         })
     }
 
+    @test()
+    protected static async callsRunOnNodeAutomodule() {
+        await this.run()
+
+        assert.isEqual(
+            FakeAutomodule.numCallsToRun,
+            1,
+            'Did not call run on Automodule!'
+        )
+    }
+
     private static run() {
         return this.instance.run()
     }

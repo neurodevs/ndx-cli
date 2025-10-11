@@ -26,7 +26,8 @@ export default class CliCommandRunner implements CommandRunner {
         this.currentInterfaceName = interfaceName
         this.currentImplName = implName
 
-        this.NodeAutomodule()
+        const automodule = this.NodeAutomodule()
+        await automodule.run()
     }
 
     private throwIfCommandIsNotSupported() {
@@ -65,7 +66,7 @@ export default class CliCommandRunner implements CommandRunner {
     }
 
     private NodeAutomodule() {
-        NodeAutomodule.Create({
+        return NodeAutomodule.Create({
             testSaveDir: 'src/__tests__/modules',
             moduleSaveDir: 'src/modules',
             interfaceName: this.currentInterfaceName,
