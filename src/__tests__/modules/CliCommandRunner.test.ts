@@ -9,6 +9,7 @@ import {
     callsToFakePrompts,
     fakePrompts,
     resetCallsToFakePrompts,
+    setFakePromptsResponses,
 } from '../../testDoubles/prompts/fakePrompts'
 
 export default class CliCommandRunnerTest extends AbstractSpruceTest {
@@ -63,6 +64,18 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         ])
     }
 
+    @test()
+    protected static async createsNodeAutomodule() {
+        await this.run()
+
+        assert.isEqualDeep(FakeAutomodule.callsToConstructor[0], {
+            testSaveDir: 'src/__tests__/modules',
+            moduleSaveDir: 'src/modules',
+            interfaceName: this.interfaceName,
+            implName: this.implName,
+        })
+    }
+
     private static run() {
         return this.instance.run()
     }
@@ -75,7 +88,15 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     private static setFakePrompts() {
         CliCommandRunner.prompts = fakePrompts as any
         resetCallsToFakePrompts()
+
+        setFakePromptsResponses({
+            interfaceName: this.interfaceName,
+            implName: this.implName,
+        })
     }
+
+    private static readonly interfaceName = generateId()
+    private static readonly implName = generateId()
 
     private static readonly interfaceNameMessage =
         'What should the interface be called? Example: YourClass'

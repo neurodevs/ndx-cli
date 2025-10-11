@@ -1,3 +1,4 @@
+import { NodeAutomodule } from '@neurodevs/meta-node'
 import prompts from 'prompts'
 
 export default class CliCommandRunner implements CommandRunner {
@@ -5,6 +6,9 @@ export default class CliCommandRunner implements CommandRunner {
     public static prompts = prompts
 
     private args: string[]
+
+    private currentInterfaceName!: string
+    private currentImplName!: string
 
     protected constructor(args: string[]) {
         this.args = args
@@ -17,7 +21,12 @@ export default class CliCommandRunner implements CommandRunner {
     public async run() {
         this.throwIfCommandIsNotSupported()
 
-        await this.promptUserInput()
+        const { interfaceName, implName } = await this.promptUserInput()
+
+        this.currentInterfaceName = interfaceName
+        this.currentImplName = implName
+
+        this.NodeAutomodule()
     }
 
     private throwIfCommandIsNotSupported() {
@@ -31,7 +40,7 @@ export default class CliCommandRunner implements CommandRunner {
     }
 
     private async promptUserInput() {
-        await this.prompts([
+        return await this.prompts([
             {
                 type: 'text',
                 name: 'interfaceName',
@@ -53,6 +62,15 @@ export default class CliCommandRunner implements CommandRunner {
 
     private get prompts() {
         return CliCommandRunner.prompts
+    }
+
+    private NodeAutomodule() {
+        NodeAutomodule.Create({
+            testSaveDir: 'src/__tests__/modules',
+            moduleSaveDir: 'src/modules',
+            interfaceName: this.currentInterfaceName,
+            implName: this.currentImplName,
+        })
     }
 }
 

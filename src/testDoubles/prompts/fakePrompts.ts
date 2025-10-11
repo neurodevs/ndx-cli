@@ -4,7 +4,13 @@ export function resetCallsToFakePrompts() {
     callsToFakePrompts = []
 }
 
+export let fakeResponses: Record<string, string> = {}
+
+export function setFakePromptsResponses(responses: Record<string, string>) {
+    fakeResponses = responses
+}
+
 export function fakePrompts(questions: Record<string, string>[]) {
     callsToFakePrompts.push(questions)
-    return Promise.resolve({})
+    return fakeResponses
 }
