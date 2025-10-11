@@ -84,7 +84,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async promptsUserForInput() {
+    protected static async automodulePromptsUserForInput() {
         await this.runAutomodule()
 
         assert.isEqualDeep(callsToFakePrompts[0], [
@@ -119,8 +119,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
 
     @test()
     protected static async createsNpmAutopackage() {
-        const instance = this.CliCommandRunner(['create.package'])
-        await instance.run()
+        await this.runAutopackage()
 
         assert.isEqualDeep(
             FakeAutopackage.callsToConstructor[0],
@@ -137,10 +136,33 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         )
     }
 
+    @test()
+    protected static async autopackagePromptsUserForInput() {
+        await this.runAutopackage()
+
+        assert.isEqualDeep(callsToFakePrompts[0], [
+            {
+                type: 'text',
+                name: 'packageName',
+                message: this.packageNameMessage,
+            },
+            {
+                type: 'text',
+                name: 'description',
+                message: this.packageDescriptionMessage,
+            },
+        ])
+    }
+
     private static expandHomeDir(inputPath: string): string {
         return inputPath.startsWith('~')
             ? path.join(os.homedir(), inputPath.slice(1))
             : inputPath
+    }
+
+    private static async runAutopackage() {
+        const instance = this.CliCommandRunner(['create.package'])
+        await instance.run()
     }
 
     private static runAutomodule() {
@@ -176,6 +198,12 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
 
     private static readonly implNameMessage =
         'What should the implementation class be called? Example: YourInterfaceImpl'
+
+    private static readonly packageNameMessage =
+        'What should the package be called? Example: useful-package'
+
+    private static readonly packageDescriptionMessage =
+        'What should the package description be? Example: A useful package.'
 
     private static CliCommandRunner(args?: string[]) {
         return CliCommandRunner.Create(args ?? ['create.module'])

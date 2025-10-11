@@ -30,21 +30,7 @@ export default class CliCommandRunner implements CommandRunner {
 
     public async run() {
         this.throwIfCommandIsNotSupported()
-
-        const { interfaceName, implName } = await this.promptUserInput()
-
-        this.currentInterfaceName = interfaceName
-        this.currentImplName = implName
-
-        if (!this.userInputExists) {
-            return
-        }
-
-        if (this.command === 'create.module') {
-            await this.createModule()
-        } else if (this.command === 'create.package') {
-            await this.createPackage()
-        }
+        await this.runCommand()
     }
 
     private throwIfCommandIsNotSupported() {
@@ -61,7 +47,29 @@ export default class CliCommandRunner implements CommandRunner {
         return this.args[0]
     }
 
-    private async promptUserInput() {
+    private async runCommand() {
+        if (this.command === 'create.module') {
+            await this.createModule()
+        } else if (this.command === 'create.package') {
+            await this.createPackage()
+        }
+    }
+
+    private async createModule() {
+        const { interfaceName, implName } = await this.promptForAutomodule()
+
+        this.currentInterfaceName = interfaceName
+        this.currentImplName = implName
+
+        if (!this.userInputExists) {
+            return
+        }
+
+        const automodule = this.NodeAutomodule()
+        await automodule.run()
+    }
+
+    private async promptForAutomodule() {
         return await this.prompts([
             {
                 type: 'text',
@@ -82,28 +90,46 @@ export default class CliCommandRunner implements CommandRunner {
     private readonly implNameMessage =
         'What should the implementation class be called? Example: YourInterfaceImpl'
 
-    private get prompts() {
-        return CliCommandRunner.prompts
-    }
-
     private get userInputExists() {
         return this.currentInterfaceName && this.currentImplName
     }
 
-    private async createModule() {
-        const automodule = this.NodeAutomodule()
-        await automodule.run()
-    }
-
     private async createPackage() {
+        await this.promptForAutopackage()
+
         const autopackage = await this.NpmAutopackage()
         await autopackage.run()
     }
+
+    private async promptForAutopackage() {
+        return await this.prompts([
+            {
+                type: 'text',
+                name: 'packageName',
+                message: this.packageNameMessage,
+            },
+            {
+                type: 'text',
+                name: 'description',
+                message: this.packageDescriptionMessage,
+            },
+        ])
+    }
+
+    private readonly packageNameMessage =
+        'What should the package be called? Example: useful-package'
+
+    private readonly packageDescriptionMessage =
+        'What should the package description be? Example: A useful package.'
 
     private expandHomeDir(inputPath: string): string {
         return inputPath.startsWith('~')
             ? path.join(os.homedir(), inputPath.slice(1))
             : inputPath
+    }
+
+    private get prompts() {
+        return CliCommandRunner.prompts
     }
 
     private NodeAutomodule() {
