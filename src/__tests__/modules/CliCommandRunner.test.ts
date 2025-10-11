@@ -126,10 +126,10 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     private static readonly implName = generateId()
 
     private static readonly interfaceNameMessage =
-        'What should the interface be called? Example: YourClass'
+        'What should the interface be called? Example: YourInterface'
 
     private static readonly implNameMessage =
-        'What should the implementation class be called? Example: YourClassImpl'
+        'What should the implementation class be called? Example: YourInterfaceImpl'
 
     private static CliCommandRunner(args?: string[]) {
         return CliCommandRunner.Create(args ?? ['create.module'])

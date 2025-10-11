@@ -59,10 +59,10 @@ export default class CliCommandRunner implements CommandRunner {
     }
 
     private readonly interfaceNameMessage =
-        'What should the interface be called? Example: YourClass'
+        'What should the interface be called? Example: YourInterface'
 
     private readonly implNameMessage =
-        'What should the implementation class be called? Example: YourClassImpl'
+        'What should the implementation class be called? Example: YourInterfaceImpl'
 
     private get prompts() {
         return CliCommandRunner.prompts
