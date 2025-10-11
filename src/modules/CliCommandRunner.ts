@@ -124,13 +124,12 @@ export default class CliCommandRunner implements CommandRunner {
             {
                 type: 'text',
                 name: 'description',
-                message: this.packageDescriptionMessage,
+                message: this.descriptionMessage,
             },
             {
                 type: 'text',
                 name: 'keywords',
-                message:
-                    'Enter keywords (comma or space separated, lowercase, optional):',
+                message: this.keywordsMessage,
                 initial: '',
                 format: (value) =>
                     value ? this.splitOnCommaOrWhitespace(value) : [],
@@ -141,8 +140,11 @@ export default class CliCommandRunner implements CommandRunner {
     private readonly packageNameMessage =
         'What should the package be called? Example: useful-package'
 
-    private readonly packageDescriptionMessage =
+    private readonly descriptionMessage =
         'What should the package description be? Example: A useful package.'
+
+    private readonly keywordsMessage =
+        'Enter keywords (comma or space separated, lowercase, optional):'
 
     private splitOnCommaOrWhitespace(value: string) {
         return value
