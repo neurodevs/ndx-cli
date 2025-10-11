@@ -1,12 +1,18 @@
 {
   "name": "@neurodevs/ndx-cli",
   "version": "0.1.0",
-  "main": "build/index.js",
-  "repository": "https://github.com/neurodevs/ndx-cli.git",
+  "keywords": [],
   "license": "MIT",
-  "bin": {
-    "ndx": "build/cli.js"
+  "author": "Eric Yates <hello@ericthecurious.com>",
+  "homepage": "https://github.com/neurodevs/ndx-cli",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neurodevs/ndx-cli.git"
   },
+  "bugs": {
+    "url": "https://github.com/neurodevs/ndx-cli/issues"
+  },
+  "main": "build/index.js",
   "scripts": {
     "build.ci": "yarn run build.tsc && yarn run build.resolve-paths && yarn run lint",
     "build.dev": "yarn run build.tsc --sourceMap ; yarn run resolve-paths.lint",
@@ -29,10 +35,7 @@
     "watch.rebuild": "yarn run clean.all && yarn install && yarn run watch.build.dev",
     "watch.tsc": "tsc -w"
   },
-  "dependencies": {
-    "@neurodevs/meta-node": "^0.4.1",
-    "prompts": "^2.4.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@sprucelabs/jest-json-reporter": "^9.0.35",
     "@sprucelabs/resolve-path-aliases": "^3.0.18",
@@ -67,5 +70,8 @@
     "moduleNameMapper": {
       "^#spruce/(.*)$": "<rootDir>/build/.spruce/$1"
     }
+  },
+  "bin": {
+    "ndx": "build/cli.js"
   }
 }
