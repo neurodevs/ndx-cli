@@ -1,4 +1,6 @@
-import { NodeAutomodule } from '@neurodevs/meta-node'
+import os from 'os'
+import path from 'path'
+import { NodeAutomodule, NpmAutopackage } from '@neurodevs/meta-node'
 import prompts from 'prompts'
 
 export default class CliCommandRunner implements CommandRunner {
@@ -9,6 +11,14 @@ export default class CliCommandRunner implements CommandRunner {
 
     private currentInterfaceName!: string
     private currentImplName!: string
+
+    private readonly createModuleCommand = 'create.module'
+    private readonly createPackageCommand = 'create.package'
+
+    private readonly supportedCommands = [
+        this.createModuleCommand,
+        this.createPackageCommand,
+    ]
 
     protected constructor(args: string[]) {
         this.args = args
@@ -30,13 +40,21 @@ export default class CliCommandRunner implements CommandRunner {
             return
         }
 
-        await this.createModule()
+        if (this.command === 'create.module') {
+            await this.createModule()
+        } else if (this.command === 'create.package') {
+            await this.createPackage()
+        }
     }
 
     private throwIfCommandIsNotSupported() {
-        if (this.command !== 'create.module') {
+        if (!this.commandIsSupported) {
             throw new Error(`The command "${this.command}" is not supported!`)
         }
+    }
+
+    private get commandIsSupported() {
+        return this.supportedCommands.includes(this.command)
     }
 
     private get command() {
@@ -77,12 +95,35 @@ export default class CliCommandRunner implements CommandRunner {
         await automodule.run()
     }
 
+    private async createPackage() {
+        const autopackage = await this.NpmAutopackage()
+        await autopackage.run()
+    }
+
+    private expandHomeDir(inputPath: string): string {
+        return inputPath.startsWith('~')
+            ? path.join(os.homedir(), inputPath.slice(1))
+            : inputPath
+    }
+
     private NodeAutomodule() {
         return NodeAutomodule.Create({
             testSaveDir: 'src/__tests__/modules',
             moduleSaveDir: 'src/modules',
             interfaceName: this.currentInterfaceName,
             implName: this.currentImplName,
+        })
+    }
+
+    private NpmAutopackage() {
+        return NpmAutopackage.Create({
+            name: '',
+            description: '',
+            gitNamespace: 'neurodevs',
+            npmNamespace: 'neurodevs',
+            installDir: this.expandHomeDir('~/dev'),
+            license: 'MIT',
+            author: 'Eric Yates <hello@ericthecurious.com>',
         })
     }
 }

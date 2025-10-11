@@ -1,9 +1,16 @@
+import os from 'os'
+import path from 'path'
 import AbstractSpruceTest, {
     test,
     assert,
     generateId,
 } from '@sprucelabs/test-utils'
-import { FakeAutomodule, NodeAutomodule } from '@neurodevs/meta-node'
+import {
+    FakeAutomodule,
+    FakeAutopackage,
+    NodeAutomodule,
+    NpmAutopackage,
+} from '@neurodevs/meta-node'
 import CliCommandRunner, { CommandRunner } from '../../modules/CliCommandRunner'
 import {
     callsToFakePrompts,
@@ -19,7 +26,10 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         await super.beforeEach()
 
         this.setFakeAutomodule()
+        this.setFakeAutopackage()
         this.setFakePrompts()
+
+        process.env.GITHUB_TOKEN = this.githubToken
 
         this.instance = this.CliCommandRunner()
     }
@@ -47,8 +57,35 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
+    protected static async createsNodeAutomodule() {
+        await this.runAutomodule()
+
+        assert.isEqualDeep(
+            FakeAutomodule.callsToConstructor[0],
+            {
+                testSaveDir: 'src/__tests__/modules',
+                moduleSaveDir: 'src/modules',
+                interfaceName: this.interfaceName,
+                implName: this.implName,
+            },
+            'Did not create NodeAutomodule with expected options!'
+        )
+    }
+
+    @test()
+    protected static async callsRunOnNodeAutomodule() {
+        await this.runAutomodule()
+
+        assert.isEqual(
+            FakeAutomodule.numCallsToRun,
+            1,
+            'Did not call run on Automodule!'
+        )
+    }
+
+    @test()
     protected static async promptsUserForInput() {
-        await this.run()
+        await this.runAutomodule()
 
         assert.isEqualDeep(callsToFakePrompts[0], [
             {
@@ -65,36 +102,13 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async createsNodeAutomodule() {
-        await this.run()
-
-        assert.isEqualDeep(FakeAutomodule.callsToConstructor[0], {
-            testSaveDir: 'src/__tests__/modules',
-            moduleSaveDir: 'src/modules',
-            interfaceName: this.interfaceName,
-            implName: this.implName,
-        })
-    }
-
-    @test()
-    protected static async callsRunOnNodeAutomodule() {
-        await this.run()
-
-        assert.isEqual(
-            FakeAutomodule.numCallsToRun,
-            1,
-            'Did not call run on Automodule!'
-        )
-    }
-
-    @test()
-    protected static async doesNotContinueIfPromptsIsInterrupted() {
+    protected static async automoduleDoesNotContinueIfPromptsIsInterrupted() {
         setFakePromptsResponses({
             interfaceName: '',
             implName: '',
         })
 
-        await this.run()
+        await this.runAutomodule()
 
         assert.isEqual(
             FakeAutomodule.numCallsToRun,
@@ -103,13 +117,44 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         )
     }
 
-    private static run() {
+    @test()
+    protected static async createsNpmAutopackage() {
+        const instance = this.CliCommandRunner(['create.package'])
+        await instance.run()
+
+        assert.isEqualDeep(
+            FakeAutopackage.callsToConstructor[0],
+            {
+                name: '',
+                description: '',
+                gitNamespace: 'neurodevs',
+                npmNamespace: 'neurodevs',
+                installDir: this.expandHomeDir('~/dev'),
+                license: 'MIT',
+                author: 'Eric Yates <hello@ericthecurious.com>',
+            },
+            'Did not create NpmAutopackage with expected options!'
+        )
+    }
+
+    private static expandHomeDir(inputPath: string): string {
+        return inputPath.startsWith('~')
+            ? path.join(os.homedir(), inputPath.slice(1))
+            : inputPath
+    }
+
+    private static runAutomodule() {
         return this.instance.run()
     }
 
     private static setFakeAutomodule() {
         NodeAutomodule.Class = FakeAutomodule
         FakeAutomodule.resetTestDouble()
+    }
+
+    private static setFakeAutopackage() {
+        NpmAutopackage.Class = FakeAutopackage
+        FakeAutopackage.resetTestDouble()
     }
 
     private static setFakePrompts() {
@@ -124,6 +169,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
 
     private static readonly interfaceName = generateId()
     private static readonly implName = generateId()
+    private static readonly githubToken = generateId()
 
     private static readonly interfaceNameMessage =
         'What should the interface be called? Example: YourInterface'
