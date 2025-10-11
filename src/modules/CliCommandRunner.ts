@@ -9,15 +9,14 @@ export default class CliCommandRunner implements CommandRunner {
 
     private args: string[]
 
+    private readonly createModuleCommand = 'create.module'
     private interfaceName!: string
     private implName!: string
 
+    private readonly createPackageCommand = 'create.package'
     private packageName!: string
     private description!: string
     private keywords!: string[]
-
-    private readonly createModuleCommand = 'create.module'
-    private readonly createPackageCommand = 'create.package'
 
     private readonly supportedCommands = [
         this.createModuleCommand,
