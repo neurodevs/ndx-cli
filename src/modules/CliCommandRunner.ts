@@ -1,6 +1,6 @@
 import os from 'os'
 import path from 'path'
-import { NodeAutomodule, NpmAutopackage } from '@neurodevs/meta-node'
+import { ImplAutomodule, NpmAutopackage } from '@neurodevs/meta-node'
 import prompts from 'prompts'
 
 export default class CliCommandRunner implements CommandRunner {
@@ -76,7 +76,7 @@ export default class CliCommandRunner implements CommandRunner {
             return
         }
 
-        const automodule = this.NodeAutomodule()
+        const automodule = this.ImplAutomodule()
         await automodule.run()
     }
 
@@ -174,8 +174,8 @@ export default class CliCommandRunner implements CommandRunner {
         return CliCommandRunner.prompts
     }
 
-    private NodeAutomodule() {
-        return NodeAutomodule.Create({
+    private ImplAutomodule() {
+        return ImplAutomodule.Create({
             testSaveDir: 'src/__tests__/modules',
             moduleSaveDir: 'src/modules',
             interfaceName: this.interfaceName,

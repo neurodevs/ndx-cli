@@ -8,7 +8,7 @@ import AbstractSpruceTest, {
 import {
     FakeAutomodule,
     FakeAutopackage,
-    NodeAutomodule,
+    ImplAutomodule,
     NpmAutopackage,
 } from '@neurodevs/meta-node'
 import prompts from 'prompts'
@@ -92,12 +92,12 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         assert.isEqual(
             FakeAutomodule.numCallsToRun,
             0,
-            'Should not have called run on NodeAutomodule!'
+            'Should not have called run on ImplAutomodule!'
         )
     }
 
     @test()
-    protected static async createImplCreatesNodeAutomodule() {
+    protected static async createImplCreatesImplAutomodule() {
         await this.runCreateImpl()
 
         assert.isEqualDeep(
@@ -108,18 +108,18 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
                 interfaceName: this.interfaceName,
                 implName: this.implName,
             },
-            'Did not create NodeAutomodule with expected options!'
+            'Did not create ImplAutomodule with expected options!'
         )
     }
 
     @test()
-    protected static async createImplRunsNodeAutomodule() {
+    protected static async createImplRunsImplAutomodule() {
         await this.runCreateImpl()
 
         assert.isEqual(
             FakeAutomodule.numCallsToRun,
             1,
-            'Did not call run on NodeAutomodule!'
+            'Did not call run on ImplAutomodule!'
         )
     }
 
@@ -247,7 +247,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     private static setFakeAutomodule() {
-        NodeAutomodule.Class = FakeAutomodule
+        ImplAutomodule.Class = FakeAutomodule
         FakeAutomodule.resetTestDouble()
     }
 
