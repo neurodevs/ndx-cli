@@ -51,11 +51,19 @@ export default class CliCommandRunner implements CommandRunner {
     }
 
     private async runCommand() {
-        if (this.command === 'create.module') {
+        if (this.isCreateModuleCommand) {
             await this.createModule()
-        } else if (this.command === 'create.package') {
+        } else if (this.isCreatePackageCommand) {
             await this.createPackage()
         }
+    }
+
+    private get isCreateModuleCommand() {
+        return this.command === this.createModuleCommand
+    }
+
+    private get isCreatePackageCommand() {
+        return this.command === this.createPackageCommand
     }
 
     private async createModule() {
