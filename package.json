@@ -1,6 +1,6 @@
 {
   "name": "@neurodevs/ndx-cli",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "CLI tools for the Neurodevs ecosystem.",
   "keywords": [
     "nodejs",
@@ -8,8 +8,8 @@
     "tdd",
     "cli",
     "neurodevs",
-    "package",
-    "module"
+    "packages",
+    "modules"
   ],
   "license": "MIT",
   "author": "Eric Yates <hello@ericthecurious.com>",
