@@ -9,7 +9,7 @@ export default class CliCommandRunner implements CommandRunner {
 
     private args: string[]
 
-    private readonly createModuleCommand = 'create.module'
+    private readonly createImplCommand = 'create.impl'
     private interfaceName!: string
     private implName!: string
 
@@ -19,7 +19,7 @@ export default class CliCommandRunner implements CommandRunner {
     private keywords!: string[]
 
     private readonly supportedCommands = [
-        this.createModuleCommand,
+        this.createImplCommand,
         this.createPackageCommand,
     ]
 
@@ -51,28 +51,28 @@ export default class CliCommandRunner implements CommandRunner {
     }
 
     private async runCommand() {
-        if (this.isCreateModuleCommand) {
-            await this.createModule()
+        if (this.isCreateImplCommand) {
+            await this.createImpl()
         } else if (this.isCreatePackageCommand) {
             await this.createPackage()
         }
     }
 
-    private get isCreateModuleCommand() {
-        return this.command === this.createModuleCommand
+    private get isCreateImplCommand() {
+        return this.command === this.createImplCommand
     }
 
     private get isCreatePackageCommand() {
         return this.command === this.createPackageCommand
     }
 
-    private async createModule() {
+    private async createImpl() {
         const { interfaceName, implName } = await this.promptForAutomodule()
 
         this.interfaceName = interfaceName
         this.implName = implName
 
-        if (!this.userInputExistsForCreateModule) {
+        if (!this.userInputExistsForCreateImpl) {
             return
         }
 
@@ -101,7 +101,7 @@ export default class CliCommandRunner implements CommandRunner {
     private readonly implNameMessage =
         'What should the implementation class be called? Example: YourInterfaceImpl'
 
-    private get userInputExistsForCreateModule() {
+    private get userInputExistsForCreateImpl() {
         return this.interfaceName && this.implName
     }
 

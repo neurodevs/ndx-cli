@@ -21,7 +21,7 @@ import {
 } from '../../testDoubles/prompts/fakePrompts'
 
 export default class CliCommandRunnerTest extends AbstractSpruceTest {
-    private static readonly createModuleCommand = 'create.module'
+    private static readonly createImplCommand = 'create.impl'
     private static readonly createPackageCommand = 'create.package'
 
     protected static async beforeEach() {
@@ -51,18 +51,18 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async createModuleCreatesInstance() {
-        const instance = await this.runCreateModule()
+    protected static async createImplCreatesInstance() {
+        const instance = await this.runCreateImpl()
 
         assert.isTruthy(
             instance,
-            `Failed to create instance for ${this.createModuleCommand}!`
+            `Failed to create instance for ${this.createImplCommand}!`
         )
     }
 
     @test()
-    protected static async createModulePromptsUserForInput() {
-        await this.runCreateModule()
+    protected static async createImplPromptsUserForInput() {
+        await this.runCreateImpl()
 
         assert.isEqualDeep(
             callsToFakePrompts[0],
@@ -83,8 +83,8 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async createModuleDoesNotContinueIfPromptsIsInterrupted() {
-        await this.runCreateModule({
+    protected static async createImplDoesNotContinueIfPromptsIsInterrupted() {
+        await this.runCreateImpl({
             interfaceName: '',
             implName: '',
         })
@@ -97,8 +97,8 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async createModuleCreatesNodeAutomodule() {
-        await this.runCreateModule()
+    protected static async createImplCreatesNodeAutomodule() {
+        await this.runCreateImpl()
 
         assert.isEqualDeep(
             FakeAutomodule.callsToConstructor[0],
@@ -113,8 +113,8 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async createModuleRunsNodeAutomodule() {
-        await this.runCreateModule()
+    protected static async createImplRunsNodeAutomodule() {
+        await this.runCreateImpl()
 
         assert.isEqual(
             FakeAutomodule.numCallsToRun,
@@ -215,10 +215,10 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         )
     }
 
-    private static async runCreateModule(responses?: Record<string, string>) {
-        this.setFakeResponsesForCreateModule(responses)
+    private static async runCreateImpl(responses?: Record<string, string>) {
+        this.setFakeResponsesForCreateImpl(responses)
 
-        const instance = this.CliCommandRunner([this.createModuleCommand])
+        const instance = this.CliCommandRunner([this.createImplCommand])
         await instance.run()
 
         return instance
@@ -261,7 +261,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         resetCallsToFakePrompts()
     }
 
-    private static setFakeResponsesForCreateModule(
+    private static setFakeResponsesForCreateImpl(
         responses?: Record<string, string>
     ) {
         setFakeResponses({
@@ -301,7 +301,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     private static readonly packageDescriptionMessage =
         'What should the package description be? Example: A useful package.'
 
-    private static CliCommandRunner(args?: string[]) {
-        return CliCommandRunner.Create(args ?? ['create.module'])
+    private static CliCommandRunner(args: string[]) {
+        return CliCommandRunner.Create(args)
     }
 }
