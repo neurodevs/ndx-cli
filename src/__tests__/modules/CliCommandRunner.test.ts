@@ -1,3 +1,4 @@
+import { mkdir } from 'fs/promises'
 import os from 'os'
 import path from 'path'
 import AbstractSpruceTest, {
@@ -13,6 +14,10 @@ import {
 } from '@neurodevs/meta-node'
 import prompts from 'prompts'
 import CliCommandRunner from '../../modules/CliCommandRunner'
+import fakeMkdir, {
+    callsToMkdir,
+    resetCallsToMkdir,
+} from '../../testDoubles/fakeMkdir'
 import {
     callsToFakePrompts,
     fakePrompts,
@@ -24,12 +29,17 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     private static readonly createImplCommand = 'create.impl'
     private static readonly createPackageCommand = 'create.package'
 
+    private static readonly testSaveDir = 'src/__tests__/modules'
+
+    private static readonly moduleSaveDir = 'src/modules'
+
     protected static async beforeEach() {
         await super.beforeEach()
 
+        this.setFakePrompts()
+        this.setFakeMkdir()
         this.setFakeAutomodule()
         this.setFakeAutopackage()
-        this.setFakePrompts()
 
         process.env.GITHUB_TOKEN = this.githubToken
     }
@@ -97,15 +107,26 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
+    protected static async createImplCreatesTestSaveDirIfNotExists() {
+        await this.runCreateImpl()
+
+        assert.isEqual(
+            callsToMkdir[0],
+            this.testSaveDir,
+            'Did not create test save dir!'
+        )
+    }
+
+    @test()
     protected static async createImplCreatesImplAutomodule() {
         await this.runCreateImpl()
 
         assert.isEqualDeep(
             FakeAutomodule.callsToConstructor[0],
             {
-                testSaveDir: 'src/__tests__/modules',
-                moduleSaveDir: 'src/modules',
-                fakeSaveDir: `src/testDoubles/${this.interfaceName}`,
+                testSaveDir: this.testSaveDir,
+                moduleSaveDir: this.moduleSaveDir,
+                fakeSaveDir: this.fakeSaveDir,
                 interfaceName: this.interfaceName,
                 implName: this.implName,
             },
@@ -245,6 +266,15 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
             .split(/[\s,]+/)
             .map((v: string) => v.trim())
             .filter(Boolean)
+    }
+
+    private static get fakeSaveDir() {
+        return `src/testDoubles/${this.interfaceName}`
+    }
+
+    private static setFakeMkdir() {
+        CliCommandRunner.mkdir = fakeMkdir as unknown as typeof mkdir
+        resetCallsToMkdir()
     }
 
     private static setFakeAutomodule() {

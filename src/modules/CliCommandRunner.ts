@@ -1,3 +1,4 @@
+import { mkdir } from 'fs/promises'
 import os from 'os'
 import path from 'path'
 import { ImplAutomodule, NpmAutopackage } from '@neurodevs/meta-node'
@@ -6,6 +7,7 @@ import prompts from 'prompts'
 export default class CliCommandRunner implements CommandRunner {
     public static Class?: CommandRunnerConstructor
     public static prompts = prompts
+    public static mkdir = mkdir
 
     private args: string[]
 
@@ -75,6 +77,8 @@ export default class CliCommandRunner implements CommandRunner {
         if (!this.userInputExistsForCreateImpl) {
             return
         }
+
+        await this.mkdir(this.testSaveDir)
 
         const automodule = this.ImplAutomodule()
         await automodule.run()
@@ -170,15 +174,26 @@ export default class CliCommandRunner implements CommandRunner {
             : inputPath
     }
 
+    private readonly testSaveDir = 'src/__tests__/modules'
+    private readonly moduleSaveDir = 'src/modules'
+
+    private get fakeSaveDir() {
+        return `src/testDoubles/${this.interfaceName}`
+    }
+
     private get prompts() {
         return CliCommandRunner.prompts
     }
 
+    private get mkdir() {
+        return CliCommandRunner.mkdir
+    }
+
     private ImplAutomodule() {
         return ImplAutomodule.Create({
-            testSaveDir: 'src/__tests__/modules',
-            moduleSaveDir: 'src/modules',
-            fakeSaveDir: `src/testDoubles/${this.interfaceName}`,
+            testSaveDir: this.testSaveDir,
+            moduleSaveDir: this.moduleSaveDir,
+            fakeSaveDir: this.fakeSaveDir,
             interfaceName: this.interfaceName,
             implName: this.implName,
         })
