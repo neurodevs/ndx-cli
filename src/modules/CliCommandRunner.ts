@@ -78,8 +78,7 @@ export default class CliCommandRunner implements CommandRunner {
             return
         }
 
-        await this.mkdir(this.testSaveDir, { recursive: true })
-        await this.mkdir(this.moduleSaveDir, { recursive: true })
+        await this.makeRequiredDirectories()
 
         const automodule = this.ImplAutomodule()
         await automodule.run()
@@ -108,6 +107,12 @@ export default class CliCommandRunner implements CommandRunner {
 
     private get userInputExistsForCreateImpl() {
         return this.interfaceName && this.implName
+    }
+
+    private async makeRequiredDirectories() {
+        await this.mkdir(this.testSaveDir, { recursive: true })
+        await this.mkdir(this.moduleSaveDir, { recursive: true })
+        await this.mkdir(this.fakeSaveDir, { recursive: true })
     }
 
     private async createPackage() {

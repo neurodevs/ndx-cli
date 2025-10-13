@@ -129,6 +129,17 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
+    protected static async createImplCreatesFakeSaveDirIfNotExists() {
+        await this.runCreateImpl()
+
+        assert.isEqualDeep(
+            callsToMkdir[2],
+            { path: this.fakeSaveDir, options: { recursive: true } },
+            'Did not create fake save dir!'
+        )
+    }
+
+    @test()
     protected static async createImplCreatesImplAutomodule() {
         await this.runCreateImpl()
 
