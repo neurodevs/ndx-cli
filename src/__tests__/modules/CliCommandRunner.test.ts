@@ -118,6 +118,17 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
+    protected static async createImplCreatesModuleSaveDirIfNotExists() {
+        await this.runCreateImpl()
+
+        assert.isEqualDeep(
+            callsToMkdir[1],
+            { path: this.moduleSaveDir, options: { recursive: true } },
+            'Did not create module save dir!'
+        )
+    }
+
+    @test()
     protected static async createImplCreatesImplAutomodule() {
         await this.runCreateImpl()
 

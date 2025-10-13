@@ -79,6 +79,7 @@ export default class CliCommandRunner implements CommandRunner {
         }
 
         await this.mkdir(this.testSaveDir, { recursive: true })
+        await this.mkdir(this.moduleSaveDir, { recursive: true })
 
         const automodule = this.ImplAutomodule()
         await automodule.run()
