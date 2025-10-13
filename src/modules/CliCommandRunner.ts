@@ -178,6 +178,7 @@ export default class CliCommandRunner implements CommandRunner {
         return ImplAutomodule.Create({
             testSaveDir: 'src/__tests__/modules',
             moduleSaveDir: 'src/modules',
+            fakeSaveDir: `src/testDoubles/${this.interfaceName}`,
             interfaceName: this.interfaceName,
             implName: this.implName,
         })
