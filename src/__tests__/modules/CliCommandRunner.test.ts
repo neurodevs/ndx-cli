@@ -269,6 +269,23 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         )
     }
 
+    @test()
+    protected static async createUiPromptsUserForInput() {
+        await this.runCreateUi()
+
+        assert.isEqualDeep(
+            callsToFakePrompts[0],
+            [
+                {
+                    type: 'text',
+                    name: 'componentName',
+                    message: this.componentNameMessage,
+                },
+            ],
+            'Did not prompt user for expected input!'
+        )
+    }
+
     private static async runCreateUi() {
         const instance = this.CliCommandRunner([this.createUiCommand])
         await instance.run()
@@ -370,6 +387,9 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
 
     private static readonly packageDescriptionMessage =
         'What should the package description be? Example: A useful package.'
+
+    private static readonly componentNameMessage =
+        'What should the component be called? Example: YourComponent'
 
     private static CliCommandRunner(args: string[]) {
         return CliCommandRunner.Create(args)

@@ -56,22 +56,20 @@ export default class CliCommandRunner implements CommandRunner {
     }
 
     private async runCommand() {
-        if (this.isCreateImplCommand) {
-            await this.createImpl()
-        } else if (this.isCreatePackageCommand) {
-            await this.createPackage()
+        switch (this.command) {
+            case this.createImplCommand:
+                await this.createImplModule()
+                break
+            case this.createPackageCommand:
+                await this.createPackage()
+                break
+            case this.createUiCommand:
+                await this.createUiModule()
+                break
         }
     }
 
-    private get isCreateImplCommand() {
-        return this.command === this.createImplCommand
-    }
-
-    private get isCreatePackageCommand() {
-        return this.command === this.createPackageCommand
-    }
-
-    private async createImpl() {
+    private async createImplModule() {
         const { interfaceName, implName } = await this.promptForAutomodule()
 
         this.interfaceName = interfaceName
@@ -176,6 +174,23 @@ export default class CliCommandRunner implements CommandRunner {
     private get userInputExistsForCreatePackage() {
         return this.packageName && this.description
     }
+
+    private async createUiModule() {
+        await this.promptForUimodule()
+    }
+
+    private async promptForUimodule() {
+        return await this.prompts([
+            {
+                type: 'text',
+                name: 'componentName',
+                message: this.componentNameMessage,
+            },
+        ])
+    }
+
+    private readonly componentNameMessage =
+        'What should the component be called? Example: YourComponent'
 
     private expandHomeDir(inputPath: string): string {
         return inputPath.startsWith('~')
