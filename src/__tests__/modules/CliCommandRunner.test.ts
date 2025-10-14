@@ -39,8 +39,6 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     private static readonly createUiCommand = 'create.ui'
     private static readonly componentName = generateId()
 
-    private static readonly testSaveDir = 'src/__tests__/modules'
-    private static readonly moduleSaveDir = 'src/modules'
     private static readonly githubToken = generateId()
 
     protected static async beforeEach() {
@@ -123,7 +121,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
 
         assert.isEqualDeep(
             callsToMkdir[0],
-            { path: this.testSaveDir, options: { recursive: true } },
+            { path: this.implTestSaveDir, options: { recursive: true } },
             'Did not create test save dir!'
         )
     }
@@ -134,7 +132,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
 
         assert.isEqualDeep(
             callsToMkdir[1],
-            { path: this.moduleSaveDir, options: { recursive: true } },
+            { path: this.implModuleSaveDir, options: { recursive: true } },
             'Did not create module save dir!'
         )
     }
@@ -160,9 +158,9 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         assert.isEqualDeep(
             FakeAutomodule.callsToConstructor[0],
             {
-                testSaveDir: this.testSaveDir,
-                moduleSaveDir: this.moduleSaveDir,
-                fakeSaveDir: this.fakeSaveDir,
+                testSaveDir: this.implTestSaveDir,
+                moduleSaveDir: this.implModuleSaveDir,
+                fakeSaveDir: this.implFakeSaveDir,
                 interfaceName: this.interfaceName,
                 implName: this.implName,
             },
@@ -317,7 +315,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
 
         assert.isEqualDeep(
             callsToMkdir[0],
-            { path: this.testSaveDir, options: { recursive: true } },
+            { path: this.uiTestSaveDir, options: { recursive: true } },
             'Did not create test save dir!'
         )
     }
@@ -328,7 +326,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
 
         assert.isEqualDeep(
             callsToMkdir[1],
-            { path: this.moduleSaveDir, options: { recursive: true } },
+            { path: this.uiModuleSaveDir, options: { recursive: true } },
             'Did not create module save dir!'
         )
     }
@@ -340,7 +338,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         assert.isEqualDeep(
             callsToMkdir[2],
             {
-                path: this.fakeSaveDirComponent,
+                path: this.uiFakeSaveDir,
                 options: { recursive: true },
             },
             'Did not create fake save dir!'
@@ -354,9 +352,9 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         assert.isEqualDeep(
             FakeAutomodule.callsToConstructor[0],
             {
-                testSaveDir: this.testSaveDir,
-                moduleSaveDir: this.moduleSaveDir,
-                fakeSaveDir: this.fakeSaveDirComponent,
+                testSaveDir: this.uiTestSaveDir,
+                moduleSaveDir: this.uiModuleSaveDir,
+                fakeSaveDir: this.uiFakeSaveDir,
                 componentName: this.componentName,
             },
             'Did not create UiAutomodule with expected options!'
@@ -372,10 +370,6 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
             1,
             'Did not call run on UiAutomodule!'
         )
-    }
-
-    private static get fakeSaveDirComponent() {
-        return `src/testDoubles/${this.componentName}`
     }
 
     private static async runCreateUi(responses?: Record<string, string>) {
@@ -430,8 +424,18 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
             .filter(Boolean)
     }
 
-    private static get fakeSaveDir() {
+    private static readonly implTestSaveDir = 'src/__tests__/modules'
+    private static readonly implModuleSaveDir = 'src/modules'
+
+    private static get implFakeSaveDir() {
         return `src/testDoubles/${this.interfaceName}`
+    }
+
+    private static readonly uiTestSaveDir = 'src/__tests__/ui'
+    private static readonly uiModuleSaveDir = 'src/ui'
+
+    private static get uiFakeSaveDir() {
+        return `src/testDoubles/${this.componentName}`
     }
 
     private static setFakeImplAutomodule() {

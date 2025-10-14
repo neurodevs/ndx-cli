@@ -84,7 +84,7 @@ export default class CliCommandRunner implements CommandRunner {
             return
         }
 
-        await this.makeRequiredDirectories()
+        await this.makeRequiredImplDirectories()
 
         const automodule = this.ImplAutomodule()
         await automodule.run()
@@ -115,10 +115,17 @@ export default class CliCommandRunner implements CommandRunner {
         return this.interfaceName && this.implName
     }
 
-    private async makeRequiredDirectories() {
-        await this.mkdir(this.testSaveDir, { recursive: true })
-        await this.mkdir(this.moduleSaveDir, { recursive: true })
-        await this.mkdir(this.fakeSaveDir, { recursive: true })
+    private async makeRequiredImplDirectories() {
+        await this.mkdir(this.implTestSaveDir, { recursive: true })
+        await this.mkdir(this.implModuleSaveDir, { recursive: true })
+        await this.mkdir(this.implFakeSaveDir, { recursive: true })
+    }
+
+    private readonly implTestSaveDir = 'src/__tests__/modules'
+    private readonly implModuleSaveDir = 'src/modules'
+
+    private get implFakeSaveDir() {
+        return `src/testDoubles/${this.interfaceName}`
     }
 
     private async createPackage() {
@@ -189,7 +196,7 @@ export default class CliCommandRunner implements CommandRunner {
             return
         }
 
-        await this.makeRequiredDirectories()
+        await this.makeRequiredUiDirectories()
 
         const instance = this.UiAutomodule()
         await instance.run()
@@ -208,17 +215,23 @@ export default class CliCommandRunner implements CommandRunner {
     private readonly componentNameMessage =
         'What should the component be called? Example: YourComponent'
 
+    private async makeRequiredUiDirectories() {
+        await this.mkdir(this.uiTestSaveDir, { recursive: true })
+        await this.mkdir(this.uiModuleSaveDir, { recursive: true })
+        await this.mkdir(this.uiFakeSaveDir, { recursive: true })
+    }
+
     private expandHomeDir(inputPath: string): string {
         return inputPath.startsWith('~')
             ? path.join(os.homedir(), inputPath.slice(1))
             : inputPath
     }
 
-    private readonly testSaveDir = 'src/__tests__/modules'
-    private readonly moduleSaveDir = 'src/modules'
+    private readonly uiTestSaveDir = 'src/__tests__/ui'
+    private readonly uiModuleSaveDir = 'src/ui'
 
-    private get fakeSaveDir() {
-        return `src/testDoubles/${this.interfaceName ?? this.componentName}`
+    private get uiFakeSaveDir() {
+        return `src/testDoubles/${this.componentName}`
     }
 
     private get prompts() {
@@ -231,9 +244,9 @@ export default class CliCommandRunner implements CommandRunner {
 
     private ImplAutomodule() {
         return ImplAutomodule.Create({
-            testSaveDir: this.testSaveDir,
-            moduleSaveDir: this.moduleSaveDir,
-            fakeSaveDir: this.fakeSaveDir,
+            testSaveDir: this.implTestSaveDir,
+            moduleSaveDir: this.implModuleSaveDir,
+            fakeSaveDir: this.implFakeSaveDir,
             interfaceName: this.interfaceName,
             implName: this.implName,
         })
@@ -241,9 +254,9 @@ export default class CliCommandRunner implements CommandRunner {
 
     private UiAutomodule() {
         return UiAutomodule.Create({
-            testSaveDir: this.testSaveDir,
-            moduleSaveDir: this.moduleSaveDir,
-            fakeSaveDir: this.fakeSaveDir,
+            testSaveDir: this.uiTestSaveDir,
+            moduleSaveDir: this.uiModuleSaveDir,
+            fakeSaveDir: this.uiFakeSaveDir,
             componentName: this.componentName,
         })
     }
