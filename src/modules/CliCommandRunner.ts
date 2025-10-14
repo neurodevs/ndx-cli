@@ -21,6 +21,7 @@ export default class CliCommandRunner implements CommandRunner {
     private keywords!: string[]
 
     private readonly createUiCommand = 'create.ui'
+    private componentName!: string
 
     private readonly supportedCommands = [
         this.createImplCommand,
@@ -176,7 +177,11 @@ export default class CliCommandRunner implements CommandRunner {
     }
 
     private async createUiModule() {
-        await this.promptForUimodule()
+        const { componentName } = await this.promptForUimodule()
+
+        this.componentName = componentName
+
+        await this.makeRequiredDirectories()
     }
 
     private async promptForUimodule() {
@@ -202,7 +207,7 @@ export default class CliCommandRunner implements CommandRunner {
     private readonly moduleSaveDir = 'src/modules'
 
     private get fakeSaveDir() {
-        return `src/testDoubles/${this.interfaceName}`
+        return `src/testDoubles/${this.interfaceName ?? this.componentName}`
     }
 
     private get prompts() {

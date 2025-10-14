@@ -27,11 +27,20 @@ import {
 
 export default class CliCommandRunnerTest extends AbstractSpruceTest {
     private static readonly createImplCommand = 'create.impl'
+    private static readonly interfaceName = generateId()
+    private static readonly implName = generateId()
+
     private static readonly createPackageCommand = 'create.package'
+    private static readonly packageName = generateId()
+    private static readonly description = generateId()
+    private static readonly keywords = [generateId(), generateId()]
+
     private static readonly createUiCommand = 'create.ui'
+    private static readonly componentName = generateId()
 
     private static readonly testSaveDir = 'src/__tests__/modules'
     private static readonly moduleSaveDir = 'src/modules'
+    private static readonly githubToken = generateId()
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -134,7 +143,10 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
 
         assert.isEqualDeep(
             callsToMkdir[2],
-            { path: this.fakeSaveDir, options: { recursive: true } },
+            {
+                path: `src/testDoubles/${this.interfaceName}`,
+                options: { recursive: true },
+            },
             'Did not create fake save dir!'
         )
     }
@@ -224,8 +236,6 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
 
     @test()
     protected static async createPackageCreatesNpmAutopackage() {
-        this.setFakePromptResponsesForCreatePackage()
-
         await this.runCreatePackage()
 
         assert.isEqualDeep(
@@ -299,8 +309,47 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         )
     }
 
+    @test()
+    protected static async createUiCreatesTestSaveDirIfNotExists() {
+        await this.runCreateUi()
+
+        assert.isEqualDeep(
+            callsToMkdir[0],
+            { path: this.testSaveDir, options: { recursive: true } },
+            'Did not create test save dir!'
+        )
+    }
+
+    @test()
+    protected static async createUiCreatesModuleSaveDirIfNotExists() {
+        await this.runCreateUi()
+
+        assert.isEqualDeep(
+            callsToMkdir[1],
+            { path: this.moduleSaveDir, options: { recursive: true } },
+            'Did not create module save dir!'
+        )
+    }
+
+    @test()
+    protected static async createUiCreatesFakeSaveDirIfNotExists() {
+        await this.runCreateUi()
+
+        assert.isEqualDeep(
+            callsToMkdir[2],
+            {
+                path: `src/testDoubles/${this.componentName}`,
+                options: { recursive: true },
+            },
+            'Did not create fake save dir!'
+        )
+    }
+
     private static async runCreateUi(responses?: Record<string, string>) {
-        this.setFakeResponsesFor(responses)
+        setFakeResponses({
+            componentName: this.componentName,
+            ...responses,
+        })
 
         const instance = this.CliCommandRunner([this.createUiCommand])
         await instance.run()
@@ -309,7 +358,11 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     private static async runCreateImpl(responses?: Record<string, string>) {
-        this.setFakeResponsesFor(responses)
+        setFakeResponses({
+            interfaceName: this.interfaceName,
+            implName: this.implName,
+            ...responses,
+        })
 
         const instance = this.CliCommandRunner([this.createImplCommand])
         await instance.run()
@@ -318,7 +371,12 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     private static async runCreatePackage(responses?: Record<string, string>) {
-        this.setFakePromptResponsesForCreatePackage(responses)
+        setFakeResponses({
+            packageName: this.packageName,
+            description: this.description,
+            keywords: this.keywords,
+            ...responses,
+        })
 
         const instance = this.CliCommandRunner([this.createPackageCommand])
         await instance.run()
@@ -343,11 +401,6 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         return `src/testDoubles/${this.interfaceName}`
     }
 
-    private static setFakeMkdir() {
-        CliCommandRunner.mkdir = fakeMkdir as unknown as typeof mkdir
-        resetCallsToMkdir()
-    }
-
     private static setFakeAutomodule() {
         ImplAutomodule.Class = FakeAutomodule
         FakeAutomodule.resetTestDouble()
@@ -358,36 +411,15 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         FakeAutopackage.resetTestDouble()
     }
 
+    private static setFakeMkdir() {
+        CliCommandRunner.mkdir = fakeMkdir as unknown as typeof mkdir
+        resetCallsToMkdir()
+    }
+
     private static setFakePrompts() {
         CliCommandRunner.prompts = fakePrompts as unknown as typeof prompts
         resetCallsToFakePrompts()
     }
-
-    private static setFakeResponsesFor(responses?: Record<string, string>) {
-        setFakeResponses({
-            interfaceName: this.interfaceName,
-            implName: this.implName,
-            ...responses,
-        })
-    }
-
-    private static setFakePromptResponsesForCreatePackage(
-        responses?: Record<string, string>
-    ) {
-        setFakeResponses({
-            packageName: this.packageName,
-            description: this.description,
-            keywords: this.keywords,
-            ...responses,
-        })
-    }
-
-    private static readonly interfaceName = generateId()
-    private static readonly implName = generateId()
-    private static readonly packageName = generateId()
-    private static readonly description = generateId()
-    private static readonly keywords = [generateId(), generateId()]
-    private static readonly githubToken = generateId()
 
     private static readonly interfaceNameMessage =
         'What should the interface be called? Example: YourInterface'
