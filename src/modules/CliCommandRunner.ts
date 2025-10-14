@@ -20,9 +20,12 @@ export default class CliCommandRunner implements CommandRunner {
     private description!: string
     private keywords!: string[]
 
+    private readonly createUiCommand = 'create.ui'
+
     private readonly supportedCommands = [
         this.createImplCommand,
         this.createPackageCommand,
+        this.createUiCommand,
     ]
 
     protected constructor(args: string[]) {

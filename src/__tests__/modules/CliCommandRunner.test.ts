@@ -28,9 +28,9 @@ import {
 export default class CliCommandRunnerTest extends AbstractSpruceTest {
     private static readonly createImplCommand = 'create.impl'
     private static readonly createPackageCommand = 'create.package'
+    private static readonly createUiCommand = 'create.ui'
 
     private static readonly testSaveDir = 'src/__tests__/modules'
-
     private static readonly moduleSaveDir = 'src/modules'
 
     protected static async beforeEach() {
@@ -257,6 +257,23 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
             1,
             'Did not call run on Autopackage!'
         )
+    }
+
+    @test()
+    protected static async createUiCreatesInstance() {
+        const instance = await this.runCreateUi()
+
+        assert.isTruthy(
+            instance,
+            `Failed to create instance for ${this.createUiCommand}!`
+        )
+    }
+
+    private static async runCreateUi() {
+        const instance = this.CliCommandRunner([this.createUiCommand])
+        await instance.run()
+
+        return instance
     }
 
     private static async runCreateImpl(responses?: Record<string, string>) {
