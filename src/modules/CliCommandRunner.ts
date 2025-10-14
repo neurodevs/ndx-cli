@@ -1,7 +1,11 @@
 import { mkdir } from 'fs/promises'
 import os from 'os'
 import path from 'path'
-import { ImplAutomodule, NpmAutopackage } from '@neurodevs/meta-node'
+import {
+    ImplAutomodule,
+    NpmAutopackage,
+    UiAutomodule,
+} from '@neurodevs/meta-node'
 import prompts from 'prompts'
 
 export default class CliCommandRunner implements CommandRunner {
@@ -182,6 +186,8 @@ export default class CliCommandRunner implements CommandRunner {
         this.componentName = componentName
 
         await this.makeRequiredDirectories()
+
+        this.UiAutomodule()
     }
 
     private async promptForUimodule() {
@@ -225,6 +231,15 @@ export default class CliCommandRunner implements CommandRunner {
             fakeSaveDir: this.fakeSaveDir,
             interfaceName: this.interfaceName,
             implName: this.implName,
+        })
+    }
+
+    private UiAutomodule() {
+        return UiAutomodule.Create({
+            testSaveDir: this.testSaveDir,
+            moduleSaveDir: this.moduleSaveDir,
+            fakeSaveDir: this.fakeSaveDir,
+            componentName: this.componentName,
         })
     }
 

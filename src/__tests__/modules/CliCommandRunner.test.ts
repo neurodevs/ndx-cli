@@ -11,6 +11,7 @@ import {
     FakeAutopackage,
     ImplAutomodule,
     NpmAutopackage,
+    UiAutomodule,
 } from '@neurodevs/meta-node'
 import prompts from 'prompts'
 import CliCommandRunner from '../../modules/CliCommandRunner'
@@ -45,10 +46,11 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     protected static async beforeEach() {
         await super.beforeEach()
 
+        this.setFakeImplAutomodule()
+        this.setFakeUiAutomodule()
+        this.setFakeAutopackage()
         this.setFakePrompts()
         this.setFakeMkdir()
-        this.setFakeAutomodule()
-        this.setFakeAutopackage()
 
         process.env.GITHUB_TOKEN = this.githubToken
     }
@@ -338,11 +340,31 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         assert.isEqualDeep(
             callsToMkdir[2],
             {
-                path: `src/testDoubles/${this.componentName}`,
+                path: this.fakeSaveDirComponent,
                 options: { recursive: true },
             },
             'Did not create fake save dir!'
         )
+    }
+
+    @test()
+    protected static async createUiCreatesUiAutomodule() {
+        await this.runCreateUi()
+
+        assert.isEqualDeep(
+            FakeAutomodule.callsToConstructor[0],
+            {
+                testSaveDir: this.testSaveDir,
+                moduleSaveDir: this.moduleSaveDir,
+                fakeSaveDir: this.fakeSaveDirComponent,
+                componentName: this.componentName,
+            },
+            'Did not create UiAutomodule with expected options!'
+        )
+    }
+
+    private static get fakeSaveDirComponent() {
+        return `src/testDoubles/${this.componentName}`
     }
 
     private static async runCreateUi(responses?: Record<string, string>) {
@@ -401,8 +423,13 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         return `src/testDoubles/${this.interfaceName}`
     }
 
-    private static setFakeAutomodule() {
+    private static setFakeImplAutomodule() {
         ImplAutomodule.Class = FakeAutomodule
+        FakeAutomodule.resetTestDouble()
+    }
+
+    private static setFakeUiAutomodule() {
+        UiAutomodule.Class = FakeAutomodule
         FakeAutomodule.resetTestDouble()
     }
 
