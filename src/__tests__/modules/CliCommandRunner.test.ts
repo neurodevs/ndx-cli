@@ -286,7 +286,22 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         )
     }
 
-    private static async runCreateUi() {
+    @test()
+    protected static async createUiDoesNotContinueIfPromptsIsInterrupted() {
+        await this.runCreateUi({
+            componentName: '',
+        })
+
+        assert.isEqual(
+            FakeAutomodule.numCallsToRun,
+            0,
+            'Should not have called run on UiAutomodule!'
+        )
+    }
+
+    private static async runCreateUi(responses?: Record<string, string>) {
+        this.setFakeResponsesFor(responses)
+
         const instance = this.CliCommandRunner([this.createUiCommand])
         await instance.run()
 
@@ -294,7 +309,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     private static async runCreateImpl(responses?: Record<string, string>) {
-        this.setFakeResponsesForCreateImpl(responses)
+        this.setFakeResponsesFor(responses)
 
         const instance = this.CliCommandRunner([this.createImplCommand])
         await instance.run()
@@ -348,9 +363,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         resetCallsToFakePrompts()
     }
 
-    private static setFakeResponsesForCreateImpl(
-        responses?: Record<string, string>
-    ) {
+    private static setFakeResponsesFor(responses?: Record<string, string>) {
         setFakeResponses({
             interfaceName: this.interfaceName,
             implName: this.implName,
