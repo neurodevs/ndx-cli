@@ -7,6 +7,11 @@ import AbstractSpruceTest, {
     generateId,
 } from '@sprucelabs/test-utils'
 import {
+    callsToMkdir,
+    fakeMkdir,
+    resetCallsToMkdir,
+} from '@neurodevs/fake-node-core'
+import {
     FakeAutomodule,
     FakeAutopackage,
     ImplAutomodule,
@@ -15,10 +20,6 @@ import {
 } from '@neurodevs/meta-node'
 import prompts from 'prompts'
 import CliCommandRunner from '../../modules/CliCommandRunner'
-import fakeMkdir, {
-    callsToMkdir,
-    resetCallsToMkdir,
-} from '../../testDoubles/fakeMkdir'
 import {
     callsToFakePrompts,
     fakePrompts,

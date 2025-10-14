@@ -708,6 +708,11 @@
     "@emnapi/runtime" "^1.4.3"
     "@tybys/wasm-util" "^0.10.0"
 
+"@neurodevs/fake-node-core@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@neurodevs/fake-node-core/-/fake-node-core-0.1.1.tgz#153d15306572da14f953c8764ca5efd7e4bc7b9d"
+  integrity sha512-8KPyGAd8OV4akXxodxUY1P/eNwVCRWPwX9jKIyGY6Lsbkm3XTUPhWTTjeFM6IcKeKXXSnNEhT0TOatCja5PYqw==
+
 "@neurodevs/meta-node@^0.9.2":
   version "0.9.2"
   resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.9.2.tgz#b78cebc1ca983b517897c3ba481b7cedda2ccfe5"
