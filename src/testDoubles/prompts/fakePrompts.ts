@@ -10,7 +10,7 @@ export function setFakeResponses(responses: Record<string, unknown>) {
     fakeResponses = responses
 }
 
-export function fakePrompts(questions: Record<string, unknown>[]) {
+export default function fakePrompts(questions: Record<string, unknown>[]) {
     callsToFakePrompts.push(questions)
     return fakeResponses
 }

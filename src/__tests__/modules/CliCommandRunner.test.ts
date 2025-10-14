@@ -20,9 +20,8 @@ import {
 } from '@neurodevs/meta-node'
 import prompts from 'prompts'
 import CliCommandRunner from '../../modules/CliCommandRunner'
-import {
+import fakePrompts, {
     callsToFakePrompts,
-    fakePrompts,
     resetCallsToFakePrompts,
     setFakeResponses,
 } from '../../testDoubles/prompts/fakePrompts'
