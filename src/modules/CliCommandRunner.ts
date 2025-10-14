@@ -185,9 +185,14 @@ export default class CliCommandRunner implements CommandRunner {
 
         this.componentName = componentName
 
+        if (!this.componentName) {
+            return
+        }
+
         await this.makeRequiredDirectories()
 
-        this.UiAutomodule()
+        const instance = this.UiAutomodule()
+        await instance.run()
     }
 
     private async promptForUimodule() {

@@ -363,6 +363,17 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         )
     }
 
+    @test()
+    protected static async createUiRunsUiAutomodule() {
+        await this.runCreateUi()
+
+        assert.isEqual(
+            FakeAutomodule.numCallsToRun,
+            1,
+            'Did not call run on UiAutomodule!'
+        )
+    }
+
     private static get fakeSaveDirComponent() {
         return `src/testDoubles/${this.componentName}`
     }
