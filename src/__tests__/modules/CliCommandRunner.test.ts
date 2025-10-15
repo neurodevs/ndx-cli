@@ -576,6 +576,7 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
             "devDependencies": {
                 "@types/react": "^...",
                 "@types/react-dom": "^...",
+                "@types/jsdom": "^...",
                 "@testing-library/react": "^...",
                 "@testing-library/dom": "^...",
                 "@testing-library/jest-dom": "^..."
@@ -588,10 +589,17 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         'react-dom',
         '@types/react',
         '@types/react-dom',
+        '@types/jsdom',
         '@testing-library/react',
         '@testing-library/dom',
         '@testing-library/jest-dom',
     ]
+
+    private static readonly installDependenciesCommand =
+        'yarn add react react-dom'
+
+    private static readonly installDevDependenciesCommand =
+        'yarn add -D @types/react @types/react-dom @types/jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom'
 
     private static async runCreateImpl(responses?: Record<string, string>) {
         setFakeResponses({
@@ -673,12 +681,6 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         null,
         4
     )
-
-    private static readonly installDependenciesCommand =
-        'yarn add react react-dom'
-
-    private static readonly installDevDependenciesCommand =
-        'yarn add -D @types/react @types/react-dom @testing-library/react @testing-library/dom @testing-library/jest-dom'
 
     private static setFakeImplAutomodule() {
         ImplAutomodule.Class = FakeAutomodule

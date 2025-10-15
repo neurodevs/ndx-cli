@@ -254,6 +254,7 @@ export default class CliCommandRunner implements CommandRunner {
     private readonly requiredDevDependencies = [
         '@types/react',
         '@types/react-dom',
+        '@types/jsdom',
         '@testing-library/react',
         '@testing-library/dom',
         '@testing-library/jest-dom',
@@ -284,7 +285,7 @@ export default class CliCommandRunner implements CommandRunner {
 
     private async installDevDependencies() {
         await this.exec(
-            'yarn add -D @types/react @types/react-dom @testing-library/react @testing-library/dom @testing-library/jest-dom'
+            'yarn add -D @types/react @types/react-dom @types/jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom'
         )
     }
 
