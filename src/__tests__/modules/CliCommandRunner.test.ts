@@ -1,5 +1,5 @@
 import { exec as execSync } from 'child_process'
-import { mkdir, readFile } from 'fs/promises'
+import { mkdir, readFile, writeFile } from 'fs/promises'
 import os from 'os'
 import path from 'path'
 import { promisify } from 'util'
@@ -11,12 +11,15 @@ import AbstractSpruceTest, {
 import {
     callsToExec,
     callsToMkdir,
+    callsToWriteFile,
     fakeExec,
     fakeMkdir,
     fakeReadFile,
+    fakeWriteFile,
     resetCallsToExec,
     resetCallsToMkdir,
     resetCallsToReadFile,
+    resetCallsToWriteFile,
     setFakeReadFileResult,
 } from '@neurodevs/fake-node-core'
 import {
@@ -62,6 +65,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         this.setFakeMkdir()
         this.setFakePrompts()
         this.setFakeReadFile()
+        this.setFakeWriteFile()
 
         process.env.GITHUB_TOKEN = this.githubToken
     }
@@ -294,7 +298,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
 
     @test()
     protected static async createUiPromptsInstallDependenciesIfMissing() {
-        this.setUninstalledPackageJson()
+        this.setFakeReadFileResultPackageJson()
 
         await this.runCreateUi()
 
@@ -313,13 +317,9 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         )
     }
 
-    private static setUninstalledPackageJson() {
-        setFakeReadFileResult('package.json', '{}')
-    }
-
     @test()
     protected static async createUiInstallsDependenciesIfMissing() {
-        this.setUninstalledPackageJson()
+        this.setFakeReadFileResultPackageJson()
 
         await this.runCreateUi({
             shouldInstall: true,
@@ -329,6 +329,26 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
             callsToExec[0],
             this.installDevDependenciesCommand,
             'Did not install dependencies!'
+        )
+    }
+
+    @test()
+    protected static async createUiUpdatesTsconfigIfDependenciesWereMissing() {
+        this.setFakeReadFileResultToTsconfig()
+        this.setFakeReadFileResultPackageJson()
+
+        await this.runCreateUi({
+            shouldInstall: true,
+        })
+
+        assert.isEqualDeep(
+            callsToWriteFile[0],
+            {
+                file: this.tsconfigPath,
+                data: this.updatedTsconfigFile,
+                options: undefined,
+            },
+            'Did not update tsconfig!'
         )
     }
 
@@ -446,6 +466,14 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         return instance
     }
 
+    private static setFakeReadFileResultToTsconfig() {
+        setFakeReadFileResult(this.tsconfigPath, this.originalTsconfigFile)
+    }
+
+    private static setFakeReadFileResultPackageJson() {
+        setFakeReadFileResult('package.json', '{}')
+    }
+
     private static async runCreateImpl(responses?: Record<string, string>) {
         setFakeResponses({
             interfaceName: this.interfaceName,
@@ -500,6 +528,32 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         return `src/testDoubles/${this.componentName}`
     }
 
+    private static readonly tsconfigPath = 'tsconfig.json'
+    private static readonly randomId = generateId()
+
+    private static readonly originalTsconfigFile = JSON.stringify(
+        {
+            abc: this.randomId,
+            compilerOptions: {
+                abc: this.randomId,
+            },
+        },
+        null,
+        4
+    )
+
+    private static readonly updatedTsconfigFile = JSON.stringify(
+        {
+            abc: this.randomId,
+            compilerOptions: {
+                jsx: 'react-jsx',
+                abc: this.randomId,
+            },
+        },
+        null,
+        4
+    )
+
     private static readonly installDevDependenciesCommand =
         'yarn add -D @types/react @testing-library/react @testing-library/jest-dom'
 
@@ -537,6 +591,11 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         CliCommandRunner.readFile = fakeReadFile as unknown as typeof readFile
         resetCallsToReadFile()
 
+        this.setFakeReadFileToInstalledPackageJson()
+        this.setFakeReadFileResultToTsconfig()
+    }
+
+    private static setFakeReadFileToInstalledPackageJson() {
         setFakeReadFileResult(
             'package.json',
             `
@@ -549,6 +608,12 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
                 }
             `
         )
+    }
+
+    private static setFakeWriteFile() {
+        CliCommandRunner.writeFile =
+            fakeWriteFile as unknown as typeof writeFile
+        resetCallsToWriteFile()
     }
 
     private static readonly interfaceNameMessage =

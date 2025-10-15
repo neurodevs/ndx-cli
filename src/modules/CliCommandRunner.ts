@@ -1,5 +1,5 @@
 import { exec as execSync } from 'child_process'
-import { mkdir, readFile } from 'fs/promises'
+import { mkdir, readFile, writeFile } from 'fs/promises'
 import os from 'os'
 import path from 'path'
 import { promisify } from 'util'
@@ -16,6 +16,7 @@ export default class CliCommandRunner implements CommandRunner {
     public static mkdir = mkdir
     public static prompts = prompts
     public static readFile = readFile
+    public static writeFile = writeFile
 
     private args: string[]
 
@@ -215,7 +216,8 @@ export default class CliCommandRunner implements CommandRunner {
             const { shouldInstall } = await this.promptForInstallDependencies()
 
             if (shouldInstall) {
-                await this.installDependencies()
+                await this.installReactDependencies()
+                await this.updateTsconfigForReact()
             }
         }
     }
@@ -254,13 +256,40 @@ export default class CliCommandRunner implements CommandRunner {
         ])
     }
 
-    private async installDependencies() {
+    private async installReactDependencies() {
         console.log('Installing required dependencies...')
 
         await this.exec(
             'yarn add -D @types/react @testing-library/react @testing-library/jest-dom'
         )
     }
+
+    private async updateTsconfigForReact() {
+        console.log('Updating tsconfig.json for React...')
+
+        const original = await this.loadTsconfig()
+        const parsed = JSON.parse(original)
+
+        const updated = JSON.stringify(
+            {
+                ...parsed,
+                compilerOptions: {
+                    jsx: 'react-jsx',
+                    ...parsed.compilerOptions,
+                },
+            },
+            null,
+            4
+        )
+
+        await this.writeFile(this.tsconfigPath, updated)
+    }
+
+    private async loadTsconfig() {
+        return await this.readFile(this.tsconfigPath, 'utf-8')
+    }
+
+    private readonly tsconfigPath = 'tsconfig.json'
 
     private async promptForUimodule() {
         return await this.prompts([
@@ -308,6 +337,10 @@ export default class CliCommandRunner implements CommandRunner {
 
     private get readFile() {
         return CliCommandRunner.readFile
+    }
+
+    private get writeFile() {
+        return CliCommandRunner.writeFile
     }
 
     private ImplAutomodule() {
