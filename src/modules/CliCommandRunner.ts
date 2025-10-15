@@ -220,7 +220,7 @@ export default class CliCommandRunner implements CommandRunner {
                 await this.updateTsconfigForReact()
                 await this.createSetupTestsFile()
                 await this.addSetupTestsToPackageJson()
-                await this.exec('npx tsc')
+                await this.recompileForTsxFiles()
             }
         }
     }
@@ -275,17 +275,17 @@ export default class CliCommandRunner implements CommandRunner {
     }
 
     private async installReactDependencies() {
-        console.log('Installing required dependencies...')
-
         await this.installDependencies()
         await this.installDevDependencies()
     }
 
     private async installDependencies() {
+        console.log('Installing required dependencies...')
         await this.exec('yarn add react react-dom')
     }
 
     private async installDevDependencies() {
+        console.log('Installing required dev dependencies...')
         await this.exec(
             'yarn add -D @types/react @types/react-dom @types/jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom jsdom'
         )
@@ -343,6 +343,11 @@ export default class CliCommandRunner implements CommandRunner {
         )
 
         await this.writeFile(this.packageJsonPath, updated)
+    }
+
+    private async recompileForTsxFiles() {
+        console.log('Recompiling project for .tsx files...')
+        await this.exec('npx tsc')
     }
 
     private async promptForUimodule() {
