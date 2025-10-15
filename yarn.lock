@@ -708,10 +708,17 @@
     "@emnapi/runtime" "^1.4.3"
     "@tybys/wasm-util" "^0.10.0"
 
-"@neurodevs/fake-node-core@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@neurodevs/fake-node-core/-/fake-node-core-0.1.1.tgz#153d15306572da14f953c8764ca5efd7e4bc7b9d"
-  integrity sha512-8KPyGAd8OV4akXxodxUY1P/eNwVCRWPwX9jKIyGY6Lsbkm3XTUPhWTTjeFM6IcKeKXXSnNEhT0TOatCja5PYqw==
+"@neurodevs/fake-node-core@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@neurodevs/fake-node-core/-/fake-node-core-0.2.2.tgz#0cfee4ddd43cf39ba7f7be8a0cd6f2f9cef29bce"
+  integrity sha512-pZVioT5Pnu/lCZl4RtGpwkoGiQcTgw7GhTpqjKQUlpc7QyqP54XGxeKTjQZq3YN4iKNkZc9QKn4V+RuDRUKFqQ==
+  dependencies:
+    "@neurodevs/generate-id" "^1.0.0"
+
+"@neurodevs/generate-id@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@neurodevs/generate-id/-/generate-id-1.0.0.tgz#0a2b756c569d4fa12e01c744fa1bb8a094aa7606"
+  integrity sha512-F5UabBUeIql4WnS1P/mIUj4tuM3iT6s2mro96HcdDh4WMSwzlNisSh26VmmYaX2NMK1rzwshde01rW5+rMLuNQ==
 
 "@neurodevs/meta-node@^0.10.3":
   version "0.10.3"

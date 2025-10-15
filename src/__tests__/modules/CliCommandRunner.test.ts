@@ -1,14 +1,19 @@
+import { exec as execSync } from 'child_process'
 import { mkdir } from 'fs/promises'
 import os from 'os'
 import path from 'path'
+import { promisify } from 'util'
 import AbstractSpruceTest, {
     test,
     assert,
     generateId,
 } from '@sprucelabs/test-utils'
 import {
+    callsToExec,
     callsToMkdir,
+    fakeExec,
     fakeMkdir,
+    resetCallsToExec,
     resetCallsToMkdir,
 } from '@neurodevs/fake-node-core'
 import {
@@ -25,6 +30,8 @@ import fakePrompts, {
     resetCallsToFakePrompts,
     setFakeResponses,
 } from '../../testDoubles/prompts/fakePrompts'
+
+const exec = promisify(execSync)
 
 export default class CliCommandRunnerTest extends AbstractSpruceTest {
     private static readonly createImplCommand = 'create.impl'
@@ -47,8 +54,10 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         this.setFakeImplAutomodule()
         this.setFakeUiAutomodule()
         this.setFakeAutopackage()
-        this.setFakePrompts()
+
+        this.setFakeExec()
         this.setFakeMkdir()
+        this.setFakePrompts()
 
         process.env.GITHUB_TOKEN = this.githubToken
     }
@@ -288,13 +297,26 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
             [
                 {
                     type: 'confirm',
-                    name: 'hasRequiredDependencies',
+                    name: 'shouldInstall',
                     message:
                         'Some required dependencies are missing! Press Enter to install, or any other key to abort.',
                     initial: true,
                 },
             ],
             'Did not prompt user for expected input!'
+        )
+    }
+
+    @test()
+    protected static async createUiInstallsDependenciesIfMissing() {
+        await this.runCreateUi({
+            shouldInstall: true,
+        })
+
+        assert.isEqualDeep(
+            callsToExec[0],
+            this.installDevDependenciesCommand,
+            'Did not install dependencies!'
         )
     }
 
@@ -391,7 +413,9 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         )
     }
 
-    private static async runCreateUi(responses?: Record<string, string>) {
+    private static async runCreateUi(
+        responses?: Record<string, string | boolean>
+    ) {
         setFakeResponses({
             componentName: this.componentName,
             ...responses,
@@ -457,6 +481,9 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         return `src/testDoubles/${this.componentName}`
     }
 
+    private static readonly installDevDependenciesCommand =
+        'yarn add -D @types/react @testing-library/react @testing-library/jest-dom'
+
     private static setFakeImplAutomodule() {
         ImplAutomodule.Class = FakeAutomodule
         FakeAutomodule.resetTestDouble()
@@ -470,6 +497,11 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     private static setFakeAutopackage() {
         NpmAutopackage.Class = FakeAutopackage
         FakeAutopackage.resetTestDouble()
+    }
+
+    private static setFakeExec() {
+        CliCommandRunner.exec = fakeExec as unknown as typeof exec
+        resetCallsToExec()
     }
 
     private static setFakeMkdir() {

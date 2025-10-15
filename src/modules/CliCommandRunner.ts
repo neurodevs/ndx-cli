@@ -1,6 +1,8 @@
+import { exec as execSync } from 'child_process'
 import { mkdir } from 'fs/promises'
 import os from 'os'
 import path from 'path'
+import { promisify } from 'util'
 import {
     ImplAutomodule,
     NpmAutopackage,
@@ -10,6 +12,7 @@ import prompts from 'prompts'
 
 export default class CliCommandRunner implements CommandRunner {
     public static Class?: CommandRunnerConstructor
+    public static exec = promisify(execSync)
     public static prompts = prompts
     public static mkdir = mkdir
 
@@ -188,7 +191,13 @@ export default class CliCommandRunner implements CommandRunner {
     }
 
     private async createUiModule() {
-        await this.installDependencies()
+        const { shouldInstall } = await this.promptForInstallDependencies()
+
+        debugger
+
+        if (shouldInstall) {
+            await this.installDependencies()
+        }
 
         const { componentName } = await this.promptForUimodule()
 
@@ -204,16 +213,26 @@ export default class CliCommandRunner implements CommandRunner {
         await instance.run()
     }
 
-    private async installDependencies() {
-        await this.prompts([
+    private async promptForInstallDependencies() {
+        const result = await this.prompts([
             {
                 type: 'confirm',
-                name: 'hasRequiredDependencies',
+                name: 'shouldInstall',
                 message:
                     'Some required dependencies are missing! Press Enter to install, or any other key to abort.',
                 initial: true,
             },
         ])
+        debugger
+        return result
+    }
+
+    private async installDependencies() {
+        console.log('Installing dependencies...')
+
+        await this.exec(
+            'yarn add -D @types/react @testing-library/react @testing-library/jest-dom'
+        )
     }
 
     private async promptForUimodule() {
@@ -248,12 +267,16 @@ export default class CliCommandRunner implements CommandRunner {
         return `src/testDoubles/${this.componentName}`
     }
 
-    private get prompts() {
-        return CliCommandRunner.prompts
+    private get exec() {
+        return CliCommandRunner.exec
     }
 
     private get mkdir() {
         return CliCommandRunner.mkdir
+    }
+
+    private get prompts() {
+        return CliCommandRunner.prompts
     }
 
     private ImplAutomodule() {
