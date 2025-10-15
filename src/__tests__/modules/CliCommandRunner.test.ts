@@ -280,11 +280,30 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
-    protected static async createUiPromptsUserForInput() {
+    protected static async createUiPromptsInstallDependenciesIfMissing() {
         await this.runCreateUi()
 
         assert.isEqualDeep(
             callsToFakePrompts[0],
+            [
+                {
+                    type: 'confirm',
+                    name: 'hasRequiredDependencies',
+                    message:
+                        'Some required dependencies are missing! Press Enter to install, or any other key to abort.',
+                    initial: true,
+                },
+            ],
+            'Did not prompt user for expected input!'
+        )
+    }
+
+    @test()
+    protected static async createUiPromptsUserForInput() {
+        await this.runCreateUi()
+
+        assert.isEqualDeep(
+            callsToFakePrompts[1],
             [
                 {
                     type: 'text',

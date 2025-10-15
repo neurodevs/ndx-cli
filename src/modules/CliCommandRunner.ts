@@ -188,6 +188,8 @@ export default class CliCommandRunner implements CommandRunner {
     }
 
     private async createUiModule() {
+        await this.installDependencies()
+
         const { componentName } = await this.promptForUimodule()
 
         this.componentName = componentName
@@ -200,6 +202,18 @@ export default class CliCommandRunner implements CommandRunner {
 
         const instance = this.UiAutomodule()
         await instance.run()
+    }
+
+    private async installDependencies() {
+        await this.prompts([
+            {
+                type: 'confirm',
+                name: 'hasRequiredDependencies',
+                message:
+                    'Some required dependencies are missing! Press Enter to install, or any other key to abort.',
+                initial: true,
+            },
+        ])
     }
 
     private async promptForUimodule() {
