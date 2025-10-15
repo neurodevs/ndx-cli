@@ -277,6 +277,7 @@ export default class CliCommandRunner implements CommandRunner {
                     jsx: 'react-jsx',
                     ...parsed.compilerOptions,
                 },
+                include: ['src'],
             },
             null,
             4

@@ -530,9 +530,9 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
 
     private static readonly originalTsconfigFile = JSON.stringify(
         {
-            abc: this.randomId,
+            [this.randomId]: this.randomId,
             compilerOptions: {
-                abc: this.randomId,
+                [this.randomId]: this.randomId,
             },
         },
         null,
@@ -541,11 +541,12 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
 
     private static readonly updatedTsconfigFile = JSON.stringify(
         {
-            abc: this.randomId,
+            [this.randomId]: this.randomId,
             compilerOptions: {
                 jsx: 'react-jsx',
-                abc: this.randomId,
+                [this.randomId]: this.randomId,
             },
+            include: ['src'],
         },
         null,
         4
