@@ -345,6 +345,24 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
     }
 
     @test()
+    protected static async createUiInstallsIfAnyDepIsMissing() {
+        for (const dep of this.allRequiredDependencies) {
+            this.setFakeReadToAllInstalledExcept(dep)
+            resetCallsToExec()
+
+            await this.runCreateUi({
+                shouldInstall: true,
+            })
+
+            assert.isEqual(
+                callsToExec[1],
+                this.installDevDependenciesCommand,
+                'Should not have installed devDependencies!'
+            )
+        }
+    }
+
+    @test()
     protected static async createUiUpdatesTsconfigIfDependenciesWereMissing() {
         this.setFakeReadToEmptyPackageJson()
         this.setFakeReadFileResultToTsconfig()
@@ -490,25 +508,40 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         setFakeReadFileResult('package.json', '{}')
     }
 
-    private static setFakeReadToAllInstalled() {
+    private static setFakeReadToAllInstalledExcept(dep: string) {
         setFakeReadFileResult(
             'package.json',
-            `
-                {
-                    "dependencies": {
-                        "react": "^...",
-                        "react-dom": "^..."
-                    },
-                    "devDependencies": {
-                        "@types/react": "^...",
-                        "@types/react-dom": "^...",
-                        "@testing-library/react": "^...",
-                        "@testing-library/jest-dom": "^..."
-                    }   
-                }
-            `
+            this.allInstalled.replace(dep, '')
         )
     }
+
+    private static setFakeReadToAllInstalled() {
+        setFakeReadFileResult('package.json', this.allInstalled)
+    }
+
+    private static readonly allInstalled = `
+        {
+            "dependencies": {
+                "react": "^...",
+                "react-dom": "^..."
+            },
+            "devDependencies": {
+                "@types/react": "^...",
+                "@types/react-dom": "^...",
+                "@testing-library/react": "^...",
+                "@testing-library/jest-dom": "^..."
+            }   
+        }
+    `
+
+    private static readonly allRequiredDependencies = [
+        'react',
+        'react-dom',
+        '@types/react',
+        '@types/react-dom',
+        '@testing-library/react',
+        '@testing-library/jest-dom',
+    ]
 
     private static async runCreateImpl(responses?: Record<string, string>) {
         setFakeResponses({
@@ -631,23 +664,8 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         CliCommandRunner.readFile = fakeReadFile as unknown as typeof readFile
         resetCallsToReadFile()
 
-        this.setFakeReadFileToInstalledPackageJson()
+        this.setFakeReadToAllInstalled()
         this.setFakeReadFileResultToTsconfig()
-    }
-
-    private static setFakeReadFileToInstalledPackageJson() {
-        setFakeReadFileResult(
-            'package.json',
-            `
-                {
-                    "devDependencies": {
-                        "@types/react": "^...",
-                        "@testing-library/react": "^...",
-                        "@testing-library/jest-dom": "^..."
-                    }   
-                }
-            `
-        )
     }
 
     private static setFakeWriteFile() {

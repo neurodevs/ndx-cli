@@ -251,6 +251,7 @@ export default class CliCommandRunner implements CommandRunner {
 
     private readonly requiredDevDependencies = [
         '@types/react',
+        '@types/react-dom',
         '@testing-library/react',
         '@testing-library/jest-dom',
     ]
