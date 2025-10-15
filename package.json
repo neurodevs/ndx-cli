@@ -1,6 +1,6 @@
 {
   "name": "@neurodevs/ndx-cli",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "description": "CLI tools for the Neurodevs ecosystem.",
   "keywords": [
     "nodejs",
@@ -48,7 +48,7 @@
     "watch.tsc": "tsc -w"
   },
   "dependencies": {
-    "@neurodevs/meta-node": "^0.10.0",
+    "@neurodevs/meta-node": "^0.10.1",
     "prompts": "^2.4.2"
   },
   "devDependencies": {
