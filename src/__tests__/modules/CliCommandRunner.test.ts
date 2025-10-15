@@ -3,11 +3,7 @@ import { mkdir, readFile, writeFile } from 'fs/promises'
 import os from 'os'
 import path from 'path'
 import { promisify } from 'util'
-import AbstractSpruceTest, {
-    test,
-    assert,
-    generateId,
-} from '@sprucelabs/test-utils'
+import { test, assert, generateId } from '@sprucelabs/test-utils'
 import {
     callsToExec,
     callsToMkdir,
@@ -36,10 +32,11 @@ import fakePrompts, {
     resetCallsToFakePrompts,
     setFakeResponses,
 } from '../../testDoubles/prompts/fakePrompts'
+import AbstractPackageTest from '../AbstractPackageTest'
 
 const exec = promisify(execSync)
 
-export default class CliCommandRunnerTest extends AbstractSpruceTest {
+export default class CliCommandRunnerTest extends AbstractPackageTest {
     private static readonly createImplCommand = 'create.impl'
     private static readonly interfaceName = generateId()
     private static readonly implName = generateId()
