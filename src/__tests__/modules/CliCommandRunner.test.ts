@@ -363,7 +363,7 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async createUiUpdatesTsconfigIfDependenciesWereMissing() {
+    protected static async createUiUpdatesTsconfigIfDepsWereMissing() {
         this.setFakeReadToEmptyPackageJson()
         this.setFakeReadFileResultToTsconfig()
 
@@ -379,6 +379,25 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
                 options: undefined,
             },
             'Did not update tsconfig!'
+        )
+    }
+
+    @test()
+    protected static async createUiCreatesSetupTestsIfDepsWereMissing() {
+        this.setFakeReadToEmptyPackageJson()
+
+        await this.runCreateUi({
+            shouldInstall: true,
+        })
+
+        assert.isEqualDeep(
+            callsToWriteFile[1],
+            {
+                file: 'src/__tests__/setupTests.ts',
+                data: this.setupTestsFile,
+                options: undefined,
+            },
+            'Did not create setupTests script!'
         )
     }
 
@@ -690,6 +709,28 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
 
     private static readonly componentNameMessage =
         'What should the component be called? Example: YourComponent'
+
+    private static readonly setupTestsFile = `
+        import { JSDOM } from 'jsdom'
+
+        const jsdom = new JSDOM('<!doctype html><html><body></body></html>', {
+            url: 'http://localhost',
+        })
+
+        global.window = jsdom.window as unknown as Window & typeof globalThis
+        global.document = jsdom.window.document
+        global.navigator = jsdom.window.navigator
+        global.HTMLElement = jsdom.window.HTMLElement
+        global.getComputedStyle = jsdom.window.getComputedStyle
+
+        global.ResizeObserver = class {
+            public observe() {}
+            public unobserve() {}
+            public disconnect() {}
+        }
+
+        global.SVGElement = jsdom.window.SVGElement
+    `
 
     private static CliCommandRunner(args: string[]) {
         return CliCommandRunner.Create(args)
