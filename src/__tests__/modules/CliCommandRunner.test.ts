@@ -1,5 +1,5 @@
 import { exec as execSync } from 'child_process'
-import { mkdir } from 'fs/promises'
+import { mkdir, readFile } from 'fs/promises'
 import os from 'os'
 import path from 'path'
 import { promisify } from 'util'
@@ -13,8 +13,11 @@ import {
     callsToMkdir,
     fakeExec,
     fakeMkdir,
+    fakeReadFile,
     resetCallsToExec,
     resetCallsToMkdir,
+    resetCallsToReadFile,
+    setFakeReadFileResult,
 } from '@neurodevs/fake-node-core'
 import {
     FakeAutomodule,
@@ -58,6 +61,7 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         this.setFakeExec()
         this.setFakeMkdir()
         this.setFakePrompts()
+        this.setFakeReadFile()
 
         process.env.GITHUB_TOKEN = this.githubToken
     }
@@ -290,6 +294,8 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
 
     @test()
     protected static async createUiPromptsInstallDependenciesIfMissing() {
+        this.setUninstalledPackageJson()
+
         await this.runCreateUi()
 
         assert.isEqualDeep(
@@ -307,8 +313,14 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
         )
     }
 
+    private static setUninstalledPackageJson() {
+        setFakeReadFileResult('package.json', '{}')
+    }
+
     @test()
     protected static async createUiInstallsDependenciesIfMissing() {
+        this.setUninstalledPackageJson()
+
         await this.runCreateUi({
             shouldInstall: true,
         })
@@ -321,11 +333,18 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     }
 
     @test()
+    protected static async createUiDoesNotPromptIfDependenciesAreInstalled() {
+        await this.runCreateUi()
+
+        assert.isEqual(callsToFakePrompts.length, 1, 'Prompted too many times!')
+    }
+
+    @test()
     protected static async createUiPromptsUserForInput() {
         await this.runCreateUi()
 
         assert.isEqualDeep(
-            callsToFakePrompts[1],
+            callsToFakePrompts[0],
             [
                 {
                     type: 'text',
@@ -512,6 +531,24 @@ export default class CliCommandRunnerTest extends AbstractSpruceTest {
     private static setFakePrompts() {
         CliCommandRunner.prompts = fakePrompts as unknown as typeof prompts
         resetCallsToFakePrompts()
+    }
+
+    private static setFakeReadFile() {
+        CliCommandRunner.readFile = fakeReadFile as unknown as typeof readFile
+        resetCallsToReadFile()
+
+        setFakeReadFileResult(
+            'package.json',
+            `
+                {
+                    "devDependencies": {
+                        "@types/react": "^...",
+                        "@testing-library/react": "^...",
+                        "@testing-library/jest-dom": "^..."
+                    }   
+                }
+            `
+        )
     }
 
     private static readonly interfaceNameMessage =

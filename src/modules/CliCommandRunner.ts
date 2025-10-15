@@ -1,5 +1,5 @@
 import { exec as execSync } from 'child_process'
-import { mkdir } from 'fs/promises'
+import { mkdir, readFile } from 'fs/promises'
 import os from 'os'
 import path from 'path'
 import { promisify } from 'util'
@@ -13,8 +13,9 @@ import prompts from 'prompts'
 export default class CliCommandRunner implements CommandRunner {
     public static Class?: CommandRunnerConstructor
     public static exec = promisify(execSync)
-    public static prompts = prompts
     public static mkdir = mkdir
+    public static prompts = prompts
+    public static readFile = readFile
 
     private args: string[]
 
@@ -191,13 +192,7 @@ export default class CliCommandRunner implements CommandRunner {
     }
 
     private async createUiModule() {
-        const { shouldInstall } = await this.promptForInstallDependencies()
-
-        debugger
-
-        if (shouldInstall) {
-            await this.installDependencies()
-        }
+        await this.installDependenciesIfNeeded()
 
         const { componentName } = await this.promptForUimodule()
 
@@ -213,8 +208,42 @@ export default class CliCommandRunner implements CommandRunner {
         await instance.run()
     }
 
+    private async installDependenciesIfNeeded() {
+        const isInstalled = await this.checkIfDependenciesAreInstalled()
+
+        if (!isInstalled) {
+            const { shouldInstall } = await this.promptForInstallDependencies()
+
+            if (shouldInstall) {
+                await this.installDependencies()
+            }
+        }
+    }
+
+    private async checkIfDependenciesAreInstalled() {
+        const original = await this.loadPackageJson()
+        const parsed = JSON.parse(original)
+        const devDependencies = Object.keys(parsed.devDependencies ?? {})
+
+        return this.requiredDevDependencies.every((dep) =>
+            devDependencies.includes(dep)
+        )
+    }
+
+    private async loadPackageJson() {
+        return await this.readFile(this.packageJsonPath, 'utf-8')
+    }
+
+    private readonly packageJsonPath = 'package.json'
+
+    private readonly requiredDevDependencies = [
+        '@types/react',
+        '@testing-library/react',
+        '@testing-library/jest-dom',
+    ]
+
     private async promptForInstallDependencies() {
-        const result = await this.prompts([
+        return await this.prompts([
             {
                 type: 'confirm',
                 name: 'shouldInstall',
@@ -223,12 +252,10 @@ export default class CliCommandRunner implements CommandRunner {
                 initial: true,
             },
         ])
-        debugger
-        return result
     }
 
     private async installDependencies() {
-        console.log('Installing dependencies...')
+        console.log('Installing required dependencies...')
 
         await this.exec(
             'yarn add -D @types/react @testing-library/react @testing-library/jest-dom'
@@ -277,6 +304,10 @@ export default class CliCommandRunner implements CommandRunner {
 
     private get prompts() {
         return CliCommandRunner.prompts
+    }
+
+    private get readFile() {
+        return CliCommandRunner.readFile
     }
 
     private ImplAutomodule() {
