@@ -219,6 +219,7 @@ export default class CliCommandRunner implements CommandRunner {
                 await this.installReactDependencies()
                 await this.updateTsconfigForReact()
                 await this.createSetupTestsFile()
+                await this.addSetupTestsToPackageJson()
             }
         }
     }
@@ -318,6 +319,27 @@ export default class CliCommandRunner implements CommandRunner {
     private async createSetupTestsFile() {
         console.log('Creating src/setupTests.ts...')
         await this.writeFile('src/__tests__/setupTests.ts', this.setupTestsFile)
+    }
+
+    private async addSetupTestsToPackageJson() {
+        console.log('Adding setupTests.ts to package.json...')
+
+        const original = await this.loadPackageJson()
+        const parsed = JSON.parse(original)
+
+        const updated = JSON.stringify(
+            {
+                ...parsed,
+                jest: {
+                    ...parsed.jest,
+                    setupFiles: ['<rootDir>/build/__tests__/setupTests.js'],
+                },
+            },
+            null,
+            4
+        )
+
+        await this.writeFile(this.packageJsonPath, updated)
     }
 
     private async promptForUimodule() {

@@ -402,6 +402,35 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
     }
 
     @test()
+    protected static async createUiAddsSetupTestsToPackageJsonIfDepsWereMissing() {
+        this.setFakeReadToEmptyPackageJson()
+
+        await this.runCreateUi({
+            shouldInstall: true,
+        })
+
+        assert.isEqualDeep(
+            callsToWriteFile[2],
+            {
+                file: 'package.json',
+                data: JSON.stringify(
+                    {
+                        jest: {
+                            setupFiles: [
+                                '<rootDir>/build/__tests__/setupTests.js',
+                            ],
+                        },
+                    },
+                    null,
+                    4
+                ),
+                options: undefined,
+            },
+            'Did not update package.json!'
+        )
+    }
+
+    @test()
     protected static async createUiDoesNotPromptIfDependenciesAreInstalled() {
         this.setFakeReadToAllInstalled()
 
