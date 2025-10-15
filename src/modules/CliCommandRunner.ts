@@ -260,7 +260,7 @@ export default class CliCommandRunner implements CommandRunner {
         console.log('Installing required dependencies...')
 
         await this.exec(
-            'yarn add -D @types/react @testing-library/react @testing-library/jest-dom'
+            'yarn add -D @types/react @types/react-dom @testing-library/react @testing-library/jest-dom'
         )
     }
 
