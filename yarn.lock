@@ -713,10 +713,10 @@
   resolved "https://registry.yarnpkg.com/@neurodevs/fake-node-core/-/fake-node-core-0.1.1.tgz#153d15306572da14f953c8764ca5efd7e4bc7b9d"
   integrity sha512-8KPyGAd8OV4akXxodxUY1P/eNwVCRWPwX9jKIyGY6Lsbkm3XTUPhWTTjeFM6IcKeKXXSnNEhT0TOatCja5PYqw==
 
-"@neurodevs/meta-node@^0.10.2":
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.10.2.tgz#7ef48a6c5350bdf40b2b1147ac8b29ba6076cb3e"
-  integrity sha512-vGW9Y4/6/SThoHIBoIzhDmyL1mA/OvevTrSVnllxx3tOo818s5gsLqMGkPJDLX6LCSW0wtPGowx3309WIDOfaw==
+"@neurodevs/meta-node@^0.10.3":
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.10.3.tgz#2eab6cac418b3bf399490709fc10f09ed1aa738e"
+  integrity sha512-5QEmvEipyaW2+XfPaAVF9jlsAWSk72cqvlYPMaLDMF+OOnfYW0fnjpEmOnsRxt8Gc8ihSvACx6tvPfhiA+fYYg==
   dependencies:
     fs-extra "^11.3.2"
 
