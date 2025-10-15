@@ -1,6 +1,6 @@
 {
   "name": "@neurodevs/ndx-cli",
-  "version": "0.1.29",
+  "version": "0.1.30",
   "description": "CLI tools for the Neurodevs ecosystem.",
   "keywords": [
     "nodejs",

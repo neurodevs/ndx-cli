@@ -431,6 +431,21 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
     }
 
     @test()
+    protected static async createUiRecompilesTypescriptIfDepsWereMissing() {
+        this.setFakeReadToEmptyPackageJson()
+
+        await this.runCreateUi({
+            shouldInstall: true,
+        })
+
+        assert.isEqualDeep(
+            callsToExec[2],
+            'npx tsc',
+            'Did not recompile typescript!'
+        )
+    }
+
+    @test()
     protected static async createUiDoesNotPromptIfDependenciesAreInstalled() {
         this.setFakeReadToAllInstalled()
 

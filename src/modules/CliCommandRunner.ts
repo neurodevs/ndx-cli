@@ -220,6 +220,7 @@ export default class CliCommandRunner implements CommandRunner {
                 await this.updateTsconfigForReact()
                 await this.createSetupTestsFile()
                 await this.addSetupTestsToPackageJson()
+                await this.exec('npx tsc')
             }
         }
     }
