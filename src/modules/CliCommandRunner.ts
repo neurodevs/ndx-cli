@@ -32,10 +32,13 @@ export default class CliCommandRunner implements CommandRunner {
     private readonly createUiCommand = 'create.ui'
     private componentName!: string
 
+    private readonly upgradePackageCommand = 'upgrade.package'
+
     private readonly supportedCommands = [
         this.createImplCommand,
         this.createPackageCommand,
         this.createUiCommand,
+        this.upgradePackageCommand,
     ]
 
     protected constructor(args: string[]) {

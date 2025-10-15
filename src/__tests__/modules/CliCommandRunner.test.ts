@@ -45,11 +45,12 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
     private static readonly packageName = generateId()
     private static readonly description = generateId()
     private static readonly keywords = [generateId(), generateId()]
+    private static readonly githubToken = generateId()
 
     private static readonly createUiCommand = 'create.ui'
     private static readonly componentName = generateId()
 
-    private static readonly githubToken = generateId()
+    private static readonly upgradePackageCommand = 'upgrade.package'
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -549,6 +550,16 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async upgradePackageCreatesInstance() {
+        const instance = await this.runUpgradePackage()
+
+        assert.isTruthy(
+            instance,
+            `Failed to create instance for ${this.upgradePackageCommand}!`
+        )
+    }
+
     private static async runCreateUi(
         responses?: Record<string, string | boolean>
     ) {
@@ -640,6 +651,13 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         })
 
         const instance = this.CliCommandRunner([this.createPackageCommand])
+        await instance.run()
+
+        return instance
+    }
+
+    private static async runUpgradePackage() {
+        const instance = this.CliCommandRunner([this.upgradePackageCommand])
         await instance.run()
 
         return instance
