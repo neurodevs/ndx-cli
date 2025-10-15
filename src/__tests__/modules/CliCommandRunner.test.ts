@@ -529,6 +529,7 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
                 "@types/react": "^...",
                 "@types/react-dom": "^...",
                 "@testing-library/react": "^...",
+                "@testing-library/dom": "^...",
                 "@testing-library/jest-dom": "^..."
             }   
         }
@@ -540,6 +541,7 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         '@types/react',
         '@types/react-dom',
         '@testing-library/react',
+        '@testing-library/dom',
         '@testing-library/jest-dom',
     ]
 
@@ -628,7 +630,7 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         'yarn add react react-dom'
 
     private static readonly installDevDependenciesCommand =
-        'yarn add -D @types/react @types/react-dom @testing-library/react @testing-library/jest-dom'
+        'yarn add -D @types/react @types/react-dom @testing-library/react @testing-library/dom @testing-library/jest-dom'
 
     private static setFakeImplAutomodule() {
         ImplAutomodule.Class = FakeAutomodule
