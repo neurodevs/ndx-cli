@@ -225,11 +225,20 @@ export default class CliCommandRunner implements CommandRunner {
     private async checkIfDependenciesAreInstalled() {
         const original = await this.loadPackageJson()
         const parsed = JSON.parse(original)
+
+        const dependencies = Object.keys(parsed.dependencies ?? {})
+
+        const areDepsInstalled = this.requiredDependencies.every((dep) =>
+            dependencies.includes(dep)
+        )
+
         const devDependencies = Object.keys(parsed.devDependencies ?? {})
 
-        return this.requiredDevDependencies.every((dep) =>
+        const areDevDepsInstalled = this.requiredDevDependencies.every((dep) =>
             devDependencies.includes(dep)
         )
+
+        return areDepsInstalled && areDevDepsInstalled
     }
 
     private async loadPackageJson() {
@@ -237,6 +246,8 @@ export default class CliCommandRunner implements CommandRunner {
     }
 
     private readonly packageJsonPath = 'package.json'
+
+    private readonly requiredDependencies = ['react', 'react-dom']
 
     private readonly requiredDevDependencies = [
         '@types/react',
@@ -259,6 +270,15 @@ export default class CliCommandRunner implements CommandRunner {
     private async installReactDependencies() {
         console.log('Installing required dependencies...')
 
+        await this.installDependencies()
+        await this.installDevDependencies()
+    }
+
+    private async installDependencies() {
+        await this.exec('yarn add react react-dom')
+    }
+
+    private async installDevDependencies() {
         await this.exec(
             'yarn add -D @types/react @types/react-dom @testing-library/react @testing-library/jest-dom'
         )

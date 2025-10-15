@@ -295,7 +295,7 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
 
     @test()
     protected static async createUiPromptsInstallDependenciesIfMissing() {
-        this.setFakeReadFileResultPackageJson()
+        this.setFakeReadToEmptyPackageJson()
 
         await this.runCreateUi()
 
@@ -316,7 +316,7 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
 
     @test()
     protected static async createUiInstallsDependenciesIfMissing() {
-        this.setFakeReadFileResultPackageJson()
+        this.setFakeReadToEmptyPackageJson()
 
         await this.runCreateUi({
             shouldInstall: true,
@@ -324,6 +324,21 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
 
         assert.isEqualDeep(
             callsToExec[0],
+            this.installDependenciesCommand,
+            'Did not install dependencies!'
+        )
+    }
+
+    @test()
+    protected static async createUiInstallsDevDependenciesIfMissing() {
+        this.setFakeReadToEmptyPackageJson()
+
+        await this.runCreateUi({
+            shouldInstall: true,
+        })
+
+        assert.isEqualDeep(
+            callsToExec[1],
             this.installDevDependenciesCommand,
             'Did not install dependencies!'
         )
@@ -331,8 +346,8 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
 
     @test()
     protected static async createUiUpdatesTsconfigIfDependenciesWereMissing() {
+        this.setFakeReadToEmptyPackageJson()
         this.setFakeReadFileResultToTsconfig()
-        this.setFakeReadFileResultPackageJson()
 
         await this.runCreateUi({
             shouldInstall: true,
@@ -351,6 +366,8 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
 
     @test()
     protected static async createUiDoesNotPromptIfDependenciesAreInstalled() {
+        this.setFakeReadToAllInstalled()
+
         await this.runCreateUi()
 
         assert.isEqual(callsToFakePrompts.length, 1, 'Prompted too many times!')
@@ -358,6 +375,8 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
 
     @test()
     protected static async createUiPromptsUserForInput() {
+        this.setFakeReadToAllInstalled()
+
         await this.runCreateUi()
 
         assert.isEqualDeep(
@@ -467,8 +486,28 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         setFakeReadFileResult(this.tsconfigPath, this.originalTsconfigFile)
     }
 
-    private static setFakeReadFileResultPackageJson() {
+    private static setFakeReadToEmptyPackageJson() {
         setFakeReadFileResult('package.json', '{}')
+    }
+
+    private static setFakeReadToAllInstalled() {
+        setFakeReadFileResult(
+            'package.json',
+            `
+                {
+                    "dependencies": {
+                        "react": "^...",
+                        "react-dom": "^..."
+                    },
+                    "devDependencies": {
+                        "@types/react": "^...",
+                        "@types/react-dom": "^...",
+                        "@testing-library/react": "^...",
+                        "@testing-library/jest-dom": "^..."
+                    }   
+                }
+            `
+        )
     }
 
     private static async runCreateImpl(responses?: Record<string, string>) {
@@ -551,6 +590,9 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         null,
         4
     )
+
+    private static readonly installDependenciesCommand =
+        'yarn add react react-dom'
 
     private static readonly installDevDependenciesCommand =
         'yarn add -D @types/react @types/react-dom @testing-library/react @testing-library/jest-dom'
