@@ -47,8 +47,10 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
     private static readonly keywords = [generateId(), generateId()]
     private static readonly githubToken = generateId()
 
+    private static readonly defaultKeywords = ['nodejs', 'typescript', 'tdd']
+
     private static get keywordsWithDefaults() {
-        return ['nodejs', 'typescript', 'tdd', ...this.keywords]
+        return [...this.defaultKeywords, ...this.keywords]
     }
 
     private static readonly createUiCommand = 'create.ui'
@@ -617,8 +619,30 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
 
         assert.isEqualDeep(
             FakeAutopackage.callsToConstructor[0]?.keywords,
-            ['nodejs', 'typescript', 'tdd'],
+            this.defaultKeywords,
             'Did not add default keywords!'
+        )
+    }
+
+    @test()
+    protected static async upgradePackageDoesNotOverwriteKeywordsEvenIfDefaultsAreMissing() {
+        const infoFromPackageJson = {
+            name: this.packageName,
+            description: this.description,
+            keywords: [generateId(), generateId()],
+        }
+
+        setFakeReadFileResult(
+            'package.json',
+            JSON.stringify(infoFromPackageJson)
+        )
+
+        await this.runUpgradePackage()
+
+        assert.isEqualDeep(
+            FakeAutopackage.callsToConstructor[0]?.keywords,
+            [...this.defaultKeywords, ...infoFromPackageJson.keywords],
+            'Should not have overwritten keywords!'
         )
     }
 

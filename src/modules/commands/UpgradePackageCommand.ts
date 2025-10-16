@@ -28,7 +28,7 @@ export default class UpgradePackageCommand {
             keywords?.includes(keyword)
         )
             ? keywords
-            : this.defaultKeywords
+            : [...this.defaultKeywords, ...(keywords || [])]
     }
 
     private readonly defaultKeywords = ['nodejs', 'typescript', 'tdd']
