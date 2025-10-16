@@ -570,7 +570,7 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
             FakeAutopackage.callsToConstructor[0],
             {
                 ...this.infoFromPackageJson,
-                name: `@neurodevs/${this.packageName}`,
+                name: `${this.packageName}`,
                 gitNamespace: 'neurodevs',
                 npmNamespace: 'neurodevs',
                 installDir: this.expandHomeDir('~/dev'),
@@ -627,14 +627,14 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
     @test()
     protected static async upgradePackageExtractsPackageNameFromScopedName() {
         await this.runUpgradePackage({
-            name: this.scopedPackageName,
+            name: this.packageName,
             description: this.description,
             keywords: this.keywordsWithDefaults,
         })
 
         assert.isEqualDeep(
             FakeAutopackage.callsToConstructor[0]?.name,
-            this.scopedPackageName,
+            this.packageName,
             'Did not extract package name from scoped name!'
         )
     }
@@ -692,10 +692,6 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         name: this.packageName,
         description: this.description,
         keywords: this.keywordsWithDefaults,
-    }
-
-    private static get scopedPackageName() {
-        return `@neurodevs/${this.packageName}`
     }
 
     private static readonly allInstalled = `

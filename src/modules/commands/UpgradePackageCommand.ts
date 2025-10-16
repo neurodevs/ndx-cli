@@ -38,7 +38,7 @@ export default class UpgradePackageCommand {
 
     private NpmAutopackage() {
         return NpmAutopackage.Create({
-            name: `@neurodevs/${this.packageName}`,
+            name: this.packageName,
             description: this.description,
             keywords: this.keywords,
             gitNamespace: 'neurodevs',
