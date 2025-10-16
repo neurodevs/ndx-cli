@@ -258,7 +258,7 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
             {
                 name: this.packageName,
                 description: this.description,
-                keywords: this.keywordsWithDefaults(),
+                keywords: this.keywordsWithDefaults,
                 gitNamespace: 'neurodevs',
                 npmNamespace: 'neurodevs',
                 installDir: this.expandHomeDir('~/dev'),
@@ -269,7 +269,7 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         )
     }
 
-    private static keywordsWithDefaults() {
+    private static get keywordsWithDefaults() {
         return ['nodejs', 'typescript', 'tdd', ...this.keywords]
     }
 
@@ -557,6 +557,35 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         assert.isTruthy(
             instance,
             `Failed to create instance for ${this.upgradePackageCommand}!`
+        )
+    }
+
+    @test()
+    protected static async upgradePackageCreatesNpmAutopackage() {
+        const infoFromPackageJson = {
+            name: this.packageName,
+            description: this.description,
+            keywords: this.keywordsWithDefaults,
+        }
+
+        setFakeReadFileResult(
+            'package.json',
+            JSON.stringify(infoFromPackageJson)
+        )
+
+        await this.runUpgradePackage()
+
+        assert.isEqualDeep(
+            FakeAutopackage.callsToConstructor[0],
+            {
+                ...infoFromPackageJson,
+                gitNamespace: 'neurodevs',
+                npmNamespace: 'neurodevs',
+                installDir: this.expandHomeDir('~/dev'),
+                license: 'MIT',
+                author: 'Eric Yates <hello@ericthecurious.com>',
+            },
+            'Did not create NpmAutopackage with expected options!'
         )
     }
 

@@ -5,6 +5,7 @@ import prompts from 'prompts'
 import CreateImplCommand from './commands/CreateImplCommand'
 import CreatePackageCommand from './commands/CreatePackageCommand'
 import CreateUiCommand from './commands/CreateUiCommand'
+import UpgradePackageCommand from './commands/UpgradePackageCommand'
 
 export default class CliCommandRunner implements CommandRunner {
     public static Class?: CommandRunnerConstructor
@@ -66,6 +67,9 @@ export default class CliCommandRunner implements CommandRunner {
             case this.createUiCommand:
                 await this.createUiModule()
                 break
+            case this.upgradePackageCommand:
+                await this.upgradePackage()
+                break
         }
     }
 
@@ -81,6 +85,11 @@ export default class CliCommandRunner implements CommandRunner {
 
     private async createUiModule() {
         const command = new CreateUiCommand()
+        await command.run()
+    }
+
+    private async upgradePackage() {
+        const command = new UpgradePackageCommand()
         await command.run()
     }
 }
