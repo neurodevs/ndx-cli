@@ -1,7 +1,6 @@
-import os from 'os'
-import path from 'path'
 import { NpmAutopackage } from '@neurodevs/meta-node'
 import CliCommandRunner from '../CliCommandRunner'
+import expandHomeDir from '../expandHomeDir'
 
 export default class UpgradePackageCommand {
     private packageName!: string
@@ -33,12 +32,6 @@ export default class UpgradePackageCommand {
 
     private readonly defaultKeywords = ['nodejs', 'typescript', 'tdd']
 
-    private expandHomeDir(inputPath: string): string {
-        return inputPath.startsWith('~')
-            ? path.join(os.homedir(), inputPath.slice(1))
-            : inputPath
-    }
-
     private get readFile() {
         return CliCommandRunner.readFile
     }
@@ -50,7 +43,7 @@ export default class UpgradePackageCommand {
             keywords: this.keywords,
             gitNamespace: 'neurodevs',
             npmNamespace: 'neurodevs',
-            installDir: this.expandHomeDir('~/dev'),
+            installDir: expandHomeDir('~/dev'),
             license: 'MIT',
             author: 'Eric Yates <hello@ericthecurious.com>',
         })

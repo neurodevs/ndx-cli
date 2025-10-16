@@ -1,7 +1,6 @@
-import os from 'os'
-import path from 'path'
 import { NpmAutopackage } from '@neurodevs/meta-node'
 import CliCommandRunner from '../CliCommandRunner'
+import expandHomeDir from '../expandHomeDir'
 
 export default class CreatePackageCommand {
     private packageName!: string
@@ -69,12 +68,6 @@ export default class CreatePackageCommand {
         return this.packageName && this.description
     }
 
-    private expandHomeDir(inputPath: string): string {
-        return inputPath.startsWith('~')
-            ? path.join(os.homedir(), inputPath.slice(1))
-            : inputPath
-    }
-
     private get prompts() {
         return CliCommandRunner.prompts
     }
@@ -86,7 +79,7 @@ export default class CreatePackageCommand {
             keywords: ['nodejs', 'typescript', 'tdd', ...this.keywords],
             gitNamespace: 'neurodevs',
             npmNamespace: 'neurodevs',
-            installDir: this.expandHomeDir('~/dev'),
+            installDir: expandHomeDir('~/dev'),
             license: 'MIT',
             author: 'Eric Yates <hello@ericthecurious.com>',
         })
