@@ -47,6 +47,10 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
     private static readonly keywords = [generateId(), generateId()]
     private static readonly githubToken = generateId()
 
+    private static get keywordsWithDefaults() {
+        return ['nodejs', 'typescript', 'tdd', ...this.keywords]
+    }
+
     private static readonly createUiCommand = 'create.ui'
     private static readonly componentName = generateId()
 
@@ -269,10 +273,6 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         )
     }
 
-    private static get keywordsWithDefaults() {
-        return ['nodejs', 'typescript', 'tdd', ...this.keywords]
-    }
-
     @test()
     protected static async createPackageRunsNpmAutopackage() {
         await this.runCreatePackage()
@@ -280,7 +280,7 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         assert.isEqual(
             FakeAutopackage.numCallsToRun,
             1,
-            'Did not call run on Autopackage!'
+            'Did not call run on NpmAutopackage!'
         )
     }
 
@@ -586,6 +586,17 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
                 author: 'Eric Yates <hello@ericthecurious.com>',
             },
             'Did not create NpmAutopackage with expected options!'
+        )
+    }
+
+    @test()
+    protected static async upgradePackageRunsNpmAutopackage() {
+        await this.runUpgradePackage()
+
+        assert.isEqual(
+            FakeAutopackage.numCallsToRun,
+            1,
+            'Did not call run on NpmAutopackage!'
         )
     }
 
