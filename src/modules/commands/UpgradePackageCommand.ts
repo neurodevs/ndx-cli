@@ -20,7 +20,7 @@ export default class UpgradePackageCommand {
         const raw = await this.readFile('package.json', 'utf-8')
         const { name, description, keywords } = JSON.parse(raw)
 
-        this.packageName = name
+        this.packageName = name.includes('/') ? name.split('/')[1] : name
         this.description = description
 
         this.keywords = this.defaultKeywords.every((keyword) =>
@@ -38,7 +38,7 @@ export default class UpgradePackageCommand {
 
     private NpmAutopackage() {
         return NpmAutopackage.Create({
-            name: this.packageName,
+            name: `@neurodevs/${this.packageName}`,
             description: this.description,
             keywords: this.keywords,
             gitNamespace: 'neurodevs',

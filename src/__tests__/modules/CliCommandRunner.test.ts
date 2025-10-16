@@ -564,23 +564,13 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
 
     @test()
     protected static async upgradePackageCreatesNpmAutopackage() {
-        const infoFromPackageJson = {
-            name: this.packageName,
-            description: this.description,
-            keywords: this.keywordsWithDefaults,
-        }
-
-        setFakeReadFileResult(
-            'package.json',
-            JSON.stringify(infoFromPackageJson)
-        )
-
         await this.runUpgradePackage()
 
         assert.isEqualDeep(
             FakeAutopackage.callsToConstructor[0],
             {
-                ...infoFromPackageJson,
+                ...this.infoFromPackageJson,
+                name: `@neurodevs/${this.packageName}`,
                 gitNamespace: 'neurodevs',
                 npmNamespace: 'neurodevs',
                 installDir: this.expandHomeDir('~/dev'),
@@ -604,18 +594,11 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
 
     @test()
     protected static async upgradePackageAddsDefaultKeywordsIfMissing() {
-        const infoFromPackageJson = {
+        await this.runUpgradePackage({
             name: this.packageName,
             description: this.description,
-            keywords: [],
-        }
-
-        setFakeReadFileResult(
-            'package.json',
-            JSON.stringify(infoFromPackageJson)
-        )
-
-        await this.runUpgradePackage()
+            keywords: [] as string[],
+        })
 
         assert.isEqualDeep(
             FakeAutopackage.callsToConstructor[0]?.keywords,
@@ -625,24 +608,34 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
     }
 
     @test()
-    protected static async upgradePackageDoesNotOverwriteKeywordsEvenIfDefaultsAreMissing() {
-        const infoFromPackageJson = {
+    protected static async upgradePackageDoesNotOverwriteKeywordsEvenIfDefaultsMissing() {
+        const keywords = [generateId(), generateId()]
+
+        await this.runUpgradePackage({
             name: this.packageName,
             description: this.description,
-            keywords: [generateId(), generateId()],
-        }
-
-        setFakeReadFileResult(
-            'package.json',
-            JSON.stringify(infoFromPackageJson)
-        )
-
-        await this.runUpgradePackage()
+            keywords,
+        })
 
         assert.isEqualDeep(
             FakeAutopackage.callsToConstructor[0]?.keywords,
-            [...this.defaultKeywords, ...infoFromPackageJson.keywords],
+            [...this.defaultKeywords, ...keywords],
             'Should not have overwritten keywords!'
+        )
+    }
+
+    @test()
+    protected static async upgradePackageExtractsPackageNameFromScopedName() {
+        await this.runUpgradePackage({
+            name: this.scopedPackageName,
+            description: this.description,
+            keywords: this.keywordsWithDefaults,
+        })
+
+        assert.isEqualDeep(
+            FakeAutopackage.callsToConstructor[0]?.name,
+            this.scopedPackageName,
+            'Did not extract package name from scoped name!'
         )
     }
 
@@ -677,6 +670,32 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
 
     private static setFakeReadToAllInstalled() {
         setFakeReadFileResult('package.json', this.allInstalled)
+    }
+
+    private static setFakePackageJson(
+        responses?: Record<string, string | string[]>
+    ) {
+        const infoFromPackageJson = {
+            ...this.infoFromPackageJson,
+            ...responses,
+        }
+
+        setFakeReadFileResult(
+            'package.json',
+            JSON.stringify(infoFromPackageJson)
+        )
+
+        return infoFromPackageJson
+    }
+
+    private static readonly infoFromPackageJson = {
+        name: this.packageName,
+        description: this.description,
+        keywords: this.keywordsWithDefaults,
+    }
+
+    private static get scopedPackageName() {
+        return `@neurodevs/${this.packageName}`
     }
 
     private static readonly allInstalled = `
@@ -742,7 +761,11 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         return instance
     }
 
-    private static async runUpgradePackage() {
+    private static async runUpgradePackage(
+        responses?: Record<string, string | string[]>
+    ) {
+        this.setFakePackageJson(responses)
+
         const instance = this.CliCommandRunner([this.upgradePackageCommand])
         await instance.run()
 
