@@ -720,10 +720,10 @@
   resolved "https://registry.yarnpkg.com/@neurodevs/generate-id/-/generate-id-1.0.0.tgz#0a2b756c569d4fa12e01c744fa1bb8a094aa7606"
   integrity sha512-F5UabBUeIql4WnS1P/mIUj4tuM3iT6s2mro96HcdDh4WMSwzlNisSh26VmmYaX2NMK1rzwshde01rW5+rMLuNQ==
 
-"@neurodevs/meta-node@^0.10.8":
-  version "0.10.8"
-  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.10.8.tgz#3353b89654a199926cffabdc78be2d55760f1a95"
-  integrity sha512-eIlAkoljyw7y+jnTHQnZLRAy1VJ+0GKXa3dkSnhUTWe/muw/I7U2mtsDXi2imUXSqePTpAlzu7sWIE1/88FniQ==
+"@neurodevs/meta-node@^0.10.9":
+  version "0.10.9"
+  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.10.9.tgz#92707ae648de45714ec5a355b5228bc87aa4ecf0"
+  integrity sha512-og2OXFNIK9Fpnt020XOdMvWxbRCaU8bl2ZA4QlPncGZK1HSgTMQyNeJVyT768pXSuhnyrIFUP+WqZsg1z4WckQ==
   dependencies:
     fs-extra "^11.3.2"
 
