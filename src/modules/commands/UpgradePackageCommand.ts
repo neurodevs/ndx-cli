@@ -23,8 +23,15 @@ export default class UpgradePackageCommand {
 
         this.packageName = name
         this.description = description
-        this.keywords = keywords || []
+
+        this.keywords = this.defaultKeywords.every((keyword) =>
+            keywords?.includes(keyword)
+        )
+            ? keywords
+            : this.defaultKeywords
     }
+
+    private readonly defaultKeywords = ['nodejs', 'typescript', 'tdd']
 
     private expandHomeDir(inputPath: string): string {
         return inputPath.startsWith('~')

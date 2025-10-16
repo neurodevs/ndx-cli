@@ -600,6 +600,28 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         )
     }
 
+    @test()
+    protected static async upgradePackageAddsDefaultKeywordsIfMissing() {
+        const infoFromPackageJson = {
+            name: this.packageName,
+            description: this.description,
+            keywords: [],
+        }
+
+        setFakeReadFileResult(
+            'package.json',
+            JSON.stringify(infoFromPackageJson)
+        )
+
+        await this.runUpgradePackage()
+
+        assert.isEqualDeep(
+            FakeAutopackage.callsToConstructor[0]?.keywords,
+            ['nodejs', 'typescript', 'tdd'],
+            'Did not add default keywords!'
+        )
+    }
+
     private static async runCreateUi(
         responses?: Record<string, string | boolean>
     ) {
