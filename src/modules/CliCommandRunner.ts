@@ -104,8 +104,20 @@ export default class CliCommandRunner implements CommandRunner {
         await command.run()
     }
 
+    private async upgradePackage() {
+        const command = new UpgradePackageCommand()
+        await command.run()
+    }
+
     private async help() {
-        CliCommandRunner.log(`ndx CLI (Command Line Interface)
+        this.log(this.helpText)
+    }
+
+    private get log() {
+        return CliCommandRunner.log
+    }
+
+    private readonly helpText = `ndx CLI (Command Line Interface)
 
     Available commands:
 
@@ -118,13 +130,7 @@ export default class CliCommandRunner implements CommandRunner {
     Usage:
 
     - ndx <command> [options]
-    `)
-    }
-
-    private async upgradePackage() {
-        const command = new UpgradePackageCommand()
-        await command.run()
-    }
+    `
 }
 
 export interface CommandRunner {
