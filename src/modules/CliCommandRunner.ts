@@ -95,8 +95,7 @@ export default class CliCommandRunner implements CommandRunner {
     }
 
     private async help() {
-        CliCommandRunner.log(`      
-    ndx CLI (Command Line Interface)
+        CliCommandRunner.log(`ndx CLI (Command Line Interface)
 
     Available commands:
 

@@ -924,8 +924,7 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         global.SVGElement = jsdom.window.SVGElement
     `
 
-    private static readonly helpText = `      
-    ndx CLI (Command Line Interface)
+    private static readonly helpText = `ndx CLI (Command Line Interface)
 
     Available commands:
 
