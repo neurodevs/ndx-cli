@@ -10,6 +10,7 @@ import UpgradePackageCommand from './commands/UpgradePackageCommand'
 export default class CliCommandRunner implements CommandRunner {
     public static Class?: CommandRunnerConstructor
     public static exec = promisify(execSync)
+    public static log = console.log
     public static mkdir = mkdir
     public static prompts = prompts
     public static readFile = readFile
@@ -20,12 +21,14 @@ export default class CliCommandRunner implements CommandRunner {
     private readonly createImplCommand = 'create.impl'
     private readonly createPackageCommand = 'create.package'
     private readonly createUiCommand = 'create.ui'
+    private readonly helpCommand = 'help'
     private readonly upgradePackageCommand = 'upgrade.package'
 
     private readonly supportedCommands = [
         this.createImplCommand,
         this.createPackageCommand,
         this.createUiCommand,
+        this.helpCommand,
         this.upgradePackageCommand,
     ]
 
@@ -67,6 +70,9 @@ export default class CliCommandRunner implements CommandRunner {
             case this.createUiCommand:
                 await this.createUiModule()
                 break
+            case this.helpCommand:
+                await this.help()
+                break
             case this.upgradePackageCommand:
                 await this.upgradePackage()
                 break
@@ -86,6 +92,24 @@ export default class CliCommandRunner implements CommandRunner {
     private async createUiModule() {
         const command = new CreateUiCommand()
         await command.run()
+    }
+
+    private async help() {
+        CliCommandRunner.log(`      
+    ndx CLI (Command Line Interface)
+
+    Available commands:
+
+    - create.impl       Create an implementation for an interface with test and fake.
+    - create.package    Create an npm package using the latest template.
+    - create.ui         Create a React component with test and fake.
+    - upgrade.package   Upgrade an existing npm package to the latest template.
+    - help              Show this help text.
+    
+    Usage:
+
+    - ndx <command> [options]
+    `)
     }
 
     private async upgradePackage() {

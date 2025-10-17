@@ -6,13 +6,16 @@ import { promisify } from 'util'
 import { test, assert, generateId } from '@sprucelabs/test-utils'
 import {
     callsToExec,
+    callsToLog,
     callsToMkdir,
     callsToWriteFile,
     fakeExec,
+    fakeLog,
     fakeMkdir,
     fakeReadFile,
     fakeWriteFile,
     resetCallsToExec,
+    resetCallsToLog,
     resetCallsToMkdir,
     resetCallsToReadFile,
     resetCallsToWriteFile,
@@ -66,6 +69,7 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         this.setFakeAutopackage()
 
         this.setFakeExec()
+        this.setFakeLog()
         this.setFakeMkdir()
         this.setFakePrompts()
         this.setFakeReadFile()
@@ -553,6 +557,18 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
     }
 
     @test()
+    protected static async helpOutputsHelpTextToConsole() {
+        const instance = this.CliCommandRunner(['help'])
+        await instance.run()
+
+        assert.isEqual(
+            callsToLog[0]?.message,
+            this.helpText,
+            'Help command should not execute any shell commands!'
+        )
+    }
+
+    @test()
     protected static async upgradePackageCreatesInstance() {
         const instance = await this.runUpgradePackage()
 
@@ -842,6 +858,11 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         resetCallsToExec()
     }
 
+    private static setFakeLog() {
+        CliCommandRunner.log = fakeLog as unknown as typeof CliCommandRunner.log
+        resetCallsToLog()
+    }
+
     private static setFakeMkdir() {
         CliCommandRunner.mkdir = fakeMkdir as unknown as typeof mkdir
         resetCallsToMkdir()
@@ -901,6 +922,22 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
         }
 
         global.SVGElement = jsdom.window.SVGElement
+    `
+
+    private static readonly helpText = `      
+    ndx CLI (Command Line Interface)
+
+    Available commands:
+
+    - create.impl       Create an implementation for an interface with test and fake.
+    - create.package    Create an npm package using the latest template.
+    - create.ui         Create a React component with test and fake.
+    - upgrade.package   Upgrade an existing npm package to the latest template.
+    - help              Show this help text.
+    
+    Usage:
+
+    - ndx <command> [options]
     `
 
     private static CliCommandRunner(args: string[]) {
