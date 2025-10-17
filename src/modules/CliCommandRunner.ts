@@ -113,7 +113,7 @@ export default class CliCommandRunner implements CommandRunner {
     - create.package    Create npm package using latest template.
     - create.ui         Create React component with test and fake.
     - upgrade.package   Upgrade existing npm package to latest template.
-    - help              Show this help text.
+    - help, --help, -h  Show this help text.
     
     Usage:
 
