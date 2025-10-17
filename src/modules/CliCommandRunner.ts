@@ -23,14 +23,16 @@ export default class CliCommandRunner implements CommandRunner {
     private readonly createUiCommand = 'create.ui'
     private readonly helpCommand = 'help'
     private readonly dashDashHelpCommand = '--help'
+    private readonly dashHCommand = '-h'
     private readonly upgradePackageCommand = 'upgrade.package'
 
     private readonly supportedCommands = [
         this.createImplCommand,
         this.createPackageCommand,
         this.createUiCommand,
-        this.dashDashHelpCommand,
         this.helpCommand,
+        this.dashDashHelpCommand,
+        this.dashHCommand,
         this.upgradePackageCommand,
     ]
 
@@ -76,6 +78,9 @@ export default class CliCommandRunner implements CommandRunner {
                 await this.help()
                 break
             case this.dashDashHelpCommand:
+                await this.help()
+                break
+            case this.dashHCommand:
                 await this.help()
                 break
             case this.upgradePackageCommand:

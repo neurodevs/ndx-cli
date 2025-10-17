@@ -581,6 +581,18 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
     }
 
     @test()
+    protected static async helpAcceptsDashHFlag() {
+        const instance = this.CliCommandRunner(['-h'])
+        await instance.run()
+
+        assert.isEqual(
+            callsToLog[0]?.message,
+            this.helpText,
+            'Help command should not execute any shell commands!'
+        )
+    }
+
+    @test()
     protected static async upgradePackageCreatesInstance() {
         const instance = await this.runUpgradePackage()
 
