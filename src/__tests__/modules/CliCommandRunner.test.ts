@@ -928,10 +928,10 @@ export default class CliCommandRunnerTest extends AbstractPackageTest {
 
     Available commands:
 
-    - create.impl       Create an implementation for an interface with test and fake.
-    - create.package    Create an npm package using the latest template.
-    - create.ui         Create a React component with test and fake.
-    - upgrade.package   Upgrade an existing npm package to the latest template.
+    - create.impl       Create implementation for interface with test and fake.
+    - create.package    Create npm package using latest template.
+    - create.ui         Create React component with test and fake.
+    - upgrade.package   Upgrade existing npm package to latest template.
     - help              Show this help text.
     
     Usage:
