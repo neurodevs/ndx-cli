@@ -18,7 +18,8 @@ export default class BindSnippetCommand {
         this.lines = lines
         this.keybinding = keybinding
 
-        this.VscodeSnippetKeybinder()
+        const keybinder = this.VscodeSnippetKeybinder()
+        await keybinder.run()
     }
 
     private async promptUserForInput() {
@@ -56,7 +57,7 @@ export default class BindSnippetCommand {
     }
 
     private VscodeSnippetKeybinder() {
-        VscodeSnippetKeybinder.Create({
+        return VscodeSnippetKeybinder.Create({
             name: this.name,
             description: this.description,
             lines: this.lines.split('\n'),

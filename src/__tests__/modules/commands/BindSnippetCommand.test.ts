@@ -67,6 +67,17 @@ export default class BindSnippetCommandTest extends AbstractCommandRunnerTest {
         )
     }
 
+    @test()
+    protected static async runsVscodeSnippetKeybinder() {
+        await this.run()
+
+        assert.isEqual(
+            FakeSnippetKeybinder.numCallsToRun,
+            1,
+            'Did not call run on VscodeSnippetKeybinder!'
+        )
+    }
+
     private static readonly snippetName = generateId()
     private static readonly snippetDescription = generateId()
     private static readonly lines = `${generateId()}\n${generateId()}`
