@@ -54,8 +54,8 @@ export default class CreateImplCommand {
         await this.mkdir(this.implFakeSaveDir, { recursive: true })
     }
 
-    private readonly implTestSaveDir = 'src/__tests__/modules'
-    private readonly implModuleSaveDir = 'src/modules'
+    private readonly implTestSaveDir = 'src/__tests__/impl'
+    private readonly implModuleSaveDir = 'src/impl'
 
     private get implFakeSaveDir() {
         return `src/testDoubles/${this.interfaceName}`

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import CliCommandRunner from './modules/CliCommandRunner'
+import CliCommandRunner from './impl/CliCommandRunner'
 
 async function main() {
     const args = process.argv.slice(2)

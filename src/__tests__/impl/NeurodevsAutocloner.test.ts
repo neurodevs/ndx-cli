@@ -2,7 +2,7 @@ import { test, assert, generateId } from '@sprucelabs/test-utils'
 import { FakeAutocloner, GitAutocloner } from '@neurodevs/meta-node'
 import NeurodevsAutocloner, {
     PresetUrlsAutocloner,
-} from '../../modules/NeurodevsAutocloner'
+} from '../../impl/NeurodevsAutocloner'
 import AbstractPackageTest from '../AbstractPackageTest'
 
 export default class NeurodevsAutoclonerTest extends AbstractPackageTest {

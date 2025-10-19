@@ -27,7 +27,7 @@ import {
     VscodeSnippetKeybinder,
 } from '@neurodevs/meta-node'
 import prompts from 'prompts'
-import CliCommandRunner from '../modules/CliCommandRunner'
+import CliCommandRunner from '../impl/CliCommandRunner'
 import fakePrompts, {
     resetCallsToFakePrompts,
 } from '../testDoubles/prompts/fakePrompts'
@@ -167,8 +167,8 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
             .filter(Boolean)
     }
 
-    protected static readonly implTestSaveDir = 'src/__tests__/modules'
-    protected static readonly implModuleSaveDir = 'src/modules'
+    protected static readonly implTestSaveDir = 'src/__tests__/impl'
+    protected static readonly implModuleSaveDir = 'src/impl'
 
     protected static get implFakeSaveDir() {
         return `src/testDoubles/${this.interfaceName}`

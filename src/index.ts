@@ -1,12 +1,12 @@
 // CommandRunner
 
-export { default as CliCommandRunner } from './modules/CliCommandRunner'
-export * from './modules/CliCommandRunner'
+export { default as CliCommandRunner } from './impl/CliCommandRunner'
+export * from './impl/CliCommandRunner'
 
 // PresetUrlsAutocloner
 
-export { default as NeurodevsAutocloner } from './modules/NeurodevsAutocloner'
-export * from './modules/NeurodevsAutocloner'
+export { default as NeurodevsAutocloner } from './impl/NeurodevsAutocloner'
+export * from './impl/NeurodevsAutocloner'
 
 export { default as FakeNeurodevsAutocloner } from './testDoubles/PresetUrlsAutocloner/FakeNeurodevsAutocloner'
 export * from './testDoubles/PresetUrlsAutocloner/FakeNeurodevsAutocloner'

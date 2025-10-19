@@ -1,5 +1,5 @@
-import expandHomeDir from '../modules/expandHomeDir'
-import NeurodevsAutocloner from '../modules/NeurodevsAutocloner'
+import expandHomeDir from '../impl/expandHomeDir'
+import NeurodevsAutocloner from '../impl/NeurodevsAutocloner'
 
 async function main() {
     const cloner = NeurodevsAutocloner.Create()
