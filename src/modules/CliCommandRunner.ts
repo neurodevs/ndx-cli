@@ -2,6 +2,7 @@ import { exec as execSync } from 'child_process'
 import { mkdir, readFile, writeFile } from 'fs/promises'
 import { promisify } from 'util'
 import prompts from 'prompts'
+import BindSnippetCommand from './commands/BindSnippetCommand'
 import CreateImplCommand from './commands/CreateImplCommand'
 import CreatePackageCommand from './commands/CreatePackageCommand'
 import CreateUiCommand from './commands/CreateUiCommand'
@@ -67,6 +68,9 @@ export default class CliCommandRunner implements CommandRunner {
 
     private async runCommand() {
         switch (this.command) {
+            case this.bindSnippetCommand:
+                await this.bindSnippet()
+                break
             case this.createImplCommand:
                 await this.createImplModule()
                 break
@@ -89,6 +93,11 @@ export default class CliCommandRunner implements CommandRunner {
                 await this.upgradePackage()
                 break
         }
+    }
+
+    private async bindSnippet() {
+        const command = new BindSnippetCommand()
+        await command.run()
     }
 
     private async createImplModule() {
