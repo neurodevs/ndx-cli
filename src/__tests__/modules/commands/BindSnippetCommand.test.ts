@@ -1,4 +1,8 @@
-import { assert, test } from '@sprucelabs/test-utils'
+import { assert, generateId, test } from '@sprucelabs/test-utils'
+import {
+    FakeSnippetKeybinder,
+    SnippetKeybinderOptions,
+} from '@neurodevs/meta-node'
 import {
     callsToFakePrompts,
     setFakeResponses,
@@ -39,8 +43,8 @@ export default class BindSnippetCommandTest extends AbstractCommandRunnerTest {
                 },
                 {
                     type: 'text',
-                    name: 'snippet',
-                    message: this.snippetMessage,
+                    name: 'lines',
+                    message: this.linesMessage,
                 },
                 {
                     type: 'text',
@@ -52,17 +56,43 @@ export default class BindSnippetCommandTest extends AbstractCommandRunnerTest {
         )
     }
 
+    @test()
+    protected static async createsVscodeSnippetKeybinder() {
+        await this.run(this.promptResponses as any)
+
+        assert.isEqualDeep(
+            FakeSnippetKeybinder.callsToConstructor[0],
+            this.keybinderOptions,
+            'Did not create VscodeSnippetKeybinder with expected options!'
+        )
+    }
+
+    private static readonly snippetName = generateId()
+    private static readonly snippetDescription = generateId()
+    private static readonly lines = `${generateId()}\n${generateId()}`
+    private static readonly keybinding = generateId()
+
+    private static readonly promptResponses: Record<string, unknown> = {
+        name: this.snippetName,
+        description: this.snippetDescription,
+        lines: this.lines,
+        keybinding: this.keybinding,
+    }
+
+    private static readonly keybinderOptions: SnippetKeybinderOptions = {
+        name: this.snippetName,
+        description: this.snippetDescription,
+        lines: this.lines.split('\n'),
+        keybinding: this.keybinding,
+    }
+
     private static readonly nameMessage = `Snippet name? Example: Singleton class template`
     private static readonly descriptionMessage = `Snippet description? Example: A class template based on the singleton pattern`
-    private static readonly snippetMessage = `Snippet text content? Newlines allowed. Press Enter twice to finish`
+    private static readonly linesMessage = `Snippet text content? Newlines allowed. Press Enter twice to finish`
     private static readonly keybindingMessage = `Snippet keybinding? Examples: ctrl+alt+c, f4`
 
-    private static async run(responses?: Record<string, string>) {
-        setFakeResponses({
-            interfaceName: this.interfaceName,
-            implName: this.implName,
-            ...responses,
-        })
+    private static async run(responses?: Record<string, unknown>) {
+        setFakeResponses(responses ?? this.promptResponses)
 
         const instance = this.CliCommandRunner([this.bindSnippetCommand])
         await instance.run()

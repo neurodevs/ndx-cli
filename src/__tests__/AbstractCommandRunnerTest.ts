@@ -20,9 +20,11 @@ import {
 import {
     FakeAutomodule,
     FakeAutopackage,
+    FakeSnippetKeybinder,
     ImplAutomodule,
     NpmAutopackage,
     UiAutomodule,
+    VscodeSnippetKeybinder,
 } from '@neurodevs/meta-node'
 import prompts from 'prompts'
 import CliCommandRunner from '../modules/CliCommandRunner'
@@ -60,9 +62,10 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     protected static async beforeEach() {
         await super.beforeEach()
 
+        this.setFakeAutopackage()
         this.setFakeImplAutomodule()
         this.setFakeUiAutomodule()
-        this.setFakeAutopackage()
+        this.setFakeSnippetKeybinder()
 
         this.setFakeExec()
         this.setFakeLog()
@@ -205,6 +208,11 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
         4
     )
 
+    protected static setFakeAutopackage() {
+        NpmAutopackage.Class = FakeAutopackage
+        FakeAutopackage.resetTestDouble()
+    }
+
     protected static setFakeImplAutomodule() {
         ImplAutomodule.Class = FakeAutomodule
         FakeAutomodule.resetTestDouble()
@@ -215,9 +223,9 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
         FakeAutomodule.resetTestDouble()
     }
 
-    protected static setFakeAutopackage() {
-        NpmAutopackage.Class = FakeAutopackage
-        FakeAutopackage.resetTestDouble()
+    protected static setFakeSnippetKeybinder() {
+        VscodeSnippetKeybinder.Class = FakeSnippetKeybinder
+        FakeSnippetKeybinder.resetTestDouble()
     }
 
     protected static setFakeExec() {

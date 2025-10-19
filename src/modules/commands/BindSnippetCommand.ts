@@ -1,10 +1,24 @@
+import { VscodeSnippetKeybinder } from '@neurodevs/meta-node'
 import CliCommandRunner from '../CliCommandRunner'
 
 export default class BindSnippetCommand {
+    private name!: string
+    private description!: string
+    private lines!: string
+    private keybinding!: string
+
     public constructor() {}
 
     public async run() {
-        await this.promptUserForInput()
+        const { name, description, lines, keybinding } =
+            await this.promptUserForInput()
+
+        this.name = name
+        this.description = description
+        this.lines = lines
+        this.keybinding = keybinding
+
+        this.VscodeSnippetKeybinder()
     }
 
     private async promptUserForInput() {
@@ -21,7 +35,7 @@ export default class BindSnippetCommand {
             },
             {
                 type: 'text',
-                name: 'snippet',
+                name: 'lines',
                 message: this.snippetMessage,
             },
             {
@@ -39,5 +53,14 @@ export default class BindSnippetCommand {
 
     private get prompts() {
         return CliCommandRunner.prompts
+    }
+
+    private VscodeSnippetKeybinder() {
+        VscodeSnippetKeybinder.Create({
+            name: this.name,
+            description: this.description,
+            lines: this.lines.split('\n'),
+            keybinding: this.keybinding,
+        })
     }
 }
