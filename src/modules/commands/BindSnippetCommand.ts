@@ -18,6 +18,10 @@ export default class BindSnippetCommand {
         this.lines = lines
         this.keybinding = keybinding
 
+        if (!this.hasAllUserInput) {
+            return
+        }
+
         const keybinder = this.VscodeSnippetKeybinder()
         await keybinder.run()
     }
@@ -45,6 +49,10 @@ export default class BindSnippetCommand {
                 message: this.keybindingMessage,
             },
         ])
+    }
+
+    private get hasAllUserInput() {
+        return this.name && this.description && this.lines && this.keybinding
     }
 
     private readonly nameMessage = `Snippet name? Example: Singleton class template`
