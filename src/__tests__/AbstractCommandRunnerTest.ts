@@ -34,6 +34,8 @@ import AbstractPackageTest from './AbstractPackageTest'
 const exec = promisify(execSync)
 
 export default class AbstractCommandRunnerTest extends AbstractPackageTest {
+    protected static readonly bindSnippetCommand = 'bind.snippet'
+
     protected static readonly createImplCommand = 'create.impl'
     protected static readonly interfaceName = generateId()
     protected static readonly implName = generateId()
@@ -293,6 +295,7 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
 
     Available commands:
 
+    - bind.snippet      Bind a text snippet to a keyboard shortcut in vscode.
     - create.impl       Create implementation for interface with test and fake.
     - create.package    Create npm package using latest template.
     - create.ui         Create React component with test and fake.
@@ -301,7 +304,7 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     
     Usage:
 
-    - ndx <command> [options]
+    - ndx <command>
     `
 
     protected static CliCommandRunner(args: string[]) {

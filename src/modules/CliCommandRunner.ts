@@ -18,6 +18,7 @@ export default class CliCommandRunner implements CommandRunner {
 
     private args: string[]
 
+    private readonly bindSnippetCommand = 'bind.snippet'
     private readonly createImplCommand = 'create.impl'
     private readonly createPackageCommand = 'create.package'
     private readonly createUiCommand = 'create.ui'
@@ -27,6 +28,7 @@ export default class CliCommandRunner implements CommandRunner {
     private readonly upgradePackageCommand = 'upgrade.package'
 
     private readonly supportedCommands = [
+        this.bindSnippetCommand,
         this.createImplCommand,
         this.createPackageCommand,
         this.createUiCommand,
@@ -121,6 +123,7 @@ export default class CliCommandRunner implements CommandRunner {
 
     Available commands:
 
+    - bind.snippet      Bind a text snippet to a keyboard shortcut in vscode.
     - create.impl       Create implementation for interface with test and fake.
     - create.package    Create npm package using latest template.
     - create.ui         Create React component with test and fake.
@@ -129,7 +132,7 @@ export default class CliCommandRunner implements CommandRunner {
     
     Usage:
 
-    - ndx <command> [options]
+    - ndx <command>
     `
 }
 
