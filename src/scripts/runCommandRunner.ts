@@ -1,7 +1,7 @@
 import CliCommandRunner from '../modules/CliCommandRunner'
 
 async function main() {
-    const runner = CliCommandRunner.Create(['create.ui'])
+    const runner = CliCommandRunner.Create(['bind.snippet'])
     await runner.run()
 }
 

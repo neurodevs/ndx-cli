@@ -57,7 +57,7 @@ export default class BindSnippetCommand {
 
     private readonly nameMessage = `Snippet name? Example: Singleton class template`
     private readonly descriptionMessage = `Snippet description? Example: A class template based on the singleton pattern`
-    private readonly snippetMessage = `Snippet text content? Newlines allowed. Press Enter twice to finish`
+    private readonly snippetMessage = `Snippet text content? Use \\n for newlines. Example: line-1\\nline-2`
     private readonly keybindingMessage = `Snippet keybinding? Examples: ctrl+alt+c, f4`
 
     private get prompts() {
@@ -68,7 +68,7 @@ export default class BindSnippetCommand {
         return VscodeSnippetKeybinder.Create({
             name: this.name,
             description: this.description,
-            lines: this.lines.split('\n'),
+            lines: this.lines.split('\\n'),
             keybinding: this.keybinding,
         })
     }

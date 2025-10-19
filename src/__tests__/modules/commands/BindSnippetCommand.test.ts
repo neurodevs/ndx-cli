@@ -96,7 +96,7 @@ export default class BindSnippetCommandTest extends AbstractCommandRunnerTest {
 
     private static readonly snippetName = generateId()
     private static readonly snippetDescription = generateId()
-    private static readonly lines = `${generateId()}\n${generateId()}`
+    private static readonly lines = `${generateId()}\\n${generateId()}`
     private static readonly keybinding = generateId()
 
     private static readonly promptResponses: Record<string, unknown> = {
@@ -109,13 +109,13 @@ export default class BindSnippetCommandTest extends AbstractCommandRunnerTest {
     private static readonly keybinderOptions: SnippetKeybinderOptions = {
         name: this.snippetName,
         description: this.snippetDescription,
-        lines: this.lines.split('\n'),
+        lines: this.lines.split('\\n'),
         keybinding: this.keybinding,
     }
 
     private static readonly nameMessage = `Snippet name? Example: Singleton class template`
     private static readonly descriptionMessage = `Snippet description? Example: A class template based on the singleton pattern`
-    private static readonly linesMessage = `Snippet text content? Newlines allowed. Press Enter twice to finish`
+    private static readonly linesMessage = `Snippet text content? Use \\n for newlines. Example: line-1\\nline-2`
     private static readonly keybindingMessage = `Snippet keybinding? Examples: ctrl+alt+c, f4`
 
     private static async run(responses?: Record<string, unknown>) {
