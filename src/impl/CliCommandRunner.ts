@@ -6,6 +6,7 @@ import BindSnippetCommand from './commands/BindSnippetCommand'
 import CreateImplCommand from './commands/CreateImplCommand'
 import CreatePackageCommand from './commands/CreatePackageCommand'
 import CreateUiCommand from './commands/CreateUiCommand'
+import InstallSnippetsCommand from './commands/InstallSnippetsCommand'
 import UpgradePackageCommand from './commands/UpgradePackageCommand'
 
 export default class CliCommandRunner implements CommandRunner {
@@ -26,6 +27,7 @@ export default class CliCommandRunner implements CommandRunner {
     private readonly helpCommand = 'help'
     private readonly helpFlagShort = '-h'
     private readonly helpFlagLong = '--help'
+    private readonly installSnippetsCommand = 'install.snippets'
     private readonly upgradePackageCommand = 'upgrade.package'
 
     private readonly supportedCommands = [
@@ -36,6 +38,7 @@ export default class CliCommandRunner implements CommandRunner {
         this.helpCommand,
         this.helpFlagShort,
         this.helpFlagLong,
+        this.installSnippetsCommand,
         this.upgradePackageCommand,
     ]
 
@@ -80,6 +83,12 @@ export default class CliCommandRunner implements CommandRunner {
             case this.createUiCommand:
                 await this.createUiModule()
                 break
+            case this.installSnippetsCommand:
+                await this.installSnippets()
+                break
+            case this.upgradePackageCommand:
+                await this.upgradePackage()
+                break
             case this.helpCommand:
                 await this.help()
                 break
@@ -88,9 +97,6 @@ export default class CliCommandRunner implements CommandRunner {
                 break
             case this.helpFlagShort:
                 await this.help()
-                break
-            case this.upgradePackageCommand:
-                await this.upgradePackage()
                 break
         }
     }
@@ -115,6 +121,11 @@ export default class CliCommandRunner implements CommandRunner {
         await command.run()
     }
 
+    private async installSnippets() {
+        const command = new InstallSnippetsCommand()
+        await command.run()
+    }
+
     private async upgradePackage() {
         const command = new UpgradePackageCommand()
         await command.run()
@@ -136,6 +147,7 @@ export default class CliCommandRunner implements CommandRunner {
     - create.impl       Create implementation for interface with test and fake.
     - create.package    Create npm package using latest template.
     - create.ui         Create React component with test and fake.
+    - install.snippets  Install text snippets with vscode keybindings.
     - upgrade.package   Upgrade existing npm package to latest template.
     - help, --help, -h  Show this help text.
     

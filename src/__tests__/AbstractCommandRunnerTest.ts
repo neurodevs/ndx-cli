@@ -47,15 +47,12 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     protected static readonly description = generateId()
     protected static readonly keywords = [generateId(), generateId()]
     protected static readonly githubToken = generateId()
-
     protected static readonly defaultKeywords = ['nodejs', 'typescript', 'tdd']
-
-    protected static get keywordsWithDefaults() {
-        return [...this.defaultKeywords, ...this.keywords]
-    }
 
     protected static readonly createUiCommand = 'create.ui'
     protected static readonly componentName = generateId()
+
+    protected static readonly installSnippetsCommand = 'install.snippets'
 
     protected static readonly upgradePackageCommand = 'upgrade.package'
 
@@ -110,6 +107,10 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
         )
 
         return infoFromPackageJson
+    }
+
+    protected static get keywordsWithDefaults() {
+        return [...this.defaultKeywords, ...this.keywords]
     }
 
     protected static readonly infoFromPackageJson = {
@@ -307,6 +308,7 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     - create.impl       Create implementation for interface with test and fake.
     - create.package    Create npm package using latest template.
     - create.ui         Create React component with test and fake.
+    - install.snippets  Install text snippets with vscode keybindings.
     - upgrade.package   Upgrade existing npm package to latest template.
     - help, --help, -h  Show this help text.
     
