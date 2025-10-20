@@ -21,8 +21,10 @@ import {
     FakeAutomodule,
     FakeAutopackage,
     FakeSnippetKeybinder,
+    FakeSnippetSuite,
     ImplAutomodule,
     NpmAutopackage,
+    TypescriptClassSnippetSuite,
     UiAutomodule,
     VscodeSnippetKeybinder,
 } from '@neurodevs/meta-node'
@@ -63,6 +65,7 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
         this.setFakeImplAutomodule()
         this.setFakeUiAutomodule()
         this.setFakeSnippetKeybinder()
+        this.setFakeSnippetSuite()
 
         this.setFakeExec()
         this.setFakeLog()
@@ -227,6 +230,11 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     protected static setFakeSnippetKeybinder() {
         VscodeSnippetKeybinder.Class = FakeSnippetKeybinder
         FakeSnippetKeybinder.resetTestDouble()
+    }
+
+    protected static setFakeSnippetSuite() {
+        TypescriptClassSnippetSuite.Class = FakeSnippetSuite
+        FakeSnippetSuite.resetTestDouble()
     }
 
     protected static setFakeExec() {
