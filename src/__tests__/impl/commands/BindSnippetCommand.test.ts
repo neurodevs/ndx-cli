@@ -1,4 +1,5 @@
-import { assert, generateId, test } from '@sprucelabs/test-utils'
+import { assert, test } from '@sprucelabs/test-utils'
+import generateId from '@neurodevs/generate-id'
 import {
     FakeSnippetKeybinder,
     SnippetKeybinderOptions,

@@ -1,5 +1,6 @@
-import { test, assert, generateId } from '@sprucelabs/test-utils'
+import { test, assert } from '@sprucelabs/test-utils'
 import { callsToLog } from '@neurodevs/fake-node-core'
+import generateId from '@neurodevs/generate-id'
 
 import AbstractCommandRunnerTest from '../AbstractCommandRunnerTest'
 

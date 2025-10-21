@@ -3,7 +3,6 @@ import { mkdir, readFile, writeFile } from 'fs/promises'
 import os from 'os'
 import path from 'path'
 import { promisify } from 'util'
-import { generateId } from '@sprucelabs/test-utils'
 import {
     fakeExec,
     fakeLog,
@@ -17,6 +16,7 @@ import {
     resetCallsToWriteFile,
     setFakeReadFileResult,
 } from '@neurodevs/fake-node-core'
+import generateId from '@neurodevs/generate-id'
 import {
     FakeAutomodule,
     FakeAutopackage,
