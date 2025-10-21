@@ -720,10 +720,10 @@
   resolved "https://registry.yarnpkg.com/@neurodevs/generate-id/-/generate-id-1.0.0.tgz#0a2b756c569d4fa12e01c744fa1bb8a094aa7606"
   integrity sha512-F5UabBUeIql4WnS1P/mIUj4tuM3iT6s2mro96HcdDh4WMSwzlNisSh26VmmYaX2NMK1rzwshde01rW5+rMLuNQ==
 
-"@neurodevs/meta-node@^0.14.0":
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.14.0.tgz#d942bd25ab99ad850f93615e50ffe18f8358d1a3"
-  integrity sha512-hWPKdmf+gcBeam7UFJWozeAZBOh3w+5lER2I+pam1VOCcLzMjYuPBvpErswU6zIYZl0FBL7sCA5ckIoMMGJaVA==
+"@neurodevs/meta-node@^0.14.1":
+  version "0.14.1"
+  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.14.1.tgz#e1aa32aa8b8901966e0f2b837f560c932ca78f44"
+  integrity sha512-sIst3STQkz0pV+VaA81OLLVkDMsqrXEBBNTqtuHb/yl/S22eyd85E0x8SgSV6rfBLocotjmsg2aI1biMi+PmSw==
   dependencies:
     fs-extra "^11.3.2"
     jsonc-parser "^3.3.1"
