@@ -1,7 +1,8 @@
 {
   "name": "@neurodevs/ndx-cli",
-  "version": "0.1.70",
+  "version": "0.1.71",
   "description": "CLI tools for the Neurodevs ecosystem.",
+  "type": "module",
   "keywords": [
     "nodejs",
     "typescript",
@@ -48,12 +49,13 @@
     "watch.tsc": "tsc -w"
   },
   "dependencies": {
-    "@neurodevs/meta-node": "^0.14.9",
+    "@neurodevs/meta-node": "^0.14.10",
     "prompts": "^2.4.2"
   },
   "devDependencies": {
-    "@neurodevs/fake-node-core": "^0.4.0",
-    "@neurodevs/generate-id": "^1.0.0",
+    "@neurodevs/fake-node-core": "^0.6.1",
+    "@neurodevs/generate-id": "^1.0.8",
+    "@neurodevs/node-tdd": "^0.1.2",
     "@sprucelabs/jest-json-reporter": "^9.0.35",
     "@sprucelabs/resolve-path-aliases": "^3.0.18",
     "@sprucelabs/test": "^10.0.14",

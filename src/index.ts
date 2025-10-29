@@ -1,17 +1,17 @@
 // CommandRunner
 
-export { default as CliCommandRunner } from './impl/CliCommandRunner'
-export * from './impl/CliCommandRunner'
+export { default as CliCommandRunner } from './impl/CliCommandRunner.js'
+export * from './impl/CliCommandRunner.js'
 
 // PresetUrlsAutocloner
 
-export { default as NeurodevsAutocloner } from './impl/NeurodevsAutocloner'
-export * from './impl/NeurodevsAutocloner'
+export { default as NeurodevsAutocloner } from './impl/NeurodevsAutocloner.js'
+export * from './impl/NeurodevsAutocloner.js'
 
-export { default as FakeNeurodevsAutocloner } from './testDoubles/PresetUrlsAutocloner/FakeNeurodevsAutocloner'
-export * from './testDoubles/PresetUrlsAutocloner/FakeNeurodevsAutocloner'
+export { default as FakeNeurodevsAutocloner } from './testDoubles/PresetUrlsAutocloner/FakeNeurodevsAutocloner.js'
+export * from './testDoubles/PresetUrlsAutocloner/FakeNeurodevsAutocloner.js'
 
 // prompts
 
-export { default as fakePrompts } from './testDoubles/prompts/fakePrompts'
-export * from './testDoubles/prompts/fakePrompts'
+export { default as fakePrompts } from './testDoubles/prompts/fakePrompts.js'
+export * from './testDoubles/prompts/fakePrompts.js'

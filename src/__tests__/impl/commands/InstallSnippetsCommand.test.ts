@@ -1,7 +1,8 @@
-import { assert, test } from '@sprucelabs/test-utils'
 import { FakeSnippetSuite } from '@neurodevs/meta-node'
-import { CommandRunner } from '../../../impl/CliCommandRunner'
-import AbstractCommandRunnerTest from '../../AbstractCommandRunnerTest'
+import { assert, test } from '@neurodevs/node-tdd'
+
+import { CommandRunner } from '../../../impl/CliCommandRunner.js'
+import AbstractCommandRunnerTest from '../../AbstractCommandRunnerTest.js'
 
 export default class InstallSnippetsCommandTest extends AbstractCommandRunnerTest {
     private static instance: CommandRunner

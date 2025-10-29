@@ -1,4 +1,4 @@
-import CliCommandRunner from '../impl/CliCommandRunner'
+import CliCommandRunner from '../impl/CliCommandRunner.js'
 
 async function main() {
     const runner = CliCommandRunner.Create(['bind.snippet'])

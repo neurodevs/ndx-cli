@@ -29,11 +29,12 @@ import {
     VscodeSnippetKeybinder,
 } from '@neurodevs/meta-node'
 import prompts from 'prompts'
-import CliCommandRunner from '../impl/CliCommandRunner'
+
+import CliCommandRunner from '../impl/CliCommandRunner.js'
 import fakePrompts, {
     resetCallsToFakePrompts,
-} from '../testDoubles/prompts/fakePrompts'
-import AbstractPackageTest from './AbstractPackageTest'
+} from '../testDoubles/prompts/fakePrompts.js'
+import AbstractPackageTest from './AbstractPackageTest.js'
 
 const exec = promisify(execSync)
 

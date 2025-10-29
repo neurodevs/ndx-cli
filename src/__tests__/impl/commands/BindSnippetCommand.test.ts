@@ -1,14 +1,15 @@
-import { assert, test } from '@sprucelabs/test-utils'
 import generateId from '@neurodevs/generate-id'
 import {
     FakeSnippetKeybinder,
     SnippetKeybinderOptions,
 } from '@neurodevs/meta-node'
+import { assert, test } from '@neurodevs/node-tdd'
+
 import {
     callsToFakePrompts,
     setFakeResponses,
-} from '../../../testDoubles/prompts/fakePrompts'
-import AbstractCommandRunnerTest from '../../AbstractCommandRunnerTest'
+} from '../../../testDoubles/prompts/fakePrompts.js'
+import AbstractCommandRunnerTest from '../../AbstractCommandRunnerTest.js'
 
 export default class BindSnippetCommandTest extends AbstractCommandRunnerTest {
     protected static async beforeEach() {

@@ -1,4 +1,3 @@
-import { assert, test } from '@sprucelabs/test-utils'
 import {
     callsToExec,
     resetCallsToExec,
@@ -6,11 +5,13 @@ import {
     callsToMkdir,
 } from '@neurodevs/fake-node-core'
 import { FakeAutomodule } from '@neurodevs/meta-node'
+import { assert, test } from '@neurodevs/node-tdd'
+
 import {
     callsToFakePrompts,
     setFakeResponses,
-} from '../../../testDoubles/prompts/fakePrompts'
-import AbstractCommandRunnerTest from '../../AbstractCommandRunnerTest'
+} from '../../../testDoubles/prompts/fakePrompts.js'
+import AbstractCommandRunnerTest from '../../AbstractCommandRunnerTest.js'
 
 export default class CreateUiCommandTest extends AbstractCommandRunnerTest {
     protected static async beforeEach() {

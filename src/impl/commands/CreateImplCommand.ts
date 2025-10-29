@@ -1,5 +1,6 @@
 import { ImplAutomodule } from '@neurodevs/meta-node'
-import CliCommandRunner from '../CliCommandRunner'
+
+import CliCommandRunner from '../CliCommandRunner.js'
 
 export default class CreateImplCommand {
     private interfaceName!: string

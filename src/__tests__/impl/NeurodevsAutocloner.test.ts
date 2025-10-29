@@ -1,10 +1,11 @@
-import { test, assert } from '@sprucelabs/test-utils'
 import generateId from '@neurodevs/generate-id'
 import { FakeAutocloner, GitAutocloner } from '@neurodevs/meta-node'
+import { test, assert } from '@neurodevs/node-tdd'
+
 import NeurodevsAutocloner, {
     PresetUrlsAutocloner,
-} from '../../impl/NeurodevsAutocloner'
-import AbstractPackageTest from '../AbstractPackageTest'
+} from '../../impl/NeurodevsAutocloner.js'
+import AbstractPackageTest from '../AbstractPackageTest.js'
 
 export default class NeurodevsAutoclonerTest extends AbstractPackageTest {
     private static instance: PresetUrlsAutocloner

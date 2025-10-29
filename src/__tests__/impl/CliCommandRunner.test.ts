@@ -1,8 +1,8 @@
-import { test, assert } from '@sprucelabs/test-utils'
 import { callsToLog } from '@neurodevs/fake-node-core'
 import generateId from '@neurodevs/generate-id'
+import { test, assert } from '@neurodevs/node-tdd'
 
-import AbstractCommandRunnerTest from '../AbstractCommandRunnerTest'
+import AbstractCommandRunnerTest from '../AbstractCommandRunnerTest.js'
 
 export default class CliCommandRunnerTest extends AbstractCommandRunnerTest {
     protected static async beforeEach() {

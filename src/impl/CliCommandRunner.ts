@@ -2,12 +2,13 @@ import { exec as execSync } from 'child_process'
 import { mkdir, readFile, writeFile } from 'fs/promises'
 import { promisify } from 'util'
 import prompts from 'prompts'
-import BindSnippetCommand from './commands/BindSnippetCommand'
-import CreateImplCommand from './commands/CreateImplCommand'
-import CreatePackageCommand from './commands/CreatePackageCommand'
-import CreateUiCommand from './commands/CreateUiCommand'
-import InstallSnippetsCommand from './commands/InstallSnippetsCommand'
-import UpgradePackageCommand from './commands/UpgradePackageCommand'
+
+import BindSnippetCommand from './commands/BindSnippetCommand.js'
+import CreateImplCommand from './commands/CreateImplCommand.js'
+import CreatePackageCommand from './commands/CreatePackageCommand.js'
+import CreateUiCommand from './commands/CreateUiCommand.js'
+import InstallSnippetsCommand from './commands/InstallSnippetsCommand.js'
+import UpgradePackageCommand from './commands/UpgradePackageCommand.js'
 
 export default class CliCommandRunner implements CommandRunner {
     public static Class?: CommandRunnerConstructor

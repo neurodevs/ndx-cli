@@ -1,6 +1,7 @@
 import { NpmAutopackage } from '@neurodevs/meta-node'
-import CliCommandRunner from '../CliCommandRunner'
-import expandHomeDir from '../expandHomeDir'
+
+import CliCommandRunner from '../CliCommandRunner.js'
+import expandHomeDir from '../expandHomeDir.js'
 
 export default class UpgradePackageCommand {
     private packageName!: string

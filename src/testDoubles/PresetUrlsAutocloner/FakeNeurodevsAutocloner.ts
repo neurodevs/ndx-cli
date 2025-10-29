@@ -1,4 +1,4 @@
-import { PresetUrlsAutocloner } from '../../impl/NeurodevsAutocloner'
+import { PresetUrlsAutocloner } from '../../impl/NeurodevsAutocloner.js'
 
 export default class FakeNeurodevsAutocloner implements PresetUrlsAutocloner {
     public static numCallsToConstructor = 0

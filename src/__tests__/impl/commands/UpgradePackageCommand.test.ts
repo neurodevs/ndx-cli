@@ -1,7 +1,8 @@
-import { test, assert } from '@sprucelabs/test-utils'
 import generateId from '@neurodevs/generate-id'
 import { FakeAutopackage } from '@neurodevs/meta-node'
-import AbstractCommandRunnerTest from '../../AbstractCommandRunnerTest'
+import { test, assert } from '@neurodevs/node-tdd'
+
+import AbstractCommandRunnerTest from '../../AbstractCommandRunnerTest.js'
 
 export default class UpgradePackageCommandTest extends AbstractCommandRunnerTest {
     protected static async beforeEach() {
