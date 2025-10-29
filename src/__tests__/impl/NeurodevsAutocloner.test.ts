@@ -1,4 +1,3 @@
-import generateId from '@neurodevs/generate-id'
 import { FakeAutocloner, GitAutocloner } from '@neurodevs/meta-node'
 import { test, assert } from '@neurodevs/node-tdd'
 
@@ -80,7 +79,7 @@ export default class NeurodevsAutoclonerTest extends AbstractPackageTest {
 
     private static repoUrls = this.repoNames.map(this.generateUrl)
 
-    private static readonly dirPath = generateId()
+    private static readonly dirPath = this.generateId()
 
     private static setFakeAutocloner() {
         GitAutocloner.Class = FakeAutocloner

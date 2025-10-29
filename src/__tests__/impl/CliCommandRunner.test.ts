@@ -1,5 +1,4 @@
 import { callsToLog } from '@neurodevs/fake-node-core'
-import generateId from '@neurodevs/generate-id'
 import { test, assert } from '@neurodevs/node-tdd'
 
 import AbstractCommandRunnerTest from '../AbstractCommandRunnerTest.js'
@@ -11,7 +10,7 @@ export default class CliCommandRunnerTest extends AbstractCommandRunnerTest {
 
     @test()
     protected static async throwsIfCommandIsNotSupported() {
-        const invalidArg = generateId()
+        const invalidArg = this.generateId()
         const instance = this.CliCommandRunner([invalidArg])
 
         const err = await assert.doesThrowAsync(

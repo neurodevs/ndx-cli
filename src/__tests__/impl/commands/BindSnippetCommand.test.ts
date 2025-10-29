@@ -1,4 +1,3 @@
-import generateId from '@neurodevs/generate-id'
 import {
     FakeSnippetKeybinder,
     SnippetKeybinderOptions,
@@ -96,10 +95,10 @@ export default class BindSnippetCommandTest extends AbstractCommandRunnerTest {
         )
     }
 
-    private static readonly snippetName = generateId()
-    private static readonly snippetDescription = generateId()
-    private static readonly lines = `${generateId()}\\n${generateId()}`
-    private static readonly keybinding = generateId()
+    private static readonly snippetName = this.generateId()
+    private static readonly snippetDescription = this.generateId()
+    private static readonly lines = `${this.generateId()}\\n${this.generateId()}`
+    private static readonly keybinding = this.generateId()
 
     private static readonly promptResponses: Record<string, unknown> = {
         name: this.snippetName,

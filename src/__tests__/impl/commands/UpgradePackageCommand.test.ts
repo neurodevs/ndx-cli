@@ -1,4 +1,3 @@
-import generateId from '@neurodevs/generate-id'
 import { FakeAutopackage } from '@neurodevs/meta-node'
 import { test, assert } from '@neurodevs/node-tdd'
 
@@ -66,7 +65,7 @@ export default class UpgradePackageCommandTest extends AbstractCommandRunnerTest
 
     @test()
     protected static async doesNotOverwriteKeywordsEvenIfDefaultsMissing() {
-        const keywords = [generateId(), generateId()]
+        const keywords = [this.generateId(), this.generateId()]
 
         await this.run({
             name: this.packageName,

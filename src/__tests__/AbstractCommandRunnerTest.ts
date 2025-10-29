@@ -16,7 +16,6 @@ import {
     resetCallsToWriteFile,
     setFakeReadFileResult,
 } from '@neurodevs/fake-node-core'
-import generateId from '@neurodevs/generate-id'
 import {
     FakeAutomodule,
     FakeAutopackage,
@@ -42,18 +41,18 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     protected static readonly bindSnippetCommand = 'bind.snippet'
 
     protected static readonly createImplCommand = 'create.impl'
-    protected static readonly interfaceName = generateId()
-    protected static readonly implName = generateId()
+    protected static readonly interfaceName = this.generateId()
+    protected static readonly implName = this.generateId()
 
     protected static readonly createPackageCommand = 'create.package'
-    protected static readonly packageName = generateId()
-    protected static readonly description = generateId()
-    protected static readonly keywords = [generateId(), generateId()]
-    protected static readonly githubToken = generateId()
+    protected static readonly packageName = this.generateId()
+    protected static readonly description = this.generateId()
+    protected static readonly keywords = [this.generateId(), this.generateId()]
+    protected static readonly githubToken = this.generateId()
     protected static readonly defaultKeywords = ['nodejs', 'typescript', 'tdd']
 
     protected static readonly createUiCommand = 'create.ui'
-    protected static readonly componentName = generateId()
+    protected static readonly componentName = this.generateId()
 
     protected static readonly installSnippetsCommand = 'install.snippets'
 
@@ -187,7 +186,7 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     }
 
     protected static readonly tsconfigPath = 'tsconfig.json'
-    protected static readonly randomId = generateId()
+    protected static readonly randomId = this.generateId()
 
     protected static readonly originalTsconfigFile = JSON.stringify(
         {
