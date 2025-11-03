@@ -5,7 +5,8 @@ import expandHomeDir from '../expandHomeDir.js'
 
 export default class UpgradePackageCommand {
     private packageName!: string
-    private npmNamespace?: string
+    private npmNamespace!: string
+    private gitNamespace!: string
     private description!: string
     private keywords!: string[]
 
@@ -20,13 +21,17 @@ export default class UpgradePackageCommand {
 
     private async loadInfoFromPackageJson() {
         const raw = await this.readFile('package.json', 'utf-8')
-        const { name, description, keywords } = JSON.parse(raw)
+        const { name, description, keywords, repository } = JSON.parse(raw)
 
         this.packageName = name.includes('/') ? name.split('/')[1] : name
 
         this.npmNamespace = name.includes('/')
             ? name.split('/')[0].replace('@', '')
-            : ''
+            : 'neurodevs'
+
+        this.gitNamespace = repository?.url
+            ? repository.url.match(/github\.com\/([^/]+)/)?.[1]
+            : 'neurodevs'
 
         this.description = description
 
@@ -48,8 +53,8 @@ export default class UpgradePackageCommand {
             name: this.packageName,
             description: this.description,
             keywords: this.keywords,
-            gitNamespace: 'neurodevs',
-            npmNamespace: this.npmNamespace || 'neurodevs',
+            gitNamespace: this.gitNamespace,
+            npmNamespace: this.npmNamespace,
             installDir: expandHomeDir('~/dev'),
             license: 'MIT',
             author: 'Eric Yates <hello@ericthecurious.com>',

@@ -97,7 +97,7 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     }
 
     protected static setFakePackageJson(
-        responses?: Record<string, string | string[]>
+        responses?: Record<string, string | string[] | object>
     ) {
         const infoFromPackageJson = {
             ...this.infoFromPackageJson,

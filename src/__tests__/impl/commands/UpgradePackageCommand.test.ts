@@ -112,7 +112,27 @@ export default class UpgradePackageCommandTest extends AbstractCommandRunnerTest
         )
     }
 
-    private static async run(responses?: Record<string, string | string[]>) {
+    @test()
+    protected static async extractsGitNamespaceFromRepositoryUrl() {
+        const gitNamespace = this.generateId()
+        const repositoryUrl = `git+https://github.com/${gitNamespace}/${this.packageName}.git`
+
+        await this.run({
+            repository: {
+                url: repositoryUrl,
+            },
+        })
+
+        assert.isEqualDeep(
+            FakeAutopackage.callsToConstructor[0]?.gitNamespace,
+            gitNamespace,
+            'Did not use git namespace from repository URL!'
+        )
+    }
+
+    private static async run(
+        responses?: Record<string, string | string[] | object>
+    ) {
         this.setFakePackageJson(responses)
 
         const instance = this.CliCommandRunner([this.upgradePackageCommand])
