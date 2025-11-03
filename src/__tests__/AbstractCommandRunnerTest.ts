@@ -280,6 +280,12 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     protected static readonly packageNameMessage =
         'What should the package be called? Example: useful-package'
 
+    protected static readonly npmNamespaceMessage =
+        'What NPM scope? Default: neurodevs.'
+
+    protected static readonly gitNamespaceMessage =
+        'What GitHub organization? Default: neurodevs.'
+
     protected static readonly packageDescriptionMessage =
         'What should the package description be? Example: A useful package.'
 

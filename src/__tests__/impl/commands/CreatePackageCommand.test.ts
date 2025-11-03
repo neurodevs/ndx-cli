@@ -36,6 +36,18 @@ export default class CreatePackageCommandTest extends AbstractCommandRunnerTest 
                 },
                 {
                     type: 'text',
+                    name: 'npmNamespace',
+                    message: this.npmNamespaceMessage,
+                    initial: '',
+                },
+                {
+                    type: 'text',
+                    name: 'gitNamespace',
+                    message: this.gitNamespaceMessage,
+                    initial: '',
+                },
+                {
+                    type: 'text',
                     name: 'description',
                     message: this.packageDescriptionMessage,
                 },

@@ -35,6 +35,18 @@ export default class CreatePackageCommand {
             },
             {
                 type: 'text',
+                name: 'npmNamespace',
+                message: this.npmNamespaceMessage,
+                initial: '',
+            },
+            {
+                type: 'text',
+                name: 'gitNamespace',
+                message: this.gitNamespaceMessage,
+                initial: '',
+            },
+            {
+                type: 'text',
                 name: 'description',
                 message: this.descriptionMessage,
             },
@@ -51,6 +63,12 @@ export default class CreatePackageCommand {
 
     private readonly packageNameMessage =
         'What should the package be called? Example: useful-package'
+
+    protected readonly npmNamespaceMessage =
+        'What NPM scope? Default: neurodevs.'
+
+    protected readonly gitNamespaceMessage =
+        'What GitHub organization? Default: neurodevs.'
 
     private readonly descriptionMessage =
         'What should the package description be? Example: A useful package.'
