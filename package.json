@@ -1,6 +1,6 @@
 {
   "name": "@neurodevs/ndx-cli",
-  "version": "0.1.81",
+  "version": "0.1.82",
   "description": "CLI tools for the Neurodevs ecosystem.",
   "type": "module",
   "keywords": [

@@ -26,10 +26,10 @@ export default class UpgradePackageCommandTest extends AbstractCommandRunnerTest
             FakeAutopackage.callsToConstructor[0],
             {
                 ...this.infoFromPackageJson,
+                installDir: this.expandHomeDir('~/dev'),
                 name: `${this.packageName}`,
                 gitNamespace: 'neurodevs',
-                npmNamespace: 'neurodevs',
-                installDir: this.expandHomeDir('~/dev'),
+                npmNamespace: '',
                 license: 'MIT',
                 author: 'Eric Yates <hello@ericthecurious.com>',
             },

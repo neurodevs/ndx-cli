@@ -27,7 +27,7 @@ export default class UpgradePackageCommand {
 
         this.npmNamespace = name.includes('/')
             ? name.split('/')[0].replace('@', '')
-            : 'neurodevs'
+            : ''
 
         this.gitNamespace = repository?.url
             ? repository.url.match(/github\.com\/([^/]+)/)?.[1]
