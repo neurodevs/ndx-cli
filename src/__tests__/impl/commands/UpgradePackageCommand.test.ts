@@ -83,7 +83,7 @@ export default class UpgradePackageCommandTest extends AbstractCommandRunnerTest
     @test()
     protected static async extractsPackageNameFromScopedName() {
         await this.run({
-            name: this.packageName,
+            name: `${this.generateId()}/${this.packageName}`,
             description: this.description,
             keywords: this.keywordsWithDefaults,
         })
@@ -92,6 +92,23 @@ export default class UpgradePackageCommandTest extends AbstractCommandRunnerTest
             FakeAutopackage.callsToConstructor[0]?.name,
             this.packageName,
             'Did not extract package name from scoped name!'
+        )
+    }
+
+    @test()
+    protected static async extractsNpmNamespaceFromScopedName() {
+        const npmNamespace = this.generateId()
+
+        const scopedName = `@${npmNamespace}/${this.packageName}`
+
+        await this.run({
+            name: scopedName,
+        })
+
+        assert.isEqualDeep(
+            FakeAutopackage.callsToConstructor[0]?.npmNamespace,
+            npmNamespace,
+            'Did not use scoped name from package.json!'
         )
     }
 

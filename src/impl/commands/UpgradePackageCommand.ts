@@ -5,6 +5,7 @@ import expandHomeDir from '../expandHomeDir.js'
 
 export default class UpgradePackageCommand {
     private packageName!: string
+    private npmNamespace?: string
     private description!: string
     private keywords!: string[]
 
@@ -22,6 +23,11 @@ export default class UpgradePackageCommand {
         const { name, description, keywords } = JSON.parse(raw)
 
         this.packageName = name.includes('/') ? name.split('/')[1] : name
+
+        this.npmNamespace = name.includes('/')
+            ? name.split('/')[0].replace('@', '')
+            : ''
+
         this.description = description
 
         this.keywords = this.defaultKeywords.every((keyword) =>
@@ -43,7 +49,7 @@ export default class UpgradePackageCommand {
             description: this.description,
             keywords: this.keywords,
             gitNamespace: 'neurodevs',
-            npmNamespace: 'neurodevs',
+            npmNamespace: this.npmNamespace || 'neurodevs',
             installDir: expandHomeDir('~/dev'),
             license: 'MIT',
             author: 'Eric Yates <hello@ericthecurious.com>',
