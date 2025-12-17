@@ -56,6 +56,8 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
 
     protected static readonly installSnippetsCommand = 'install.snippets'
 
+    protected static readonly propagateLatestCommand = 'propagate.latest'
+
     protected static readonly upgradePackageCommand = 'upgrade.package'
 
     protected static async beforeEach() {

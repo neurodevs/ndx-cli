@@ -29,6 +29,7 @@ export default class CliCommandRunner implements CommandRunner {
     private readonly helpFlagShort = '-h'
     private readonly helpFlagLong = '--help'
     private readonly installSnippetsCommand = 'install.snippets'
+    private readonly propagateLatestCommand = 'propagate.latest'
     private readonly upgradePackageCommand = 'upgrade.package'
 
     private readonly supportedCommands = [
@@ -40,6 +41,7 @@ export default class CliCommandRunner implements CommandRunner {
         this.helpFlagShort,
         this.helpFlagLong,
         this.installSnippetsCommand,
+        this.propagateLatestCommand,
         this.upgradePackageCommand,
     ]
 
