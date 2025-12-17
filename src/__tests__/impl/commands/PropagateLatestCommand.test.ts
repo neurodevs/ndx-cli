@@ -28,10 +28,23 @@ export default class PropagateLatestCommandTest extends AbstractCommandRunnerTes
 
     @test()
     protected static async createsNpmPropagationCoordinator() {
-        assert.isEqualDeep(FakePropagationCoordinator.callsToConstructor[0], {
-            repoPath: this.repoPath,
-            repoPaths: this.repoPaths,
-        })
+        assert.isEqualDeep(
+            FakePropagationCoordinator.callsToConstructor[0],
+            {
+                repoPath: this.repoPath,
+                repoPaths: this.repoPaths,
+            },
+            'Did not create with expected parameters!'
+        )
+    }
+
+    @test()
+    protected static async runsNpmPropagationCoordinator() {
+        assert.isEqual(
+            FakePropagationCoordinator.numCallsToRun,
+            1,
+            'Did not run!'
+        )
     }
 
     private static async run() {
