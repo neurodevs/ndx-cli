@@ -19,10 +19,12 @@ import {
 import {
     FakeAutomodule,
     FakeAutopackage,
+    FakePropagationCoordinator,
     FakeSnippetKeybinder,
     FakeSnippetSuite,
     ImplAutomodule,
     NpmAutopackage,
+    NpmPropagationCoordinator,
     TypescriptClassSnippetSuite,
     UiAutomodule,
     VscodeSnippetKeybinder,
@@ -65,9 +67,10 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
 
         this.setFakeAutopackage()
         this.setFakeImplAutomodule()
-        this.setFakeUiAutomodule()
+        this.setFakePropagationCoordinator()
         this.setFakeSnippetKeybinder()
         this.setFakeSnippetSuite()
+        this.setFakeUiAutomodule()
 
         this.setFakeExec()
         this.setFakeLog()
@@ -224,9 +227,9 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
         FakeAutomodule.resetTestDouble()
     }
 
-    protected static setFakeUiAutomodule() {
-        UiAutomodule.Class = FakeAutomodule
-        FakeAutomodule.resetTestDouble()
+    protected static setFakePropagationCoordinator() {
+        NpmPropagationCoordinator.Class = FakePropagationCoordinator
+        FakePropagationCoordinator.resetTestDouble()
     }
 
     protected static setFakeSnippetKeybinder() {
@@ -237,6 +240,11 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     protected static setFakeSnippetSuite() {
         TypescriptClassSnippetSuite.Class = FakeSnippetSuite
         FakeSnippetSuite.resetTestDouble()
+    }
+
+    protected static setFakeUiAutomodule() {
+        UiAutomodule.Class = FakeAutomodule
+        FakeAutomodule.resetTestDouble()
     }
 
     protected static setFakeExec() {

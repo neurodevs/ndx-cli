@@ -43,36 +43,6 @@ export default class NeurodevsAutoclonerTest extends AbstractPackageTest {
         })
     }
 
-    private static repoNames = [
-        'fili.js',
-        'labrecorder',
-        'liblsl',
-        'libxdf',
-        'node-autocloner',
-        'node-autopackage',
-        'node-autoupgrader',
-        'node-biometrics',
-        'node-biosensors',
-        'node-biosignal-experiments',
-        'node-ble',
-        'node-csv',
-        'node-eeg',
-        'node-file-checker',
-        'node-file-loader',
-        'node-html-loader',
-        'node-knowledge-graphs',
-        'node-lsl',
-        'node-mangled-names',
-        'node-neuropype',
-        'node-ppg',
-        'node-server-plots',
-        'node-signal-processing',
-        'node-task-queue',
-        'node-test-counter',
-        'node-xdf',
-        'personomic',
-    ]
-
     private static generateUrl(repoName: string) {
         return `https://github.com/neurodevs/${repoName}.git`
     }

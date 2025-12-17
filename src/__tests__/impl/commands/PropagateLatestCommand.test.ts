@@ -1,3 +1,4 @@
+import { FakePropagationCoordinator } from '@neurodevs/meta-node'
 import { assert, test } from '@neurodevs/node-tdd'
 
 import { CommandRunner } from '../../../impl/CliCommandRunner.js'
@@ -5,6 +6,11 @@ import AbstractCommandRunnerTest from '../../AbstractCommandRunnerTest.js'
 
 export default class PropagateLatestCommandTest extends AbstractCommandRunnerTest {
     private static instance: CommandRunner
+
+    private static readonly repoPath = '.'
+    private static readonly repoPaths = this.npmRepoNames.map(
+        (name) => `../${name}`
+    )
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -18,6 +24,14 @@ export default class PropagateLatestCommandTest extends AbstractCommandRunnerTes
             this.instance,
             `Failed to create instance for ${this.propagateLatestCommand}!`
         )
+    }
+
+    @test()
+    protected static async createsNpmPropagationCoordinator() {
+        assert.isEqualDeep(FakePropagationCoordinator.callsToConstructor[0], {
+            repoPath: this.repoPath,
+            repoPaths: this.repoPaths,
+        })
     }
 
     private static async run() {

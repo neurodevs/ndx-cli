@@ -8,6 +8,7 @@ import CreateImplCommand from './commands/CreateImplCommand.js'
 import CreatePackageCommand from './commands/CreatePackageCommand.js'
 import CreateUiCommand from './commands/CreateUiCommand.js'
 import InstallSnippetsCommand from './commands/InstallSnippetsCommand.js'
+import PropagateLatestCommand from './commands/PropagateLatestCommand.js'
 import UpgradePackageCommand from './commands/UpgradePackageCommand.js'
 
 export default class CliCommandRunner implements CommandRunner {
@@ -89,6 +90,9 @@ export default class CliCommandRunner implements CommandRunner {
             case this.installSnippetsCommand:
                 await this.installSnippets()
                 break
+            case this.propagateLatestCommand:
+                await this.propagateLatest()
+                break
             case this.upgradePackageCommand:
                 await this.upgradePackage()
                 break
@@ -126,6 +130,11 @@ export default class CliCommandRunner implements CommandRunner {
 
     private async installSnippets() {
         const command = new InstallSnippetsCommand()
+        await command.run()
+    }
+
+    private async propagateLatest() {
+        const command = new PropagateLatestCommand()
         await command.run()
     }
 

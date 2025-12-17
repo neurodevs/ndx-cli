@@ -1,4 +1,5 @@
 import { Autocloner, GitAutocloner } from '@neurodevs/meta-node'
+import npmRepoNames from '../npmRepoNames.js'
 
 export default class NeurodevsAutocloner implements PresetUrlsAutocloner {
     public static Class?: PresetUrlsAutoclonerConstructor
@@ -32,29 +33,7 @@ export default class NeurodevsAutocloner implements PresetUrlsAutocloner {
         'labrecorder',
         'liblsl',
         'libxdf',
-        'node-autocloner',
-        'node-autopackage',
-        'node-autoupgrader',
-        'node-biometrics',
-        'node-biosensors',
-        'node-biosignal-experiments',
-        'node-ble',
-        'node-csv',
-        'node-eeg',
-        'node-file-checker',
-        'node-file-loader',
-        'node-html-loader',
-        'node-knowledge-graphs',
-        'node-lsl',
-        'node-mangled-names',
-        'node-neuropype',
-        'node-ppg',
-        'node-server-plots',
-        'node-signal-processing',
-        'node-task-queue',
-        'node-test-counter',
-        'node-xdf',
-        'personomic',
+        ...npmRepoNames,
     ]
 
     private repoUrls = this.repoNames.map(this.generateUrl)
