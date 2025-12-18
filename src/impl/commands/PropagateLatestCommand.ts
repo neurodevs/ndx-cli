@@ -1,4 +1,5 @@
 import { NpmPropagationCoordinator } from '@neurodevs/meta-node'
+
 import npmRepoNames from '../../npmRepoNames.js'
 
 export default class PropagateLatestCommand {
