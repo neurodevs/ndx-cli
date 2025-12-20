@@ -33,7 +33,7 @@ export default class PropagateLatestCommandTest extends AbstractCommandRunnerTes
             {
                 repoPath: this.repoPath,
                 repoPaths: this.repoPaths,
-                options: undefined,
+                options: { shouldGitCommit: false },
             },
             'Did not create with expected parameters!'
         )
