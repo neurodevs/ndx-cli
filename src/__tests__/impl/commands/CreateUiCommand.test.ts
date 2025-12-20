@@ -58,7 +58,7 @@ export default class CreateUiCommandTest extends AbstractCommandRunnerTest {
         })
 
         assert.isEqualDeep(
-            callsToExec[0],
+            callsToExec[0]?.command,
             this.installDependenciesCommand,
             'Did not install dependencies!'
         )
@@ -73,7 +73,7 @@ export default class CreateUiCommandTest extends AbstractCommandRunnerTest {
         })
 
         assert.isEqualDeep(
-            callsToExec[1],
+            callsToExec[1]?.command,
             this.installDevDependenciesCommand,
             'Did not install dependencies!'
         )
@@ -90,7 +90,7 @@ export default class CreateUiCommandTest extends AbstractCommandRunnerTest {
             })
 
             assert.isEqual(
-                callsToExec[1],
+                callsToExec[1]?.command,
                 this.installDevDependenciesCommand,
                 'Should not have installed devDependencies!'
             )
@@ -174,7 +174,7 @@ export default class CreateUiCommandTest extends AbstractCommandRunnerTest {
         })
 
         assert.isEqualDeep(
-            callsToExec[2],
+            callsToExec[2]?.command,
             'npx tsc',
             'Did not recompile typescript!'
         )

@@ -53,7 +53,7 @@
     "prompts": "^2.4.2"
   },
   "devDependencies": {
-    "@neurodevs/fake-node-core": "^0.6.2",
+    "@neurodevs/fake-node-core": "0.8.0",
     "@neurodevs/generate-id": "^1.0.9",
     "@neurodevs/node-tdd": "0.2.3",
     "@types/node": "^24.2.1",
