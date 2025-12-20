@@ -708,10 +708,10 @@
     "@emnapi/runtime" "^1.4.3"
     "@tybys/wasm-util" "^0.10.0"
 
-"@neurodevs/fake-node-core@0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@neurodevs/fake-node-core/-/fake-node-core-0.8.0.tgz#724a238524ca0c39734a74290e2c0c01b29694d3"
-  integrity sha512-diuxLo/mPDZtnYAFP2/XYqIz6+cMt0kILw4j4QKctYQRpQdD/fST7HCIkkKsSY6Eqroo00VdrPEoF5VjpmB8Gg==
+"@neurodevs/fake-node-core@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@neurodevs/fake-node-core/-/fake-node-core-0.10.0.tgz#9aa65c8e2588b890d29258101f504cfaf5e9cfcd"
+  integrity sha512-GKQOaJQBPphDlzIFzKk+G0uTuYoWbOnBsrDQ17sZLM1qtq1sb/HjiSf/+FYyF8Q5VlbcwyFjIWoA9CdqNC9zjg==
   dependencies:
     "@neurodevs/generate-id" "^1.0.9"
 
@@ -720,10 +720,10 @@
   resolved "https://registry.yarnpkg.com/@neurodevs/generate-id/-/generate-id-1.0.9.tgz#e73eb0fced505a327dd986596ba017486056cba7"
   integrity sha512-x+kjwOx2ho9pRb7THG2EuV5CfSJZYHffLvikZyXyyWMT6kIkvvCfjwgAP4dFkwEBCx1OgHoPlgIfVFxE4T+ihg==
 
-"@neurodevs/meta-node@^0.18.3":
-  version "0.18.3"
-  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.18.3.tgz#9c087753fdb650d35132d96e365396f2b15a630a"
-  integrity sha512-eiQNJZwQOkFSTkIjzzbBzUmOGKbeQiuhFv2PgR83PtKhB3k+uKmLruQPKE5MdlvNLi44BYfROhWwNaNki34Lsw==
+"@neurodevs/meta-node@^0.18.4":
+  version "0.18.4"
+  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.18.4.tgz#2e154896f4e2879c20755ba24f687409b679df56"
+  integrity sha512-aWrPFnv+t1EBUT28Td5GSZpeM7g59eJRJeFSGvLRehoCssezKDufd1c0sMnrgQhVIVHRxCmPhhOKwby2vpiKXA==
   dependencies:
     fs-extra "^11.3.2"
     jsonc-parser "^3.3.1"
