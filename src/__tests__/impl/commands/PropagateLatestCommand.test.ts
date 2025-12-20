@@ -33,6 +33,7 @@ export default class PropagateLatestCommandTest extends AbstractCommandRunnerTes
             {
                 repoPath: this.repoPath,
                 repoPaths: this.repoPaths,
+                options: undefined,
             },
             'Did not create with expected parameters!'
         )
@@ -44,6 +45,17 @@ export default class PropagateLatestCommandTest extends AbstractCommandRunnerTes
             FakePropagationCoordinator.numCallsToRun,
             1,
             'Did not run!'
+        )
+    }
+
+    @test()
+    protected static async passesParameterToDisableGitCommits() {
+        assert.isEqualDeep(
+            FakePropagationCoordinator.callsToConstructor[0]?.options,
+            {
+                shouldGitCommit: false,
+            },
+            'Did not pass expected parameter to disable git commits!'
         )
     }
 

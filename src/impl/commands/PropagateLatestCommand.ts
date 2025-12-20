@@ -12,6 +12,9 @@ export default class PropagateLatestCommand {
 
     private NpmPropagationCoordinator() {
         const repoPaths = npmRepoNames.map((name) => `../${name}`)
-        return NpmPropagationCoordinator.Create('.', repoPaths)
+
+        return NpmPropagationCoordinator.Create('.', repoPaths, {
+            shouldGitCommit: false,
+        })
     }
 }
