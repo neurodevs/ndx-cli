@@ -59,6 +59,21 @@ export default class PropagateLatestCommandTest extends AbstractCommandRunnerTes
         )
     }
 
+    @test()
+    protected static async passesCommitFlagAsOptionToCoordinator() {
+        process.argv = ['ndx', 'propagate.latest', '--commit']
+
+        await this.run()
+
+        assert.isEqualDeep(
+            FakePropagationCoordinator.callsToConstructor[1]?.options,
+            {
+                shouldGitCommit: true,
+            },
+            'Did not pass expected parameter to enable git commits!'
+        )
+    }
+
     private static async run() {
         const instance = this.CliCommandRunner([this.propagateLatestCommand])
         await instance.run()
