@@ -168,6 +168,7 @@ export default class CliCommandRunner implements CommandRunner {
     Available commands:
 
     - bind.snippet      Bind a text snippet to a keyboard shortcut in vscode.
+    - check.types       Check TypeScript types across repos of parent directory.
     - create.impl       Create implementation for interface with test and fake.
     - create.package    Create npm package using latest template.
     - create.ui         Create React component with test and fake.
