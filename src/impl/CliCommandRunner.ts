@@ -23,6 +23,7 @@ export default class CliCommandRunner implements CommandRunner {
     private args: string[]
 
     private readonly bindSnippetCommand = 'bind.snippet'
+    private readonly checkTypesCommand = 'check.types'
     private readonly createImplCommand = 'create.impl'
     private readonly createPackageCommand = 'create.package'
     private readonly createUiCommand = 'create.ui'
@@ -35,6 +36,7 @@ export default class CliCommandRunner implements CommandRunner {
 
     private readonly supportedCommands = [
         this.bindSnippetCommand,
+        this.checkTypesCommand,
         this.createImplCommand,
         this.createPackageCommand,
         this.createUiCommand,

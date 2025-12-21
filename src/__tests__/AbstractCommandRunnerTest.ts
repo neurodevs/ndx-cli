@@ -42,6 +42,8 @@ const exec = promisify(execSync)
 export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     protected static readonly bindSnippetCommand = 'bind.snippet'
 
+    protected static readonly checkTypesCommand = 'check.types'
+
     protected static readonly createImplCommand = 'create.impl'
     protected static readonly interfaceName = this.generateId()
     protected static readonly implName = this.generateId()
