@@ -25,7 +25,7 @@ export default class CheckTypesCommandTest extends AbstractCommandRunnerTest {
     protected static async createsNpmWorkspaceTypeChecker() {
         assert.isEqual(
             FakeWorkspaceTypeChecker.callsToConstructor[0],
-            '.',
+            '../',
             'Failed to create type checker!'
         )
     }

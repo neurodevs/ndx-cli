@@ -9,6 +9,6 @@ export default class CheckTypesCommand {
     }
 
     private NpmWorkspaceTypeChecker() {
-        return NpmWorkspaceTypeChecker.Create('.')
+        return NpmWorkspaceTypeChecker.Create('../')
     }
 }
