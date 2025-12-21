@@ -333,6 +333,7 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     - create.package    Create npm package using latest template.
     - create.ui         Create React component with test and fake.
     - install.snippets  Install text snippets with vscode keybindings.
+    - propagate.latest  Propagate latest npm release to all dependent packages.
     - upgrade.package   Upgrade existing npm package to latest template.
     - help, --help, -h  Show this help text.
     
