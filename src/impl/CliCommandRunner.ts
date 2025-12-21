@@ -1,9 +1,11 @@
-import { exec as execSync } from 'child_process'
-import { mkdir, readFile, writeFile } from 'fs/promises'
-import { promisify } from 'util'
+import { exec as execSync } from 'node:child_process'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { promisify } from 'node:util'
+
 import prompts from 'prompts'
 
 import BindSnippetCommand from './commands/BindSnippetCommand.js'
+import CheckTypesCommand from './commands/CheckTypesCommand.js'
 import CreateImplCommand from './commands/CreateImplCommand.js'
 import CreatePackageCommand from './commands/CreatePackageCommand.js'
 import CreateUiCommand from './commands/CreateUiCommand.js'
@@ -80,6 +82,9 @@ export default class CliCommandRunner implements CommandRunner {
             case this.bindSnippetCommand:
                 await this.bindSnippet()
                 break
+            case this.checkTypesCommand:
+                await this.checkTypes()
+                break
             case this.createImplCommand:
                 await this.createImplModule()
                 break
@@ -112,6 +117,11 @@ export default class CliCommandRunner implements CommandRunner {
 
     private async bindSnippet() {
         const command = new BindSnippetCommand()
+        await command.run()
+    }
+
+    private async checkTypes() {
+        const command = new CheckTypesCommand()
         await command.run()
     }
 

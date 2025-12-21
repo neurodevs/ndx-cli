@@ -1,3 +1,4 @@
+import { FakeWorkspaceTypeChecker } from '@neurodevs/meta-node'
 import { assert, test } from '@neurodevs/node-tdd'
 
 import { CommandRunner } from '../../../impl/CliCommandRunner.js'
@@ -17,6 +18,15 @@ export default class CheckTypesCommandTest extends AbstractCommandRunnerTest {
         assert.isTruthy(
             this.instance,
             `Failed to create instance for ${this.checkTypesCommand}!`
+        )
+    }
+
+    @test()
+    protected static async createsNpmWorkspaceTypeChecker() {
+        assert.isEqual(
+            FakeWorkspaceTypeChecker.callsToConstructor[0],
+            '.',
+            'Failed to create type checker!'
         )
     }
 

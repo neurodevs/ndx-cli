@@ -22,9 +22,11 @@ import {
     FakePropagationCoordinator,
     FakeSnippetKeybinder,
     FakeSnippetSuite,
+    FakeWorkspaceTypeChecker,
     ImplAutomodule,
     NpmAutopackage,
     NpmPropagationCoordinator,
+    NpmWorkspaceTypeChecker,
     TypescriptClassSnippetSuite,
     UiAutomodule,
     VscodeSnippetKeybinder,
@@ -73,6 +75,7 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
         this.setFakeSnippetKeybinder()
         this.setFakeSnippetSuite()
         this.setFakeUiAutomodule()
+        this.setFakeWorkspaceTypeChecker()
 
         this.setFakeExec()
         this.setFakeLog()
@@ -247,6 +250,11 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     protected static setFakeUiAutomodule() {
         UiAutomodule.Class = FakeAutomodule
         FakeAutomodule.resetTestDouble()
+    }
+
+    protected static setFakeWorkspaceTypeChecker() {
+        NpmWorkspaceTypeChecker.Class = FakeWorkspaceTypeChecker
+        FakeWorkspaceTypeChecker.resetTestDouble()
     }
 
     protected static setFakeExec() {
