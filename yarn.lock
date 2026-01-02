@@ -734,10 +734,10 @@
     jsonc-parser "^3.3.1"
     semver "^7.7.3"
 
-"@neurodevs/node-tdd@0.2.4":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@neurodevs/node-tdd/-/node-tdd-0.2.4.tgz#6f8207942e214cc54c187b81fc3348d7fe8334c6"
-  integrity sha512-U2wObAgj0Qirb60qjOn90ZB3muelCSK8pbcj0F31fzonL48wMjTHgflKIOD9qzzdIOXR9FTd6q8nKtrxUFLYdA==
+"@neurodevs/node-tdd@0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@neurodevs/node-tdd/-/node-tdd-0.2.5.tgz#cb9187194cc1b4c7fd2935b450eb591ba76dfc59"
+  integrity sha512-Tfzh/sbY9T1MnA00fU3saDX/Y1ejGDGiQcQ0LnjTt9QfBIorosfz94qSjqC9I2yq5q6jwIyD7pjaxXXJG85RIw==
   dependencies:
     "@neurodevs/generate-id" "1.1.2"
     "@sprucelabs/jest-json-reporter" "^9.0.71"
