@@ -55,7 +55,7 @@
   "devDependencies": {
     "@neurodevs/fake-node-core": "^0.10.0",
     "@neurodevs/generate-id": "1.1.2",
-    "@neurodevs/node-tdd": "0.2.3",
+    "@neurodevs/node-tdd": "0.2.4",
     "@types/node": "^24.2.1",
     "@types/prompts": "^2.4.9",
     "chokidar-cli": "^3.0.0",
