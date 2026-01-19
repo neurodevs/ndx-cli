@@ -33,7 +33,10 @@ export default class PropagateLatestCommandTest extends AbstractCommandRunnerTes
             {
                 repoPath: this.repoPath,
                 repoPaths: this.repoPaths,
-                options: { shouldGitCommit: false },
+                options: {
+                    shouldGitCommit: false,
+                    shouldPropagateMajors: false,
+                },
             },
             'Did not create with expected parameters!'
         )
@@ -54,6 +57,7 @@ export default class PropagateLatestCommandTest extends AbstractCommandRunnerTes
             FakePropagationCoordinator.callsToConstructor[0]?.options,
             {
                 shouldGitCommit: false,
+                shouldPropagateMajors: false,
             },
             'Did not pass expected parameter to disable git commits!'
         )
@@ -69,8 +73,41 @@ export default class PropagateLatestCommandTest extends AbstractCommandRunnerTes
             FakePropagationCoordinator.callsToConstructor[1]?.options,
             {
                 shouldGitCommit: true,
+                shouldPropagateMajors: false,
             },
             'Did not pass expected parameter to enable git commits!'
+        )
+    }
+
+    @test()
+    protected static async passesMajorFlagOptionToCoordinator() {
+        process.argv = ['ndx', 'propagate.latest', '--major']
+
+        await this.run()
+
+        assert.isEqualDeep(
+            FakePropagationCoordinator.callsToConstructor[1]?.options,
+            {
+                shouldGitCommit: false,
+                shouldPropagateMajors: true,
+            },
+            'Did not propagate majors with --major!'
+        )
+    }
+
+    @test()
+    protected static async passesMajorsFlagOptionToCoordinator() {
+        process.argv = ['ndx', 'propagate.latest', '--majors']
+
+        await this.run()
+
+        assert.isEqualDeep(
+            FakePropagationCoordinator.callsToConstructor[1]?.options,
+            {
+                shouldGitCommit: false,
+                shouldPropagateMajors: true,
+            },
+            'Did not propagate majors with --majors!'
         )
     }
 
