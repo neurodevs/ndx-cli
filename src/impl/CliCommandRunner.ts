@@ -16,6 +16,7 @@ import UpgradePackageCommand from './commands/UpgradePackageCommand.js'
 
 export default class CliCommandRunner implements CommandRunner {
     public static Class?: CommandRunnerConstructor
+    public static error = console.error
     public static exec = promisify(execSync)
     public static log = console.log
     public static mkdir = mkdir

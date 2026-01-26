@@ -4,11 +4,13 @@ import os from 'os'
 import path from 'path'
 import { promisify } from 'util'
 import {
+    fakeError,
     fakeExec,
     fakeLog,
     fakeMkdir,
     fakeReadFile,
     fakeWriteFile,
+    resetCallsToError,
     resetCallsToExec,
     resetCallsToLog,
     resetCallsToMkdir,
@@ -44,7 +46,7 @@ const exec = promisify(execSync)
 export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     protected static readonly bindSnippetCommand = 'bind.snippet'
 
-    protected static readonly buildLabrecorderCommmand = 'build.labrecorder'
+    protected static readonly buildLabrecorderCommand = 'build.labrecorder'
 
     protected static readonly checkTypesCommand = 'check.types'
 
@@ -79,6 +81,7 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
         this.setFakeUiAutomodule()
         this.setFakeWorkspaceTypeChecker()
 
+        this.setFakeError()
         this.setFakeExec()
         this.setFakeLog()
         this.setFakeMkdir()
@@ -257,6 +260,11 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     protected static setFakeWorkspaceTypeChecker() {
         NpmWorkspaceTypeChecker.Class = FakeWorkspaceTypeChecker
         FakeWorkspaceTypeChecker.resetTestDouble()
+    }
+
+    protected static setFakeError() {
+        CliCommandRunner.error = fakeError as unknown as typeof console.error
+        resetCallsToError()
     }
 
     protected static setFakeExec() {

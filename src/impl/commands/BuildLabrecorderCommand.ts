@@ -4,11 +4,29 @@ export default class BuildLabrecorderCommand {
     public constructor() {}
 
     public async run() {
-        await this.exec(this.bashCommand, { cwd: '.' })
+        const { stdout, stderr } = await this.exec(this.bashCommand, {
+            cwd: '.',
+        })
+
+        if (stdout) {
+            this.log(stdout)
+        }
+
+        if (stderr) {
+            this.error(stderr)
+        }
     }
 
     private get exec() {
         return CliCommandRunner.exec
+    }
+
+    private get log() {
+        return CliCommandRunner.log
+    }
+
+    private get error() {
+        return CliCommandRunner.error
     }
 
     private readonly bashCommand = `sudo rm -rf build/ \
