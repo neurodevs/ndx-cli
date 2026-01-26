@@ -5,6 +5,7 @@ import { promisify } from 'node:util'
 import prompts from 'prompts'
 
 import BindSnippetCommand from './commands/BindSnippetCommand.js'
+import BuildLabrecorderCommand from './commands/BuildLabrecorderCommand.js'
 import CheckTypesCommand from './commands/CheckTypesCommand.js'
 import CreateImplCommand from './commands/CreateImplCommand.js'
 import CreatePackageCommand from './commands/CreatePackageCommand.js'
@@ -25,6 +26,7 @@ export default class CliCommandRunner implements CommandRunner {
     private args: string[]
 
     private readonly bindSnippetCommand = 'bind.snippet'
+    private readonly buildLabrecorderCommmand = 'build.labrecorder'
     private readonly checkTypesCommand = 'check.types'
     private readonly createImplCommand = 'create.impl'
     private readonly createPackageCommand = 'create.package'
@@ -38,6 +40,7 @@ export default class CliCommandRunner implements CommandRunner {
 
     private readonly supportedCommands = [
         this.bindSnippetCommand,
+        this.buildLabrecorderCommmand,
         this.checkTypesCommand,
         this.createImplCommand,
         this.createPackageCommand,
@@ -82,6 +85,9 @@ export default class CliCommandRunner implements CommandRunner {
             case this.bindSnippetCommand:
                 await this.bindSnippet()
                 break
+            case this.buildLabrecorderCommmand:
+                await this.buildLabrecorder()
+                break
             case this.checkTypesCommand:
                 await this.checkTypes()
                 break
@@ -117,6 +123,11 @@ export default class CliCommandRunner implements CommandRunner {
 
     private async bindSnippet() {
         const command = new BindSnippetCommand()
+        await command.run()
+    }
+
+    private async buildLabrecorder() {
+        const command = new BuildLabrecorderCommand()
         await command.run()
     }
 
