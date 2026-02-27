@@ -1,8 +1,6 @@
-import { exec as execSync } from 'child_process'
 import { mkdir, readFile, writeFile } from 'fs/promises'
 import os from 'os'
 import path from 'path'
-import { promisify } from 'util'
 import {
     fakeError,
     fakeExec,
@@ -41,7 +39,6 @@ import fakePrompts, {
 } from '../testDoubles/prompts/fakePrompts.js'
 import AbstractPackageTest from './AbstractPackageTest.js'
 
-const exec = promisify(execSync)
 
 export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     protected static readonly bindSnippetCommand = 'bind.snippet'
@@ -268,7 +265,7 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     }
 
     protected static setFakeExec() {
-        CliCommandRunner.exec = fakeExec as unknown as typeof exec
+        CliCommandRunner.exec = fakeExec as any
         resetCallsToExec()
     }
 
