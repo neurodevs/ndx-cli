@@ -726,9 +726,9 @@
     eslint-plugin-react "^7.37.5"
 
 "@neurodevs/fake-node-core@^0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@neurodevs/fake-node-core/-/fake-node-core-0.12.0.tgz#6224f4c7787bb37477efac925a0f1f6113d3d21a"
-  integrity sha512-UsFCiszylhUIrDrGfJCWMobjGNksRB8dwWLkLiEWtbEMmqqUPedUeeQ+ooEEbZGv5jpGsdhnzaTc3Ef/Qh30+Q==
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/@neurodevs/fake-node-core/-/fake-node-core-0.12.1.tgz#95384ece25aaf84c5d4487b3ac69f173b0537780"
+  integrity sha512-Gal/Xd0gv2542Uw/wW71mDQ6bJxqptpmfntKOWai5rCsWwXsTSd/CgjxzGeUUrAU197gUs0yurZ11KCAwym/ug==
   dependencies:
     "@neurodevs/generate-id" "1.1.2"
 
@@ -737,10 +737,10 @@
   resolved "https://registry.yarnpkg.com/@neurodevs/generate-id/-/generate-id-1.1.2.tgz#d9c725e8141ef247a40478da3c2d3c784815fad4"
   integrity sha512-xHUI2HjHUduzMxEAJDbfGYpH9xPUUQOwK0sL3YGVXdeyorsptJ9HYJuYMHtZ+3E0LXi3hwKKVPImB+2hyyjV1Q==
 
-"@neurodevs/meta-node@^0.19.16":
-  version "0.19.16"
-  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.19.16.tgz#edc6b3f39d6a662501d066af3fb3b259284a99e9"
-  integrity sha512-bV1s+QPN/NvtROJWL0e9rBJZhSxw4laMCeGYsWd92T3zjfkoJaI+Sj7vlACwkwVT/syFzdYi5g8ioCbuqt8NuQ==
+"@neurodevs/meta-node@^0.19.19":
+  version "0.19.19"
+  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.19.19.tgz#252740cef12bf17239a79de4d88b71a4293324f6"
+  integrity sha512-RM5/BWjR/k/hmAMW7H68YVtsnJBTF3K5+Ozd45YrkXqAjrXtjQ24ZfwKdAdxKI7F54vG5ZNaVLKkYysfOpeUVw==
   dependencies:
     fs-extra "^11.3.2"
     jsonc-parser "^3.3.1"

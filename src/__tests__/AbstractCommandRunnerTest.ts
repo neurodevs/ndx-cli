@@ -39,7 +39,6 @@ import fakePrompts, {
 } from '../testDoubles/prompts/fakePrompts.js'
 import AbstractPackageTest from './AbstractPackageTest.js'
 
-
 export default class AbstractCommandRunnerTest extends AbstractPackageTest {
     protected static readonly bindSnippetCommand = 'bind.snippet'
 
