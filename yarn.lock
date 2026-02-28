@@ -717,10 +717,10 @@
   resolved "https://registry.yarnpkg.com/@neurodevs/generate-id/-/generate-id-1.1.2.tgz#d9c725e8141ef247a40478da3c2d3c784815fad4"
   integrity sha512-xHUI2HjHUduzMxEAJDbfGYpH9xPUUQOwK0sL3YGVXdeyorsptJ9HYJuYMHtZ+3E0LXi3hwKKVPImB+2hyyjV1Q==
 
-"@neurodevs/meta-node@^0.19.22":
-  version "0.19.22"
-  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.19.22.tgz#7e298ec0f3f576d031ab087071686e28c65063f2"
-  integrity sha512-+HcMTBKtOYI9gkHL5lMv9mUTclQMM2BhNQTTTpW/owKbxQbf1iMqpuFrKqNiud+fMXjxkaWb0EsG+/9TDadZQQ==
+"@neurodevs/meta-node@^0.19.23":
+  version "0.19.23"
+  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-0.19.23.tgz#376761de6f921863ef79d2ea1be611b590def192"
+  integrity sha512-S1uVPjGt3RDD2Hn5IuKC2AJWbsChdU42XYQafx4p8xwbxxMiWoGqE921vncuXFZ0EcQc5FsjMjzXczMSj8gkdw==
   dependencies:
     fs-extra "^11.3.2"
     jsonc-parser "^3.3.1"
@@ -3730,6 +3730,11 @@ prelude-ls@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
   integrity sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==
+
+prettier@^3.8.1:
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.8.1.tgz#edf48977cf991558f4fcbd8a3ba6015ba2a3a173"
+  integrity sha512-UOnG6LftzbdaHZcKoPFtOcCKztrQ57WkHDeRD9t/PTQtmT0NHSeWWepj6pS0z/N7+08BHFDQVUrfmfMRcZwbMg==
 
 pretty-format@30.2.0:
   version "30.2.0"
