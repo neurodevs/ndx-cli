@@ -1,6 +1,6 @@
 {
   "name": "@neurodevs/ndx-cli",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "CLI tools for the Neurodevs ecosystem.",
   "type": "module",
   "keywords": [
@@ -43,7 +43,7 @@
     "watch.build.dev": "tsc-watch --sourceMap --onCompilationComplete 'yarn run build.copy-files'"
   },
   "dependencies": {
-    "@neurodevs/meta-node": "^1.0.4",
+    "@neurodevs/meta-node": "^1.0.5",
     "prompts": "^2.4.2"
   },
   "devDependencies": {
