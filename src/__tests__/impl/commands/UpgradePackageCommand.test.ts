@@ -31,7 +31,7 @@ export default class UpgradePackageCommandTest extends AbstractCommandRunnerTest
                 gitNamespace: 'neurodevs',
                 npmNamespace: '',
                 license: 'MIT',
-                author: 'Eric Yates <hello@ericthecurious.com>',
+                author: 'Eric Yates <hello@ericyates.me>',
             },
             'Did not create NpmAutopackage with expected options!'
         )

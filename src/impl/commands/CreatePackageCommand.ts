@@ -100,7 +100,7 @@ export default class CreatePackageCommand {
             npmNamespace: 'neurodevs',
             installDir: expandHomeDir('~/dev'),
             license: 'MIT',
-            author: 'Eric Yates <hello@ericthecurious.com>',
+            author: 'Eric Yates <hello@ericyates.me>',
         })
     }
 }
