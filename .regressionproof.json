@@ -1,0 +1,7 @@
+{
+  "version": "0.9.4",
+  "projectName": "ndx-cli",
+  "remote": {
+    "url": "https://git.regressionproof.ai/liquidg3/ndx-cli.git"
+  }
+}
