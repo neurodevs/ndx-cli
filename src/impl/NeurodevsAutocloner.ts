@@ -24,7 +24,7 @@ export default class NeurodevsAutocloner implements PresetUrlsAutocloner {
     private async runGitCloner() {
         await this.autocloner.run({
             urls: this.repoUrls,
-            dirPath: this.dirPath,
+            cwd: this.dirPath,
         })
     }
 

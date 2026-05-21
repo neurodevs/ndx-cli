@@ -39,7 +39,7 @@ export default class NeurodevsAutoclonerTest extends AbstractPackageTest {
 
         assert.isEqualDeep(options, {
             urls: this.repoUrls,
-            dirPath: this.dirPath,
+            cwd: this.dirPath,
         })
     }
 
