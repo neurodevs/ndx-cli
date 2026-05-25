@@ -38,7 +38,7 @@ export default class CliCommandRunner implements CommandRunner {
     private readonly helpFlagLong = '--help'
     private readonly installSnippetsCommand = 'install.snippets'
     private readonly propagateLatestCommand = 'propagate.latest'
-    private readonly testCommand = 'ndx test'
+    private readonly testCommand = 'test'
     private readonly upgradePackageCommand = 'upgrade.package'
 
     private readonly supportedCommands = [

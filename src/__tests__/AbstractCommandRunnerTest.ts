@@ -64,7 +64,7 @@ export default class AbstractCommandRunnerTest extends AbstractPackageTest {
 
     protected static readonly propagateLatestCommand = 'propagate.latest'
 
-    protected static readonly testCommand = 'ndx test'
+    protected static readonly testCommand = 'test'
 
     protected static readonly upgradePackageCommand = 'upgrade.package'
 
