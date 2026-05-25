@@ -1,4 +1,4 @@
-import { exec as execSync } from 'node:child_process'
+import { exec as execSync, spawn } from 'node:child_process'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { promisify } from 'node:util'
 
@@ -19,6 +19,7 @@ export default class CliCommandRunner implements CommandRunner {
     public static Class?: CommandRunnerConstructor
     public static error = console.error
     public static exec = promisify(execSync)
+    public static spawn = spawn
     public static log = console.log
     public static mkdir = mkdir
     public static prompts = prompts
