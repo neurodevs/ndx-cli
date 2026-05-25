@@ -13,6 +13,7 @@ import CreateUiCommand from './commands/CreateUiCommand.js'
 import InstallSnippetsCommand from './commands/InstallSnippetsCommand.js'
 import PropagateLatestCommand from './commands/PropagateLatestCommand.js'
 import UpgradePackageCommand from './commands/UpgradePackageCommand.js'
+import TestCommand from './commands/TestCommand.js'
 
 export default class CliCommandRunner implements CommandRunner {
     public static Class?: CommandRunnerConstructor
@@ -37,6 +38,7 @@ export default class CliCommandRunner implements CommandRunner {
     private readonly helpFlagLong = '--help'
     private readonly installSnippetsCommand = 'install.snippets'
     private readonly propagateLatestCommand = 'propagate.latest'
+    private readonly testCommand = 'ndx test'
     private readonly upgradePackageCommand = 'upgrade.package'
 
     private readonly supportedCommands = [
@@ -51,6 +53,7 @@ export default class CliCommandRunner implements CommandRunner {
         this.helpFlagLong,
         this.installSnippetsCommand,
         this.propagateLatestCommand,
+        this.testCommand,
         this.upgradePackageCommand,
     ]
 
@@ -107,6 +110,9 @@ export default class CliCommandRunner implements CommandRunner {
             case this.propagateLatestCommand:
                 await this.propagateLatest()
                 break
+            case this.testCommand:
+                await this.test()
+                break
             case this.upgradePackageCommand:
                 await this.upgradePackage()
                 break
@@ -159,6 +165,11 @@ export default class CliCommandRunner implements CommandRunner {
 
     private async propagateLatest() {
         const command = new PropagateLatestCommand()
+        await command.run()
+    }
+
+    private async test() {
+        const command = new TestCommand()
         await command.run()
     }
 
