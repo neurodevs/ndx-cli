@@ -57,7 +57,7 @@ export default class UpgradePackageCommand {
             npmNamespace: this.npmNamespace,
             installDir: expandHomeDir('~/dev'),
             license: 'MIT',
-            author: 'Eric Yates <hello@ericyates.me>',
+            author: 'Eric Yates <ey@ericyates.me>',
         })
     }
 }
