@@ -8,7 +8,6 @@ const repoNames = [
     'node-biometrics',
     'node-biosensors',
     'node-biosignal-processing',
-    'node-ble',
     'node-causality',
     'node-lsl',
     'node-mangled-names',
