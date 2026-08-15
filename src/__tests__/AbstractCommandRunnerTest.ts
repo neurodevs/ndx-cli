@@ -1,6 +1,7 @@
-import { mkdir, readFile, writeFile } from 'fs/promises'
-import os from 'os'
-import path from 'path'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import os from 'node:os'
+import path from 'node:path'
+
 import {
     fakeError,
     fakeExec,

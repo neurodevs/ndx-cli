@@ -12,7 +12,7 @@ export default class PropagateLatestCommand {
 
     private NpmPropagationCoordinator() {
         const repoPaths = npmRepoNames.map((name) => `../${name}`)
-        const shouldGitCommit = process.argv.includes('--commit') ? true : false
+        const shouldGitCommit = !process.argv.includes('--no-commit')
 
         const shouldPropagateMajors = process.argv.some((arg) =>
             ['--major', '--majors'].includes(arg)

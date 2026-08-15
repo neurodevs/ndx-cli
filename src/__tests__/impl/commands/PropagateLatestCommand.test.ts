@@ -34,7 +34,7 @@ export default class PropagateLatestCommandTest extends AbstractCommandRunnerTes
                 repoPath: this.repoPath,
                 repoPaths: this.repoPaths,
                 options: {
-                    shouldGitCommit: false,
+                    shouldGitCommit: true,
                     shouldPropagateMajors: false,
                 },
             },
@@ -52,9 +52,25 @@ export default class PropagateLatestCommandTest extends AbstractCommandRunnerTes
     }
 
     @test()
-    protected static async passesParameterToDisableGitCommits() {
+    protected static async commitsAutomaticallyByDefault() {
         assert.isEqualDeep(
             FakePropagationCoordinator.callsToConstructor[0]?.options,
+            {
+                shouldGitCommit: true,
+                shouldPropagateMajors: false,
+            },
+            'Did not enable git commits by default!'
+        )
+    }
+
+    @test()
+    protected static async passesNoCommitFlagAsOptionToCoordinator() {
+        process.argv = ['ndx', 'propagate.latest', '--no-commit']
+
+        await this.run()
+
+        assert.isEqualDeep(
+            FakePropagationCoordinator.callsToConstructor[1]?.options,
             {
                 shouldGitCommit: false,
                 shouldPropagateMajors: false,
@@ -64,7 +80,7 @@ export default class PropagateLatestCommandTest extends AbstractCommandRunnerTes
     }
 
     @test()
-    protected static async passesCommitFlagAsOptionToCoordinator() {
+    protected static async stillAcceptsExplicitCommitFlag() {
         process.argv = ['ndx', 'propagate.latest', '--commit']
 
         await this.run()
@@ -88,7 +104,7 @@ export default class PropagateLatestCommandTest extends AbstractCommandRunnerTes
         assert.isEqualDeep(
             FakePropagationCoordinator.callsToConstructor[1]?.options,
             {
-                shouldGitCommit: false,
+                shouldGitCommit: true,
                 shouldPropagateMajors: true,
             },
             'Did not propagate majors with --major!'
@@ -104,7 +120,7 @@ export default class PropagateLatestCommandTest extends AbstractCommandRunnerTes
         assert.isEqualDeep(
             FakePropagationCoordinator.callsToConstructor[1]?.options,
             {
-                shouldGitCommit: false,
+                shouldGitCommit: true,
                 shouldPropagateMajors: true,
             },
             'Did not propagate majors with --majors!'
