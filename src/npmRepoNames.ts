@@ -1,10 +1,10 @@
 const repoNames = [
-    'commit-sense',
     'fake-node-core',
     'generate-id',
     'i-insula',
     'meta-node',
     'ndx-cli',
+    'ndx-native',
     'node-biometrics',
     'node-biosensors',
     'node-biosignal-processing',
