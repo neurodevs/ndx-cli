@@ -100,6 +100,23 @@ export default class CreatePackageCommandTest extends AbstractCommandRunnerTest 
     }
 
     @test()
+    protected static async passesProvidedNamespacesToNpmAutopackage() {
+        const npmNamespace = this.generateId()
+        const gitNamespace = this.generateId()
+
+        await this.run({ npmNamespace, gitNamespace })
+
+        const { npmNamespace: passedNpm, gitNamespace: passedGit } =
+            FakeAutopackage.callsToConstructor[0]
+
+        assert.isEqualDeep(
+            { npmNamespace: passedNpm, gitNamespace: passedGit },
+            { npmNamespace, gitNamespace },
+            'Did not pass user-provided namespaces to NpmAutopackage!'
+        )
+    }
+
+    @test()
     protected static async runsNpmAutopackage() {
         await this.run()
 

@@ -7,16 +7,25 @@ export default class CreatePackageCommand {
     private packageName!: string
     private description!: string
     private keywords!: string[]
+    private npmNamespace!: string
+    private gitNamespace!: string
 
     public constructor() {}
 
     public async run() {
-        const { packageName, description, keywords } =
-            await this.promptForAutopackage()
+        const {
+            packageName,
+            description,
+            keywords,
+            npmNamespace,
+            gitNamespace,
+        } = await this.promptForAutopackage()
 
         this.packageName = packageName
         this.description = description
         this.keywords = keywords
+        this.npmNamespace = npmNamespace || this.defaultNamespace
+        this.gitNamespace = gitNamespace || this.defaultNamespace
 
         if (!this.userInputExistsForCreatePackage) {
             return
@@ -61,6 +70,8 @@ export default class CreatePackageCommand {
         ])
     }
 
+    private readonly defaultNamespace = 'neurodevs'
+
     private readonly packageNameMessage =
         'What should the package be called? Example: useful-package'
 
@@ -96,8 +107,8 @@ export default class CreatePackageCommand {
             name: this.packageName,
             description: this.description,
             keywords: ['nodejs', 'typescript', 'tdd', ...this.keywords],
-            gitNamespace: 'neurodevs',
-            npmNamespace: 'neurodevs',
+            gitNamespace: this.gitNamespace,
+            npmNamespace: this.npmNamespace,
             installDir: expandHomeDir('~/dev'),
             license: 'MIT',
             author: 'Eric Yates <ey@ericyates.me>',
