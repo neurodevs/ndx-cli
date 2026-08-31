@@ -12,7 +12,6 @@ export default class AbstractPackageTest extends AbstractModuleTest {
         'meta-node',
         'ndx-cli',
         'ndx-native',
-        'node-biometrics',
         'node-biosensors',
         'node-biosignal-processing',
         'node-causality',

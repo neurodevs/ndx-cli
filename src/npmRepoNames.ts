@@ -5,7 +5,6 @@ const repoNames = [
     'meta-node',
     'ndx-cli',
     'ndx-native',
-    'node-biometrics',
     'node-biosensors',
     'node-biosignal-processing',
     'node-causality',
