@@ -47,7 +47,7 @@
     "prompts": "^2.4.2"
   },
   "devDependencies": {
-    "@neurodevs/eslint-config-ndx": "2.0.2",
+    "@neurodevs/eslint-config-ndx": "2.0.3",
     "@neurodevs/fake-node-core": "^0.12.0",
     "@neurodevs/generate-id": "^1.1.2",
     "@neurodevs/node-tdd": "^3.0.1",
