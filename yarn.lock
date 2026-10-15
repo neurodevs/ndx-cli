@@ -718,6 +718,23 @@
     jsonc-parser "^3.3.1"
     semver "^7.7.3"
 
+"@neurodevs/meta-node@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@neurodevs/meta-node/-/meta-node-1.2.3.tgz#78e794e5d49d958e2061dbb906b28b66818b53ab"
+  integrity sha512-CSAegnYBZTd5GCAAisajx7YwT0kUJ//CrbzNO4KR1JqWlrk0I6NZuzviXSQWoLMOgtlG9J6obyuOALSW+777fQ==
+  dependencies:
+    fs-extra "^11.3.2"
+    jsonc-parser "^3.3.1"
+    semver "^7.7.3"
+
+"@neurodevs/ndx-cli@^1.1.10":
+  version "1.1.10"
+  resolved "https://registry.yarnpkg.com/@neurodevs/ndx-cli/-/ndx-cli-1.1.10.tgz#980bd97a147aef5b78301fced6801e3d1d92a64d"
+  integrity sha512-d8cJNYadet7larwwemxjsegeEfz2t2/RZzEwkb3X1cXLc1AhGwDCjOFB/q5XK+8UbAEiFsOFrvNAZt2PAUukow==
+  dependencies:
+    "@neurodevs/meta-node" "^1.2.2"
+    prompts "^2.4.2"
+
 "@neurodevs/node-tdd@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@neurodevs/node-tdd/-/node-tdd-3.0.1.tgz#f22fd62ec8f73a6d3de7334b4940a863b04ef6e3"
